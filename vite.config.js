@@ -39,7 +39,7 @@ export default defineConfig({
             './src/admin/ManageCourses.jsx',
             './src/admin/ManageUpdates.jsx',
             './src/admin/ManageResults.jsx',
-            './src/admin/ManageCurrentAffairs.jsx ',
+            './src/admin/ManageCurrentAffairs.jsx',
             './src/admin/ManageDemoRequests.jsx'
           ],
           
