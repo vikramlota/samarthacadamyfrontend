@@ -1,12 +1,14 @@
 {
-  "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "routes": [
-    { "handle": "filesystem" },
+  "rewrites": [
     {
-      "src": "/.*",
-      "dest": "/index.html"
+      "source": "/sitemap.xml",
+      "destination": "https://gyann-samarth-acadamy2.vercel.app/sitemap.xml"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
