@@ -36,10 +36,10 @@ export default defineConfig({
           // Feature-based chunks (lazy loaded)
           'admin-pages': [
             './src/admin/Dashboard.jsx',
-            './src/admin/ManageCourses.js',
-            './src/admin/ManageUpdates.js',
-            './src/admin/ManageResults.js',
-            './src/admin/ManageCurrentAffairs.js',
+            './src/admin/ManageCourses.jsx',
+            './src/admin/ManageUpdates.jsx',
+            './src/admin/ManageResults.jsx',
+            './src/admin/ManageCurrentAffairs.jsx ',
             './src/admin/ManageDemoRequests.jsx'
           ],
           
