@@ -64,6 +64,9 @@ const HomePage = () => {
       <Suspense fallback={<ComponentSkeleton size="medium" />}>
         <Map />
       </Suspense>
+      <h1 className="sr-only">
+        Samarth Academy: Amritsar's #1 Coaching Institute for SSC, Banking, and State Government Exams
+      </h1>
     </>
   );
 };
