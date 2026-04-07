@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import api from '../utils/api';
 import JoditEditor from 'jodit-react';
-import 'jodit/build/jodit.min.css';
 import { FaTrash, FaBell, FaUpload, FaEdit, FaTimes } from 'react-icons/fa';
 import imageCompression from 'browser-image-compression';
 
