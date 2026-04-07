@@ -1,6 +1,6 @@
 import React from 'react';
 import Updates from '../components/Updates';
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from 'react-helmet';
 const UpdatesPage = () => {
   return (
 <>
