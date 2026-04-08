@@ -281,8 +281,8 @@ const ManageCourses = () => {
                 <JoditEditor
                     ref={editorRef}
                     value={formData.description}
-                    onChange={(content) => setFormData({ ...formData, description: content })}
                     config={editorConfig}
+                    onChange={(content) => setFormData({...formData, description: content})}
                 />
             </div>
 
