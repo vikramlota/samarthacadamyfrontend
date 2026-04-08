@@ -15,27 +15,26 @@ const ManageCourses = () => {
   const fileInputRef = useRef(null);
   
   // Ref for Jodit Editor
- const editorConfig = {
+  const editorRef = useRef(null);
+  
+  const [currentFeature, setCurrentFeature] = useState('');
+
+  // Jodit Editor Configuration (matching ManageUpdates)
+  const editorConfig = {
     readonly: false,
     height: 400,
-    placeholder: 'Write your current affairs update here...',
-
-   
+    placeholder: 'Write course description here...',
     askBeforePasteHTML: false,
     askBeforePasteFromWord: false,
     defaultActionOnPaste: 'insert_as_html',
-   
     buttons: [
       'bold', 'italic', 'underline', 'strikethrough', '|',
       'ul', 'ol', '|',
       'font', 'fontsize', 'brush', 'paragraph', '|',
-      'table', 'link', 'image', '|', // Includes the table tool
+      'table', 'link', 'image', '|',
       'align', 'undo', 'redo', 'source'
     ]
   };
-
-  
-  const [currentFeature, setCurrentFeature] = useState('');
 
   const [formData, setFormData] = useState({
     title: '',
@@ -283,13 +282,7 @@ const ManageCourses = () => {
                     ref={editorRef}
                     value={formData.description}
                     onChange={(content) => setFormData({ ...formData, description: content })}
-                    config={{
-                        height: 200,
-                        readonly: false,
-                        toolbar: true,
-                        toolbarSticky: false,
-                        buttons: ['bold', 'italic', 'underline', '|', 'ul', 'ol', '|', 'link', 'image', '|', 'undo', 'redo']
-                    }}
+                    config={editorConfig}
                 />
             </div>
 
