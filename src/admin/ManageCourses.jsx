@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import api from '../utils/api';
 import { FaTrash, FaPlus, FaBook, FaUpload, FaPalette, FaList, FaEdit, FaTimes, FaYoutube } from 'react-icons/fa'; // Added FaYoutube
+import JoditEditor from 'jodit-react';
 
 const ManageCourses = () => {
   const [courses, setCourses] = useState([]);
@@ -12,6 +13,27 @@ const ManageCourses = () => {
   
   // Ref to clear file input manually
   const fileInputRef = useRef(null);
+  
+  // Ref for Jodit Editor
+ const editorConfig = {
+    readonly: false,
+    height: 400,
+    placeholder: 'Write your current affairs update here...',
+
+   
+    askBeforePasteHTML: false,
+    askBeforePasteFromWord: false,
+    defaultActionOnPaste: 'insert_as_html',
+   
+    buttons: [
+      'bold', 'italic', 'underline', 'strikethrough', '|',
+      'ul', 'ol', '|',
+      'font', 'fontsize', 'brush', 'paragraph', '|',
+      'table', 'link', 'image', '|', // Includes the table tool
+      'align', 'undo', 'redo', 'source'
+    ]
+  };
+
   
   const [currentFeature, setCurrentFeature] = useState('');
 
@@ -257,7 +279,18 @@ const ManageCourses = () => {
             {/* Description */}
             <div>
                 <label className="text-xs font-bold text-gray-500 uppercase">Description</label>
-                <textarea name="description" value={formData.description} onChange={handleChange} rows="3" maxLength="10000" required className="w-full border p-2 rounded outline-none focus:ring-2 focus:ring-brand-red" />
+                <JoditEditor
+                    ref={editorRef}
+                    value={formData.description}
+                    onChange={(content) => setFormData({ ...formData, description: content })}
+                    config={{
+                        height: 200,
+                        readonly: false,
+                        toolbar: true,
+                        toolbarSticky: false,
+                        buttons: ['bold', 'italic', 'underline', '|', 'ul', 'ol', '|', 'link', 'image', '|', 'undo', 'redo']
+                    }}
+                />
             </div>
 
             {/* Color Theme */}
