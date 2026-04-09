@@ -10,84 +10,84 @@ export default defineConfig({
   ],
   base: '/',
 
-  // Build optimization
   build: {
     target: 'esnext',
     minify: 'terser',
     terserOptions: {
       compress: {
-        drop_console: true, // Remove console logs in production
+        drop_console: true,
         drop_debugger: true,
       },
     },
 
-    // Chunk size optimization
     chunkSizeWarningLimit: 600,
 
-    // Rollup options for advanced chunk splitting
     rollupOptions: {
       output: {
-        // Manual chunk configuration for optimal bundle splitting
-        manualChunks: {
-          // Vendor chunks
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-ui': ['react-icons'],
-          'vendor-form': ['axios'],
-          
-          // Feature-based chunks (lazy loaded)
-          'admin-pages': [
-            './src/admin/Dashboard.jsx',
-            './src/admin/ManageCourses.jsx',
-            './src/admin/ManageUpdates.jsx',
-            './src/admin/ManageResults.jsx',
-            './src/admin/ManageCurrentAffairs.jsx',
-            './src/admin/ManageDemoRequests.jsx'
-          ],
-          
-          // Course pages chunk
-          'course-pages': [
-            './src/pages/CoursePage.jsx',
-            './src/pages/CourseDetailpage.jsx'
-          ],
+        manualChunks(id) {
+          // --- Heavy editor: split jodit into its own chunk ---
+          if (id.includes('jodit-react') || id.includes('jodit')) {
+            return 'vendor-jodit';
+          }
 
-          // Content pages chunk
-          'content-pages': [
-            './src/pages/Updates.jsx',
-            './src/pages/Notification.jsx',
-            './src/pages/CurrentAffairsPage.jsx',
-            './src/pages/CurrentAffairDetailPage.jsx'
-          ]
+          // --- Image compression lib ---
+          if (id.includes('browser-image-compression')) {
+            return 'vendor-image-compression';
+          }
+
+          // --- React core ---
+          if (id.includes('node_modules/react/') ||
+              id.includes('node_modules/react-dom/') ||
+              id.includes('node_modules/scheduler/')) {
+            return 'vendor-react';
+          }
+
+          // --- React Router ---
+          if (id.includes('node_modules/react-router') ||
+              id.includes('node_modules/@remix-run')) {
+            return 'vendor-router';
+          }
+
+          // --- Icons ---
+          if (id.includes('node_modules/react-icons')) {
+            return 'vendor-icons';
+          }
+
+          // --- HTTP / helmet ---
+          if (id.includes('node_modules/axios') ||
+              id.includes('node_modules/react-helmet-async') ||
+              id.includes('node_modules/helmet')) {
+            return 'vendor-utils';
+          }
+
+          // --- Admin pages (jodit already split above, so this stays small) ---
+          if (id.includes('/src/admin/')) {
+            return 'admin-pages';
+          }
+
+          // NOTE: Do NOT manually chunk page/component files here.
+          // App.jsx already uses React.lazy() for those — Vite handles
+          // splitting automatically and adding them to manualChunks
+          // causes the "static + dynamic import" conflict warning.
         },
 
-        // Optimize entry point naming
         entryFileNames: 'js/[name]-[hash].js',
         chunkFileNames: 'js/chunks/[name]-[hash].js',
         assetFileNames: (assetInfo) => {
-          const info = assetInfo.name.split('.');
-          const ext = info[info.length - 1];
-          if (/png|jpe?g|gif|svg/.test(ext)) {
-            return `images/[name]-[hash][extname]`;
-          } else if (/woff|woff2|eot|ttf|otf/.test(ext)) {
-            return `fonts/[name]-[hash][extname]`;
-          } else if (ext === 'css') {
-            return `css/[name]-[hash][extname]`;
-          }
-          return `[name]-[hash][extname]`;
+          const ext = assetInfo.name.split('.').pop();
+          if (/png|jpe?g|gif|svg/.test(ext))   return 'images/[name]-[hash][extname]';
+          if (/woff2?|eot|ttf|otf/.test(ext))  return 'fonts/[name]-[hash][extname]';
+          if (ext === 'css')                    return 'css/[name]-[hash][extname]';
+          return '[name]-[hash][extname]';
         }
       }
     },
 
-    // CSS code splitting
     cssCodeSplit: true,
-
-    // Source maps only in development
     sourcemap: false,
-
-    // Report compressed size
     reportCompressedSize: true
   },
 
-  // Optimization for development
   optimizeDeps: {
     include: [
       'react',
@@ -100,13 +100,10 @@ export default defineConfig({
     exclude: ['node_modules']
   },
 
-  // Server configuration for development
   server: {
     port: 5173,
     strictPort: false,
     open: false,
-
-    // Proxy API calls
     proxy: {
       '/api': {
         target: 'http://localhost:8000',

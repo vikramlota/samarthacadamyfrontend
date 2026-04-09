@@ -1,22 +1,20 @@
 {
-  "name": "frontend",
+  "name": "samarth-academy-frontend",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:analyze": "vite build --ssrManifest",
     "preview": "vite preview",
     "lint": "eslint .",
-    "test:e2e": "playwright test --project=chromium",
+    "build:analyze": "vite-bundle-visualizer",
     "optimize:check": "npm run build && echo 'Build completed successfully'"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
     "axios": "^1.13.4",
     "browser-image-compression": "^2.0.2",
-    "icons": "^1.0.0",
     "jodit-react": "^5.3.21",
     "react": "^19.2.4",
     "react-dom": "^19.2.0",
@@ -27,7 +25,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
-    "@playwright/test": "^1.44.0",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
@@ -35,6 +32,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
-    "vite": "^7.2.4"
+    "vite": "^7.2.4",
+    "vite-bundle-visualizer": "^1.2.1"
   }
 }
