@@ -17,9 +17,9 @@ const Slide = React.memo(({ slide, isCurrent }) => (
       <span className="px-4 py-1 mb-6 text-xs font-bold text-red-600 bg-white rounded-full uppercase tracking-widest shadow-sm">
         {slide.type || "Latest Update"}
       </span>
-      <h1 className="text-3xl md:text-5xl font-black text-white mb-6 drop-shadow-md max-w-4xl leading-tight">
+      <h2 className="text-3xl md:text-5xl font-black text-white mb-6 drop-shadow-md max-w-4xl leading-tight">
         {slide.title}
-      </h1>
+      </h2>
       <Link
         to={`/notifications/${slide.slug}`}
         className="px-8 py-3 mt-4 text-sm font-bold text-red-600 bg-white rounded-lg shadow-lg hover:bg-gray-50 hover:-translate-y-1 transition-all duration-300 uppercase tracking-wide"

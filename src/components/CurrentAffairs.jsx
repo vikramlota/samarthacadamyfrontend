@@ -76,6 +76,7 @@ const CurrentAffairs = () => {
 
         {/* Controls: Search & Filter */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+            <h2 className="sr-only">Filter and search articles</h2>
             {/* Category Tabs */}
             <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto no-scrollbar">
                 {categories.map(cat => (

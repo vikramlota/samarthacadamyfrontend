@@ -41,7 +41,8 @@ const CoursesPage = () => {
   return (
     <div className="bg-gray-50 min-h-screen py-16 px-4">
       <div className="container mx-auto">
-        <h1 className="text-4xl font-black text-center text-gray-900 mb-12">Our <span className="text-brand-red">Courses</span></h1>
+        <h1 className="text-4xl font-black text-center text-gray-900 mb-4">Our <span className="text-brand-red">Courses</span></h1>
+        <h2 className="text-center text-gray-500 font-medium mb-12 text-lg">Expert-led coaching for SSC, Banking, Defense &amp; State Exams</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
            {courses.map(course => (

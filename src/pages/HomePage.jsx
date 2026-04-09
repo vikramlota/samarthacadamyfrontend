@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react';
+import { Link } from 'react-router-dom';
 import { useHomepageData } from '../utils/customHooks';
 import { ComponentSkeleton } from '../components/SkeletonLoader';
 import { SEOHead, StructuredData } from '../utils/seoHelpers';
@@ -41,6 +42,28 @@ const HomePage = () => {
         }}
       />
 
+      <h1 className="text-3xl md:text-4xl font-black text-center text-gray-900 py-6 px-4">
+        Samarth Academy — Amritsar's #1 Coaching for SSC, Banking &amp; Government Exams
+      </h1>
+
+      <section aria-label="Quick navigation" className="pb-4 px-4">
+        <div className="flex flex-wrap gap-3 justify-center">
+          {[
+            { to: '/courses', label: 'Browse Courses' },
+            { to: '/current-affairs', label: 'Current Affairs' },
+            { to: '/notifications', label: 'Exam Notifications' },
+            { to: '/about', label: 'About Us' },
+            { to: '/book-demo', label: 'Book a Demo' },
+            { to: '/Selections', label: 'Our Selections' },
+          ].map(({ to, label }) => (
+            <Link key={to} to={to}
+              className="px-4 py-2 border border-gray-200 rounded-full text-sm font-semibold text-gray-700 hover:bg-brand-red hover:text-white hover:border-brand-red transition">
+              {label}
+            </Link>
+          ))}
+        </div>
+      </section>
+
       <Suspense fallback={<ComponentSkeleton size="large" />}>
         <Hero />
       </Suspense>
@@ -64,9 +87,6 @@ const HomePage = () => {
       <Suspense fallback={<ComponentSkeleton size="medium" />}>
         <Map />
       </Suspense>
-      <h1 className="sr-only">
-        Samarth Academy: Amritsar's #1 Coaching Institute for SSC, Banking, and State Government Exams
-      </h1>
     </>
   );
 };

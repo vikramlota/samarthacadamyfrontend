@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../utils/api';
 import CurrentAffairs from '../components/CurrentAffairs.jsx';
+import { SEOHead } from '../utils/seoHelpers';
 import { FaArrowLeft, FaCalendarAlt, FaTag } from 'react-icons/fa';
 
 const CurrentAffairsPage = () => {
@@ -12,21 +13,28 @@ const CurrentAffairsPage = () => {
 
   // If no slug, show the current affairs list
   if (!slug) {
-    return <CurrentAffairs />;
+    return (
+      <>
+        <SEOHead
+          title="Current Affairs for Competitive Exams | Samarth Academy"
+          description="Daily current affairs updates for SSC, Banking and UPSC exams. Stay exam-ready with curated national, international, sports and economy news from Samarth Academy."
+          canonical="https://thesamarthacademy.in/current-affairs"
+          keywords="current affairs 2024, daily current affairs SSC, banking exam current affairs, UPSC current affairs Punjab"
+        />
+        <CurrentAffairs />
+      </>
+    );
   }
 
   // Otherwise, show the article detail
   useEffect(() => {
     setLoading(true);
-    console.log("🔍 Fetching article with slug:", slug);
     api.get(`/current-affairs/${slug}`)
        .then(res => {
-         console.log("✅ Article fetched:", res.data);
          setArticle(res.data);
          setError('');
        })
        .catch(err => {
-         console.error('❌ Error fetching article:', err.response?.data || err.message);
          setError(err.response?.data?.message || 'Article not found');
        })
        .finally(() => setLoading(false));
@@ -55,51 +63,61 @@ const CurrentAffairsPage = () => {
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen py-12">
-      <div className="container mx-auto max-w-4xl px-4">
-        <Link to="/current-affairs" className="inline-flex items-center text-blue-600 hover:underline mb-6">
-          <FaArrowLeft className="mr-2" /> Back to Current Affairs
-        </Link>
+    <>
+      <SEOHead
+        title={`${article.headline} | Samarth Academy Current Affairs`}
+        description={article.contentBody
+          ? article.contentBody.replace(/<[^>]+>/g, '').slice(0, 155) + '...'
+          : 'Read the latest current affairs article on Samarth Academy.'}
+        canonical={`https://thesamarthacademy.in/current-affairs/${slug}`}
+        keywords={article.tags ? article.tags.join(', ') : 'current affairs, competitive exams'}
+      />
+      <div className="bg-gray-50 min-h-screen py-12">
+        <div className="container mx-auto max-w-4xl px-4">
+          <Link to="/current-affairs" className="inline-flex items-center text-blue-600 hover:underline mb-6">
+            <FaArrowLeft className="mr-2" /> Back to Current Affairs
+          </Link>
 
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          {article.imageUrl && (
-            <img src={article.imageUrl} alt={article.headline} className="w-full h-96 object-cover" />
-          )}
-          
-          <div className="p-8">
-            <div className="flex items-center justify-between mb-4 pb-4 border-b border-gray-200">
-              <div className="flex gap-4 items-center">
-                <span className="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">
-                  {article.category || 'General'}
-                </span>
-                <span className="flex items-center text-gray-500 text-sm">
-                  <FaCalendarAlt className="mr-2" />
-                  {new Date(article.date || Date.now()).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
-                </span>
-              </div>
-            </div>
-
-            <h1 className="text-4xl font-black text-gray-900 mb-6">{article.headline}</h1>
-
-            {article.tags && article.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-8">
-                {article.tags.map((tag, idx) => (
-                  <span key={idx} className="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-full flex items-center">
-                    <FaTag className="mr-1 text-gray-400" /> {tag}
-                  </span>
-                ))}
-              </div>
+          <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+            {article.imageUrl && (
+              <img src={article.imageUrl} alt={article.headline} className="w-full h-96 object-cover" />
             )}
 
-            <div 
-              dangerouslySetInnerHTML={{ __html: article.contentBody }}
-              className="jodit-html-content text-gray-800 leading-relaxed mb-8 space-y-4"
-              style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}
-            />
+            <div className="p-8">
+              <div className="flex items-center justify-between mb-4 pb-4 border-b border-gray-200">
+                <div className="flex gap-4 items-center">
+                  <span className="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                    {article.category || 'General'}
+                  </span>
+                  <span className="flex items-center text-gray-500 text-sm">
+                    <FaCalendarAlt className="mr-2" />
+                    {new Date(article.date || Date.now()).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
+                  </span>
+                </div>
+              </div>
+
+              <h1 className="text-4xl font-black text-gray-900 mb-6">{article.headline}</h1>
+
+              {article.tags && article.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-8">
+                  {article.tags.map((tag, idx) => (
+                    <span key={idx} className="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-full flex items-center">
+                      <FaTag className="mr-1 text-gray-400" /> {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <div
+                dangerouslySetInnerHTML={{ __html: article.contentBody }}
+                className="jodit-html-content text-gray-800 leading-relaxed mb-8 space-y-4"
+                style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
