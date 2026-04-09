@@ -1,199 +1,35 @@
 /**
- * Image Optimization Utility
- * Converts regular Cloudinary URLs to optimized versions with:
- * - Automatic format (f_auto)
- * - Quality adjustment (q_auto)
- * - Responsive width
- * - Lazy loading
+ * Cloudinary image optimization helpers
+ * Automatically serves WebP/AVIF, resizes, and crops images via URL params.
+ * No extra dependencies needed — Cloudinary handles everything server-side.
  */
-
-const CLOUDINARY_BASE = 'https://res.cloudinary.com';
 
 /**
- * Extract Cloudinary public ID from full URL
- * Handles different URL formats
+ * Returns an optimized Cloudinary URL with auto format (WebP/AVIF) and quality.
+ * @param {string} url    - Original Cloudinary URL
+ * @param {number} width  - Max display width in px
  */
-const extractCloudinaryId = (url) => {
-  if (!url) return null;
-  
-  // Already optimized - extract the original upload path
-  if (url.includes('/image/upload/')) {
-    const match = url.match(/\/upload\/(?:[^/]*\/)*(.+?)(?:\.\w+)?$/);
-    return match ? match[1] : null;
-  }
-  
-  // Regular cloudinary URL
-  if (url.includes(CLOUDINARY_BASE)) {
-    const match = url.match(/\/image\/upload\/(.+?)(?:\?\S*)?$/);
-    return match ? match[1] : null;
-  }
-  
-  return null;
+export const getCloudinaryUrl = (url, width = 800) => {
+  if (!url || !url.includes('res.cloudinary.com')) return url;
+  return url.replace('/upload/', `/upload/f_auto,q_auto,w_${width},c_limit/`);
 };
 
 /**
- * Generate optimized Cloudinary URL with transformations
- * @param {string} url - Original image URL or Cloudinary public ID
- * @param {object} options - Transformation options
- * @returns {string} Optimized Cloudinary URL
+ * Returns a Cloudinary URL cropped to exact dimensions (good for cards).
+ * @param {string} url
+ * @param {number} width
+ * @param {number} height
  */
-export const getOptimizedImageUrl = (
-  url,
-  {
-    width = 800,
-    quality = 'auto',
-    format = 'auto',
-    responsive = false,
-    crop = 'fill',
-    gravity = 'auto'
-  } = {}
-) => {
-  if (!url) return null;
-
-  let cloudinaryId = url;
-
-  // If it's an HTTP(S) URL, try to extract the Cloudinary ID
-  if (url.startsWith('http')) {
-    cloudinaryId = extractCloudinaryId(url);
-  }
-
-  if (!cloudinaryId) {
-    console.warn('Could not extract Cloudinary ID from URL:', url);
-    return url; // Fallback to original URL
-  }
-
-  // Build transformation parameters
-  const transformations = [
-    `w_${width}`,
-    `q_${quality}`,
-    `f_${format}`,
-    `c_${crop}`,
-    `g_${gravity}`
-  ];
-
-  // Add responsive sizes if needed
-  if (responsive) {
-    transformations.push('dpr_auto');
-  }
-
-  const transformationString = transformations.join(',');
-  
-  return `${CLOUDINARY_BASE}/thesamarthacademy/image/upload/${transformationString}/${cloudinaryId}`;
+export const getCroppedUrl = (url, width, height) => {
+  if (!url || !url.includes('res.cloudinary.com')) return url;
+  return url.replace('/upload/', `/upload/f_auto,q_auto,w_${width},h_${height},c_fill/`);
 };
 
 /**
- * Get multiple responsive sizes for srcset
- * @param {string} url - Original image URL
- * @param {array} sizes - Array of widths to generate
- * @returns {string} srcset string for img tag
+ * Returns a low-quality blur placeholder URL for lazy loading.
+ * @param {string} url
  */
-export const getResponsiveSrcSet = (url, sizes = [400, 800, 1200, 1600]) => {
-  return sizes
-    .map(width => `${getOptimizedImageUrl(url, { width })} ${width}w`)
-    .join(', ');
-};
-
-/**
- * React component for optimized images with lazy loading
- */
-import React from 'react';
-
-export const OptimizedImage = React.memo(({
-  src,
-  alt,
-  width = 800,
-  height,
-  responsive = true,
-  className = '',
-  sizes,
-  priority = false,
-  ...props
-}) => {
-  const optimizedSrc = getOptimizedImageUrl(src, { width });
-  
-  // Generate srcset for responsive images
-  const srcSet = responsive 
-    ? getResponsiveSrcSet(src, [400, 800, 1200, 1600])
-    : optimizedSrc;
-
-  // Calculate aspect ratio if height is provided to prevent layout shift
-  const aspectRatioStyle = height ? { aspectRatio: `${width}/${height}` } : {};
-
-  return (
-    <img
-      src={optimizedSrc}
-      srcSet={srcSet}
-      sizes={sizes || '(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 50vw'}
-      alt={alt}
-      loading={priority ? 'eager' : 'lazy'}
-      decoding="async"
-      width={width}
-      height={height}
-      className={`${className}`}
-      style={aspectRatioStyle}
-      {...props}
-    />
-  );
-});
-
-OptimizedImage.displayName = 'OptimizedImage';
-
-/**
- * Hook for getting optimized image URLs
- */
-export const useOptimizedImage = (url, options = {}) => {
-  return React.useMemo(() => {
-    return getOptimizedImageUrl(url, options);
-  }, [url, options]);
-};
-
-/**
- * Generate picture element with multiple sources for progressive enhancement
- */
-export const PictureImage = React.memo(({
-  src,
-  alt,
-  webpWidth = 800,
-  jpgWidth = 1000,
-  height,
-  className = '',
-  priority = false
-}) => {
-  const webpSrc = getOptimizedImageUrl(src, { 
-    width: webpWidth, 
-    format: 'auto'
-  });
-  
-  const jpgSrc = getOptimizedImageUrl(src, { 
-    width: jpgWidth, 
-    format: 'auto'
-  });
-
-  const aspectRatioStyle = height ? { aspectRatio: `${jpgWidth}/${height}` } : {};
-
-  return (
-    <picture style={aspectRatioStyle}>
-      <source srcSet={webpSrc} type="image/webp" />
-      <source srcSet={jpgSrc} type="image/jpeg" />
-      <img
-        src={jpgSrc}
-        alt={alt}
-        loading={priority ? 'eager' : 'lazy'}
-        decoding="async"
-        width={jpgWidth}
-        height={height}
-        className={className}
-      />
-    </picture>
-  );
-});
-
-PictureImage.displayName = 'PictureImage';
-
-export default {
-  getOptimizedImageUrl,
-  getResponsiveSrcSet,
-  OptimizedImage,
-  PictureImage,
-  useOptimizedImage
+export const getBlurPlaceholder = (url) => {
+  if (!url || !url.includes('res.cloudinary.com')) return url;
+  return url.replace('/upload/', '/upload/w_20,q_10,e_blur:200/');
 };
