@@ -22,7 +22,7 @@ const HomePage = () => {
         title="Samarth Academy | SSC, Banking & Govt Exam Coaching"
         description="Samarth Academy, Amritsar — top coaching for SSC CGL, IBPS PO, Banking, State & Govt exams. Expert faculty, small batches, proven results."
         canonical="https://thesamarthacademy.in"
-        keywords="SSC CGL coaching Amritsar, IBPS PO coaching Punjab, banking exam coaching, government exam coaching India"
+        keywords="best coaching institute in Amritsar, top coaching institute in Amritsar, government exam coaching in Amritsar, SSC coaching Amritsar, banking coaching institute in Amritsar, govt job coaching near me, coaching institute near GNDU Amritsar, coaching classes in Amritsar near me, affordable coaching in Amritsar, best institute for govt jobs Punjab, coaching institute in Amritsar with fees, SSC CGL coaching Amritsar, IBPS PO coaching Punjab, banking exam coaching, government exam coaching India"
       />
 
       {/* Structured Data */}
