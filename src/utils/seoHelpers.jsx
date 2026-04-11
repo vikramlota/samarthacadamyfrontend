@@ -4,10 +4,15 @@ import React from 'react';
 /**
  * SEO Meta Tags Component
  * Set page-specific meta data for better search engine optimization
+ *
+ * Rules:
+ * - viewport, charset, and favicon live in index.html ONLY (not here)
+ * - Everything else (title, description, canonical, og:*) lives here
+ * - This prevents duplicate meta tag errors caught by Seobility/Google
  */
 export const SEOHead = ({
-  title = 'Samarth Academy - SSC, Banking & Defense Exams',
-  description = 'Prepare for SSC, Banking, State, Defense exams with expert guidance at Samarth Academy. Top-quality courses and mock tests.',
+  title = 'Samarth Academy | SSC, Banking & Govt Exam Coaching',
+  description = 'Samarth Academy, Amritsar — top coaching for SSC CGL, IBPS PO, Banking, State & Govt exams. Expert faculty, small batches, proven results.',
   canonical = 'https://thesamarthacademy.in',
   ogTitle = null,
   ogDescription = null,
@@ -18,18 +23,21 @@ export const SEOHead = ({
 }) => {
   return (
     <Helmet>
-      {/* Basic Meta Tags */}
+      {/* Title & core meta — viewport/charset stay in index.html */}
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
       <meta name="author" content={author} />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <meta name="charset" content="utf-8" />
+      <meta name="robots" content="index, follow" />
+      <meta name="revisit-after" content="7 days" />
 
-      {/* Canonical URL for duplicate content prevention */}
+      {/* ISO-standard language (not "english" — that is non-standard) */}
+      <meta httpEquiv="content-language" content="en" />
+
+      {/* Canonical URL */}
       <link rel="canonical" href={canonical} />
 
-      {/* Open Graph Meta Tags for Social Sharing */}
+      {/* Open Graph */}
       <meta property="og:title" content={ogTitle || title} />
       <meta property="og:description" content={ogDescription || description} />
       <meta property="og:image" content={ogImage} />
@@ -37,24 +45,15 @@ export const SEOHead = ({
       <meta property="og:type" content={ogType} />
       <meta property="og:site_name" content="Samarth Academy" />
 
-      {/* Twitter Card Meta Tags */}
+      {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={ogTitle || title} />
       <meta name="twitter:description" content={ogDescription || description} />
       <meta name="twitter:image" content={ogImage} />
-
-      {/* Additional SEO Meta Tags */}
-      <meta name="language" content="English" />
-      <meta name="revisit-after" content="7 days" />
-      <meta name="robots" content="index, follow" />
-
-      {/* Preconnect to external resources for performance */}
-      <link rel="preconnect" href="https://res.cloudinary.com" />
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="dns-prefetch" href="https://res.cloudinary.com" />
     </Helmet>
   );
 };
+
 
 /**
  * Structured Data (JSON-LD) for Rich Snippets

@@ -5,15 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google-site-verification" content="sU9wMoN5Gp_yNILWMxUHvDdMtUKh4EP4w9n9KUPZb6M" />
 
-    <!-- Fallback title & description (overridden per-page by react-helmet-async) -->
-    <title>Samarth Academy — SSC, Banking & Government Exam Coaching Amritsar</title>
-    <meta name="description" content="Samarth Academy, Amritsar — expert coaching for SSC, Banking, State, Defense & UPSC exams. Small batches, ex-officer faculty, proven results." />
+    <!--
+      Fallback title only — react-helmet-async overrides this per page.
+      Do NOT add meta description, keywords, or viewport here again —
+      SEOHead already injects those, and duplicates cause Seobility errors.
+    -->
+    <title>Samarth Academy | SSC, Banking &amp; Govt Exam Coaching</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/images/purelogo.png" />
     <link rel="apple-touch-icon" href="/images/purelogo.png" />
 
-    <!-- Preconnect to external resources used at runtime -->
+    <!--
+      Preconnect hints must be in static HTML (not in Helmet) to work early.
+      Helmet injects after React mounts — too late for preconnect to help.
+    -->
     <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
     <link rel="dns-prefetch" href="https://res.cloudinary.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />

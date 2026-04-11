@@ -15,14 +15,14 @@ const navigate = useNavigate();
             {/* Text Content */}
             <div className={`lg:w-1/2 z-10 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
               <span className="text-brand-orange font-bold tracking-widest text-sm uppercase mb-4 block">Since 2006</span>
-              <h1 className="text-5xl md:text-7xl font-black text-gray-900 mb-6 leading-[1.1]">
+              <h2 className="text-5xl md:text-7xl font-black text-gray-900 mb-6 leading-[1.1]">
                 We Build <br />
                 <span className="relative inline-block">
                   <span className="relative z-10">Officers</span>
                   <span className="absolute bottom-2 left-0 w-full h-4 bg-brand-red/20 -z-0"></span>
                 </span> <br />
                 Not Just Students.
-              </h1>
+              </h2>
               <p className="text-xl text-gray-600 mb-8 leading-relaxed font-light">
                 Samarth Academy isn't just a coaching centre; it's a launchpad for dreams. For nearly two decades, we've been the silent force behind thousands of government success stories in Punjab.
               </p>

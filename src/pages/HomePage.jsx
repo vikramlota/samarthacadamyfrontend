@@ -19,10 +19,10 @@ const HomePage = () => {
     <>
       {/* SEO Meta Tags */}
       <SEOHead
-        title="Samarth Academy - Best Online Coaching for SSC, Banking & Defense Exams"
-        description="Expert online coaching for SSC, Banking, State, Defense, Teaching & UPSC exams. Get quality courses, mock tests, and expert guidance at Samarth Academy."
+        title="Samarth Academy | SSC, Banking & Govt Exam Coaching"
+        description="Samarth Academy, Amritsar — top coaching for SSC CGL, IBPS PO, Banking, State & Govt exams. Expert faculty, small batches, proven results."
         canonical="https://thesamarthacademy.in"
-        keywords="SSC coaching, Banking exams, Defense exams, UPSC coaching, State exams, Competitive exams india"
+        keywords="SSC CGL coaching Amritsar, IBPS PO coaching Punjab, banking exam coaching, government exam coaching India"
       />
 
       {/* Structured Data */}
@@ -43,7 +43,7 @@ const HomePage = () => {
       />
 
       <h1 className="text-3xl md:text-4xl font-black text-center text-gray-900 py-6 px-4">
-        Samarth Academy — Amritsar's #1 Coaching for SSC, Banking &amp; Government Exams
+        Samarth Academy — Top Coaching for SSC, Banking &amp; Government Exams in Amritsar
       </h1>
 
       <section aria-label="Quick navigation" className="pb-4 px-4">

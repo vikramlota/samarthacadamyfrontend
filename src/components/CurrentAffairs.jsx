@@ -142,7 +142,7 @@ const CurrentAffairs = () => {
                               {stripHtml(item.contentBody || item.description)}
                             </p>
 
-                            <Link to={`/current-affairs/${item.slug}`} className="w-full mt-auto border border-blue-100 bg-blue-50 text-blue-600 font-bold py-2 rounded-lg hover:bg-blue-600 hover:text-white transition-colors text-sm block text-center">
+                            <Link to={`/current-affairs/${item.slug}`} aria-label={`Read full story: ${item.headline}`} className="w-full mt-auto border border-blue-100 bg-blue-50 text-blue-600 font-bold py-2 rounded-lg hover:bg-blue-600 hover:text-white transition-colors text-sm block text-center">
                                 Read Full Story
                             </Link>
                         </div>

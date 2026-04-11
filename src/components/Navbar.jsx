@@ -51,7 +51,7 @@ const Navbar = () => {
           {/* Logo - Use Link for Home */}
           <Link to="/" className="flex items-center group">
             {/* Replace src with your actual image path in public folder */}
-            <img src="/images/purelogo.png" alt="Samarth Academy" className="w-14 h-14 object-contain group-hover:scale-105 transition-transform rounded-md" />
+            <img src="/images/purelogo.png" alt="Samarth Academy Logo" className="w-14 h-14 object-contain group-hover:scale-105 transition-transform rounded-md" />
             <div className="ml-2 flex flex-col">
               <span className="text-2xl font-black text-gray-900 leading-none">SAMARTH</span>
               <span className="text-xs font-bold text-brand-red tracking-widest">ACADEMY</span>
