@@ -57,8 +57,8 @@ const CoursesPage = () => {
                       <span className="flex items-center gap-1"><FaTag className="text-green-600"/> {course.price}</span>
                    </div>
                    <p className="text-gray-600 text-sm mb-6 line-clamp-2">{course.description}</p>
-                   <Link to={`/courses/${course.slug}`} aria-label={`View details for ${course.title}`} className="w-full bg-brand-red text-white font-bold py-3 rounded-xl hover:bg-red-700 transition block text-center">
-                      View Details <FaBookOpen className="inline-block ml-2"/>
+                   <Link to={`/courses/${course.slug}`} className="w-full bg-brand-red text-white font-bold py-3 rounded-xl hover:bg-red-700 transition block text-center">
+                      Explore {course.title} <FaBookOpen className="inline-block ml-2"/>
                    </Link>
                 </div>
              </div>

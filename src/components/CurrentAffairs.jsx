@@ -143,7 +143,7 @@ const CurrentAffairs = () => {
                             </p>
 
                             <Link to={`/current-affairs/${item.slug}`} aria-label={`Read full story: ${item.headline}`} className="w-full mt-auto border border-blue-100 bg-blue-50 text-blue-600 font-bold py-2 rounded-lg hover:bg-blue-600 hover:text-white transition-colors text-sm block text-center">
-                                Read Full Story
+                                Read: {item.headline.length > 40 ? item.headline.slice(0, 40) + '…' : item.headline}
                             </Link>
                         </div>
                     </div>
