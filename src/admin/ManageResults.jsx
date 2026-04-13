@@ -1,12 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import api from '../utils/api'; // Use your configured API
-import { FaTrash, FaPlus, FaTrophy, FaUpload } from 'react-icons/fa';
+import { FaTrash, FaPlus, FaTrophy, FaUpload, FaEdit, FaTimes } from 'react-icons/fa';
 import imageCompression from 'browser-image-compression';
 
 const ManageResults = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // State to track which result we are editing
+  const [editingId, setEditingId] = useState(null);
+  
+  // Ref to clear file input manually
+  const fileInputRef = useRef(null);
   
   // Form State matches your SuccessStory Schema
   const [formData, setFormData] = useState({
@@ -41,6 +47,37 @@ const ManageResults = () => {
   // 2. Handle Text Inputs
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Handle Edit Click
+  const handleEdit = (result) => {
+    setEditingId(result._id);
+    setFormData({
+      studentName: result.studentName,
+      examName: result.examName,
+      rank: result.rank,
+      category: result.category,
+      year: result.year,
+      testimonial: result.testimonial || ''
+    });
+    setImageFile(null);
+    if(fileInputRef.current) fileInputRef.current.value = "";
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Cancel Edit
+  const resetForm = () => {
+    setEditingId(null);
+    setFormData({
+      studentName: '',
+      examName: '',
+      rank: '',
+      category: 'Banking',
+      year: new Date().getFullYear(),
+      testimonial: ''
+    });
+    setImageFile(null);
+    if(fileInputRef.current) fileInputRef.current.value = "";
   };
 
   // 3. Handle File Input with Compression
@@ -100,26 +137,30 @@ const ManageResults = () => {
     }
 
     try {
-      console.log('🚀 Sending POST request to /api/results');
-      await api.post('/results', data);
-      alert('Student added to Hall of Fame!');
+      const config = {
+        headers: { 
+          "Content-Type": "multipart/form-data" 
+        }
+      };
+
+      if (editingId) {
+        console.log('🚀 Sending PUT request to /api/results/' + editingId);
+        await api.put(`/results/${editingId}`, data, config);
+        alert('Student updated successfully!');
+      } else {
+        console.log('🚀 Sending POST request to /api/results');
+        await api.post('/results', data, config);
+        alert('Student added to Hall of Fame!');
+      }
       
       // Reset Form
-      setFormData({
-        studentName: '',
-        examName: '',
-        rank: '',
-        category: 'Banking',
-        year: new Date().getFullYear(),
-        testimonial: ''
-      });
-      setImageFile(null);
+      resetForm();
       
       // Refresh List
       fetchResults();
     } catch (error) {
-      console.error('❌ Error adding result:', error.response?.data || error.message || error);
-      alert('Failed to add result. See console for details.');
+      console.error('❌ Error:', error.response?.data || error.message || error);
+      alert('Failed to save result. See console for details.');
     } finally {
       setIsSubmitting(false);
     }
@@ -153,9 +194,16 @@ const ManageResults = () => {
         {/* --- LEFT: ADD NEW FORM --- */}
         <div className="lg:col-span-3">
             <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100 sticky top-4">
-                <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                    <FaPlus className="text-brand-red"/> Add New Achiever
-                </h3>
+                <div className="flex justify-between items-center mb-4">
+                    <h3 className="font-bold text-lg flex items-center gap-2">
+                        <FaPlus className="text-brand-red"/> {editingId ? 'Edit Achiever' : 'Add New Achiever'}
+                    </h3>
+                    {editingId && (
+                        <button onClick={resetForm} className="text-xs text-red-500 flex items-center gap-1 hover:underline">
+                            <FaTimes /> Cancel
+                        </button>
+                    )}
+                </div>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     
                     <div>
@@ -197,14 +245,17 @@ const ManageResults = () => {
                     
                     <div>
                         <label className="text-xs font-bold text-gray-500 uppercase">Photo</label>
-                        <div className="border border-dashed border-gray-300 p-2 rounded flex it 
-                        \
-                        
-                        
-                        ems-center gap-2 cursor-pointer hover:bg-gray-50">
+                        <div className="border border-dashed border-gray-300 p-2 rounded flex items-center gap-2 cursor-pointer hover:bg-gray-50">
                             <FaUpload className="text-gray-400"/>
-                            <input type="file" onChange={handleFileChange} required className="text-sm w-full" />
+                            <input 
+                              ref={fileInputRef}
+                              type="file" 
+                              onChange={handleFileChange} 
+                              required={!editingId}
+                              className="text-sm w-full" 
+                            />
                         </div>
+                        {editingId && <p className="text-xs text-gray-400 mt-1">Leave empty to keep existing photo</p>}
                     </div>
 
                     <div>
@@ -214,8 +265,8 @@ const ManageResults = () => {
                     </div>
 
                     <button type="submit" disabled={isSubmitting} 
-                        className={`w-full py-3 rounded-lg font-bold text-white transition-all ${isSubmitting ? 'bg-gray-400' : 'bg-brand-red hover:bg-red-700 shadow-md hover:shadow-lg'}`}>
-                        {isSubmitting ? 'Uploading...' : 'Add to Hall of Fame'}
+                        className={`w-full py-3 rounded-lg font-bold text-white transition-all ${isSubmitting ? 'bg-gray-400' : (editingId ? 'bg-blue-600 hover:bg-blue-700 shadow-md hover:shadow-lg' : 'bg-brand-red hover:bg-red-700 shadow-md hover:shadow-lg')}`}>
+                        {isSubmitting ? 'Processing...' : (editingId ? 'Update Achiever' : 'Add to Hall of Fame')}
                     </button>
                 </form>
             </div>
@@ -235,7 +286,7 @@ const ManageResults = () => {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {results.map((item) => (
-                            <div key={item._id} className="flex items-center p-4 border border-gray-100 rounded-lg hover:shadow-md transition-shadow bg-gray-50">
+                            <div key={item._id} className="flex items-center p-4 border border-gray-100 rounded-lg hover:shadow-md transition-shadow bg-gray-50 group">
                                 <img 
                                     src={item.imageUrl || "https://placehold.co/100"} 
                                     alt={item.studentName} 
@@ -246,13 +297,22 @@ const ManageResults = () => {
                                     <p className="text-xs text-brand-red font-semibold">{item.examName} • {item.rank}</p>
                                     <p className="text-xs text-gray-500">{item.year} • {item.category}</p>
                                 </div>
-                                <button 
-                                    onClick={() => handleDelete(item._id)} 
-                                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
-                                    title="Delete Result"
-                                >
-                                    <FaTrash />
-                                </button>
+                                <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button 
+                                        onClick={() => handleEdit(item)} 
+                                        className="p-2 text-gray-400 hover:text-blue-500 hover:bg-blue-50 rounded-full transition-colors"
+                                        title="Edit Result"
+                                    >
+                                        <FaEdit />
+                                    </button>
+                                    <button 
+                                        onClick={() => handleDelete(item._id)} 
+                                        className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                                        title="Delete Result"
+                                    >
+                                        <FaTrash />
+                                    </button>
+                                </div>
                             </div>
                         ))}
                     </div>
