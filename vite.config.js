@@ -1,6 +1,10 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // https://vitejs.dev
 export default defineConfig({
@@ -9,6 +13,12 @@ export default defineConfig({
     tailwindcss(),
   ],
   base: '/',
+
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
 
   build: {
     target: 'esnext',
@@ -33,6 +43,11 @@ export default defineConfig({
           // --- Image compression lib ---
           if (id.includes('browser-image-compression')) {
             return 'vendor-image-compression';
+          }
+
+          // --- Framer Motion ---
+          if (id.includes('node_modules/framer-motion')) {
+            return 'vendor-framer-motion';
           }
 
           // --- React core ---

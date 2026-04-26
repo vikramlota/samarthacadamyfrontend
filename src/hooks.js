@@ -23,7 +23,7 @@ export const useScrollReveal = () => {
   return [ref, isVisible];
 };
 
-// Hook to animate numbers
+// Hook to animate numbers — uses rAF + easeOutCubic, works for any target value
 export const useCounter = (end, duration = 1500) => {
   const [count, setCount] = useState(0);
   const [ref, isVisible] = useScrollReveal();
@@ -32,16 +32,20 @@ export const useCounter = (end, duration = 1500) => {
   useEffect(() => {
     if (isVisible && !counted.current) {
       counted.current = true;
-      let start = 0;
-      const stepTime = Math.abs(Math.floor(duration / end));
-      
-      const timer = setInterval(() => {
-        start += 1;
-        setCount(start);
-        if (start === end) clearInterval(timer);
-      }, stepTime);
-      
-      return () => clearInterval(timer);
+      if (!end || end <= 0) { setCount(end || 0); return; }
+
+      const startTime = performance.now();
+      let raf;
+
+      const step = (now) => {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+        setCount(Math.round(eased * end));
+        if (progress < 1) raf = requestAnimationFrame(step);
+      };
+
+      raf = requestAnimationFrame(step);
+      return () => cancelAnimationFrame(raf);
     }
   }, [isVisible, end, duration]);
 

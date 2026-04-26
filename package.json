@@ -15,12 +15,15 @@
     "@tailwindcss/vite": "^4.1.18",
     "axios": "^1.13.4",
     "browser-image-compression": "^2.0.2",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.38.0",
     "jodit-react": "^5.3.21",
     "react": "^19.2.4",
     "react-dom": "^19.2.0",
     "react-helmet-async": "^2.0.5",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.13.0",
+    "tailwind-merge": "^3.5.0",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
@@ -32,6 +35,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "terser": "^5.46.2",
     "vite": "^7.2.4",
     "vite-bundle-visualizer": "^1.2.1"
   }

@@ -4,16 +4,16 @@ import './App.css';
 import { HelmetProvider } from 'react-helmet-async';
 
 // --- Layouts (always loaded for UX) ---
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import Navbar          from './components/layout/Navbar';
+import Footer          from './components/layout/Footer';
+import FloatingButtons from './components/layout/FloatingButtons';
 import GlobalCourseSidebar from './components/GlobalCourseSidebar';
-import QuickConnect from './components/QuickConnect';
 
 // --- Loading Fallback Component ---
 import { ComponentSkeleton } from './components/SkeletonLoader';
 
 // --- Public Pages (Lazy loaded) ---
-const HomePage = React.lazy(() => import('./pages/HomePage.jsx'));
+const HomePage = React.lazy(() => import('./pages/Home.jsx'));
 const CoursesPage = React.lazy(() => import('./pages/CoursePage.jsx'));
 const UpdatesPage = React.lazy(() => import('./pages/Updates.jsx'));
 const NotificationPage = React.lazy(() => import('./pages/Notification.jsx'));
@@ -56,7 +56,8 @@ const PublicLayout = () => (
 
     {/* 4. BOTTOM: Footer spans the entire width of the screen */}
     <Footer />
-    <QuickConnect />
+    {/* FloatingButtons: fixed call + WhatsApp circles, always visible */}
+    <FloatingButtons />
   </div>
 );
 // --- Protected Route Wrapper ---
