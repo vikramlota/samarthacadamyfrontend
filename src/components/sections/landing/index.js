@@ -1,0 +1,16 @@
+export { default as LandingHero }          from './LandingHero';
+export { default as LandingQuickInfo }     from './LandingQuickInfo';
+export { default as LandingOverview }      from './LandingOverview';
+export { default as LandingWhyChoose }     from './LandingWhyChoose';
+export { default as LandingCourseDetails } from './LandingCourseDetails';
+export { default as LandingSyllabus }      from './LandingSyllabus';
+export { default as LandingFaculty }       from './LandingFaculty';
+export { default as LandingMidCta }        from './LandingMidCta';
+export { default as LandingSelections }    from './LandingSelections';
+export { default as LandingTestimonials }  from './LandingTestimonials';
+export { default as LandingBatches }       from './LandingBatches';
+export { default as LandingFaq }           from './LandingFaq';
+export { default as LandingLocation }      from './LandingLocation';
+export { default as LandingFinalCta }      from './LandingFinalCta';
+export { default as LandingPageSkeleton }  from './LandingPageSkeleton';
+export { default as LandingNotFound }      from './LandingNotFound';

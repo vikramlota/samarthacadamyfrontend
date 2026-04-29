@@ -1,51 +1,266 @@
+/* ======================================================================
+   SAMARTH ACADEMY — DESIGN SYSTEM
+   Tailwind CSS v4  |  @theme tokens, base layer, custom utilities
+   Fonts loaded via <link> in index.html (see preconnect hints there)
+   ====================================================================== */
+
 @import "tailwindcss";
 
-/* 🎨 Theme configuration (Tailwind v4 way) */
+/* ======================================================================
+   DESIGN TOKENS
+   ====================================================================== */
 @theme {
-  --color-brand-red: #C4151C;
+
+  /* ── Brand Primitives — kept as backward-compatible aliases ── */
+  --color-brand-red:    #C4151C;
   --color-brand-orange: #F27A29;
-  --color-brand-bg: #FCF7F4;
+  --color-brand-bg:     #FCF7F4;
 
-  --font-sans: "Inter", sans-serif;
+  /* ── Red Scale — brand red (#C4151C) anchored at 500 ──
+     Overrides Tailwind's default red scale so bg-red-*, text-red-*,
+     border-red-*, and gradient-from/to-red-* all use the brand hue.   */
+  --color-red-50:  #FFF0F0;
+  --color-red-100: #FFD9DA;
+  --color-red-200: #FBB4B6;
+  --color-red-300: #F58387;
+  --color-red-400: #E94550;
+  --color-red-500: #C4151C;
+  --color-red-600: #A81018;
+  --color-red-700: #880C13;
+  --color-red-800: #680909;
+  --color-red-900: #480606;
+  --color-red-950: #2E0303;
 
-  --animate-float: float 6s ease-in-out infinite;
-  --animate-marquee: scroll 40s linear infinite;
-  --animate-fade-in-up: fadeInSlideUp 1s ease-out forwards;
+  /* ── Orange Scale — brand orange (#F27A29) anchored at 500 ── */
+  --color-orange-50:  #FFF8F2;
+  --color-orange-100: #FEECD9;
+  --color-orange-200: #FDD4AD;
+  --color-orange-300: #FBB57A;
+  --color-orange-400: #F89A4E;
+  --color-orange-500: #F27A29;
+  --color-orange-600: #D45E10;
+  --color-orange-700: #AE4A0A;
+  --color-orange-800: #883908;
+  --color-orange-900: #622905;
+  --color-orange-950: #3E1903;
+
+  /* ── Semantic Aliases ── */
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-danger:  #C4151C;
+  --color-info:    #0284c7;
+
+  /* ── Typography ──
+     font-sans  → body copy, UI labels
+     font-display → section H2s, card titles (tighter tracking, more distinctive)  */
+  --font-sans:    "Inter", system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", "Inter", sans-serif;
+
+  /* ── Spacing token ── */
+  --spacing-section: 5rem;
+
+  /* ── Shadows ──
+     soft    → default resting card on light bg
+     card    → hoverable cards
+     lifted  → modals, popovers, elevated panels
+     *-glow  → colored CTA hover states                                */
+  --shadow-soft:         0 1px 3px 0 rgba(0, 0, 0, 0.06),
+                         0 1px 2px -1px rgba(0, 0, 0, 0.04);
+  --shadow-card:         0 4px 12px -1px rgba(0, 0, 0, 0.08),
+                         0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lifted:       0 10px 30px -5px rgba(0, 0, 0, 0.12),
+                         0 4px 10px -4px rgba(0, 0, 0, 0.06);
+  --shadow-primary-glow: 0 4px 20px 0 rgba(196, 21, 28, 0.35);
+  --shadow-accent-glow:  0 4px 20px 0 rgba(242, 122, 41, 0.35);
+
+  /* ── Border Radius ── */
+  --radius-input:   0.625rem;   /* 10px — form fields */
+  --radius-btn:     0.75rem;    /* 12px — buttons */
+  --radius-card:    1.5rem;     /* 24px — matches existing rounded-3xl */
+  --radius-section: 2rem;       /* 32px — hero panels */
+
+  /* ── Animation Shorthands ── */
+  --animate-float:          float 6s ease-in-out infinite;
+  --animate-marquee:        scroll 40s linear infinite;
+  --animate-fade-in-up:     fadeInSlideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  --animate-fade-in:        fadeIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  --animate-slide-in-right: slideInRight 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  --animate-scale-in:       scaleIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  --animate-pulse-soft:     pulseSoft 2.5s ease-in-out infinite;
+
+  /* ── Easing Curves (available as CSS vars; also generate ease-* utilities) ── */
+  --ease-out-smooth:    cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* ── Transition Durations (generate duration-fast / duration-base / duration-slow) ── */
+  --transition-duration-fast: 150ms;
+  --transition-duration-base: 250ms;
+  --transition-duration-slow: 400ms;
 }
 
-/* 🧠 Keyframes (still normal CSS) */
+/* ======================================================================
+   KEYFRAMES
+   ====================================================================== */
 @keyframes float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+  50%       { transform: translateY(-20px); }
 }
 
 @keyframes scroll {
-  0% { transform: translateX(0); }
+  0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
 @keyframes fadeInSlideUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* 🌱 Base styling */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulseSoft {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.65; }
+}
+
+/* ======================================================================
+   BASE LAYER
+   ====================================================================== */
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
     background-color: var(--color-brand-bg);
     font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.65;
+  }
+
+  ::selection {
+    background-color: rgba(196, 21, 28, 0.15);
+    color: #880C13;
+  }
+
+  :focus-visible {
+    outline: 2px solid #C4151C;
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+
+  /* Respect users who have reduced-motion enabled in their OS */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
-/* Add to App.css to ensure Tailwind doesn't hide your Jodit tables */
+
+/* ======================================================================
+   CUSTOM UTILITIES
+   ====================================================================== */
+@layer utilities {
+
+  /* Responsive page container — replaces the repeated `container mx-auto px-4` pattern */
+  .container-custom {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-custom { padding-inline: 1.5rem; }
+  }
+
+  @media (min-width: 1024px) {
+    .container-custom { padding-inline: 2rem; }
+  }
+
+  /* Consistent section vertical rhythm across all pages */
+  .section-padding { padding-block: 4rem; }
+
+  @media (min-width: 768px) {
+    .section-padding { padding-block: 5rem; }
+  }
+
+  @media (min-width: 1024px) {
+    .section-padding { padding-block: 6rem; }
+  }
+
+  /* Display font utility — tighter tracking for headlines */
+  .heading-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  /* Typographic wrapping helpers */
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty; }
+
+  /* Red-to-dark-red gradient used in About hero — codified so it's not rewritten each time */
+  .gradient-primary {
+    background: linear-gradient(135deg, #C4151C 0%, #880C13 100%);
+  }
+
+  /* Softer red/orange gradient for lighter hero moments or section accents */
+  .gradient-accent-soft {
+    background: linear-gradient(
+      135deg,
+      rgba(196, 21, 28, 0.08) 0%,
+      rgba(242, 122, 41, 0.08) 100%
+    );
+  }
+
+  /* White dot pattern — for use on dark/colored backgrounds (control opacity on the wrapper) */
+  .bg-dot-pattern {
+    background-image: radial-gradient(#ffffff 1.5px, transparent 1.5px);
+    background-size: 30px 30px;
+  }
+
+  /* Dark dot pattern — for use on light/cream backgrounds */
+  .bg-dot-pattern-dark {
+    background-image: radial-gradient(rgba(0, 0, 0, 0.12) 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+  }
+}
+
+/* ======================================================================
+   JODIT RICH TEXT — TABLE STYLES
+   Outside of any @layer so they take precedence over layered base styles.
+   ====================================================================== */
 .jodit-content table {
   border-collapse: collapse;
   width: 100%;
   margin-bottom: 1rem;
 }
 
-.jodit-content table, 
-.jodit-content th, 
+.jodit-content table,
+.jodit-content th,
 .jodit-content td {
-  border: 1px solid #d1d5db; /* Gray border */
+  border: 1px solid #d1d5db;
   padding: 8px;
 }

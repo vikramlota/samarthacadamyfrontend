@@ -1,0 +1,13 @@
+export { default as NotificationStrip }  from './NotificationStrip';
+export { default as HeroSection }        from './HeroSection';
+export { default as StatsBar }           from './StatsBar';
+export { default as CoursesGrid }        from './CoursesGrid';
+export { default as WhyChooseUs }        from './WhyChooseUs';
+export { default as FoundersStory }      from './FoundersStory';
+export { default as MidPageLeadForm }    from './MidPageLeadForm';
+export { default as RecentSelections }   from './RecentSelections';
+export { default as TestimonialsSection } from './TestimonialsSection';
+export { default as ExamSpotlight }      from './ExamSpotlight';
+export { default as BlogPreview }        from './BlogPreview';
+export { default as FaqSection }         from './FaqSection';
+export { default as FinalCTA }           from './FinalCTA';
