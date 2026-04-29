@@ -1,19 +1,48 @@
 import React from 'react';
-import About from '../components/About';
-import { SEOHead } from '../utils/seoHelpers';
+import { Helmet } from 'react-helmet-async';
+import { useApiData } from '@/hooks/useApiData';
+import {
+  AboutHero,
+  FounderStory,
+  FoundersGrid,
+  AboutStats,
+  MissionVisionValues,
+  JourneyTimeline,
+  AwardsRecognition,
+  InfrastructureGallery,
+  MediaCoverage,
+  FounderVideo,
+  AboutCta,
+  AboutPageSkeleton,
+} from '@/components/sections/about';
 
-const AboutPage = () => {
+export default function AboutPage() {
+  const { data: page, isLoading } = useApiData('/about', { fallback: null });
+
+  if (isLoading) return <AboutPageSkeleton />;
+
   return (
     <>
-      <SEOHead
-        title="About Samarth Academy | Expert Coaches in Amritsar"
-        description="Meet the founders of Samarth Academy — ex-bank officers and government officials training aspirants for SSC, Banking & State exams in Amritsar, Punjab."
-        canonical="https://thesamarthacademy.in/about"
-        keywords="best coaching institute in Amritsar, top coaching institute in Amritsar, coaching institute near GNDU Amritsar, best institute near GNDU Amritsar, Samarth Academy founders, SSC coaching Amritsar, banking exam coaching Punjab, Sidharth Khanna, Deepika Dhir, affordable govt job coaching in Amritsar"
-      />
-      <About />
+      <Helmet>
+        <title>About Samarth Academy | Officer-Led Coaching in Amritsar</title>
+        <meta
+          name="description"
+          content="Meet the founders of Samarth Academy — ex-Bank Manager and ex-GST Inspector who left government service to teach what actually works in competitive exams."
+        />
+        <link rel="canonical" href="https://thesamarthacademy.in/about" />
+      </Helmet>
+
+      <AboutHero       hero={page?.hero} />
+      <FounderStory    story={page?.story} />
+      <FoundersGrid    founders={page?.founders} />
+      <AboutStats />
+      <MissionVisionValues mvv={page?.mvv} />
+      <JourneyTimeline milestones={page?.milestones} />
+      <AwardsRecognition   awards={page?.awards} />
+      <InfrastructureGallery gallery={page?.gallery} />
+      <MediaCoverage       media={page?.media} />
+      <FounderVideo        video={page?.video} />
+      <AboutCta            cta={page?.cta} />
     </>
   );
-};
-
-export default AboutPage;
+}

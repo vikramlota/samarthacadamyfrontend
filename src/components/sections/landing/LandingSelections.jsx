@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaArrowRight, FaTrophy } from 'react-icons/fa';
+import { FaArrowRight } from 'react-icons/fa';
 import { useApiData } from '@/hooks/useApiData';
 import { SectionHeader, Button, Badge } from '@/components/ui';
 import { staggerContainer, staggerItem, viewportConfig } from '@/lib/motion';
@@ -13,9 +13,10 @@ function SelectionCard({ student }) {
           src={student.photo}
           alt={student.name}
           className="w-16 h-16 rounded-full object-cover border-2 border-red-100"
+          loading="lazy"
         />
       ) : (
-        <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">
+        <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center shrink-0">
           <span className="text-xl font-black text-red-500">{student.name?.[0]}</span>
         </div>
       )}
@@ -25,38 +26,35 @@ function SelectionCard({ student }) {
         {student.organization && (
           <p className="text-xs text-gray-500 mt-0.5">{student.organization}</p>
         )}
-        {student.year && (
-          <p className="text-xs text-gray-400 mt-1">{student.year}</p>
-        )}
+        {student.year && <p className="text-xs text-gray-400 mt-1">{student.year}</p>}
       </div>
-      {student.rank && (
-        <Badge variant="red" size="sm">Rank {student.rank}</Badge>
-      )}
+      {student.rank && <Badge variant="red" size="sm">Rank {student.rank}</Badge>}
     </div>
   );
 }
 
-export default function RecentSelections() {
-  const { data: selections, isLoading } = useApiData('/selections?limit=8&featured=true', {
-    fallback: [],
-  });
+export default function LandingSelections({ courseSlug, examShortName }) {
+  const { data: selections, isLoading } = useApiData(
+    `/selections?exam=${courseSlug}&limit=8&featured=true`,
+    { fallback: [] },
+  );
 
-  if (!isLoading && (!selections || selections.length === 0)) return null;
+  if (!isLoading && !selections?.length) return null;
 
   return (
-    <section className="py-16 md:py-24 bg-brand-bg" aria-labelledby="selections-heading">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="bg-brand-bg section-padding" aria-labelledby="selections-heading">
+      <div className="container-custom">
         <SectionHeader
-          eyebrow="Hall of Fame"
-          title="Our Recent Selections"
-          description="Students who cleared their exams and are now serving the nation."
+          eyebrow="Success Stories"
+          title={`Recent ${examShortName} Selections`}
+          description="Students who trained at Samarth Academy and cleared their exams."
           className="mb-12"
         />
 
         {isLoading ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="rounded-card p-5 border border-gray-100 animate-pulse space-y-3 flex flex-col items-center">
+              <div key={i} className="rounded-card p-5 border border-gray-100 animate-pulse flex flex-col items-center gap-3">
                 <div className="w-16 h-16 rounded-full bg-gray-200" />
                 <div className="h-3 w-3/4 bg-gray-200 rounded" />
                 <div className="h-3 w-1/2 bg-gray-200 rounded" />
@@ -80,7 +78,7 @@ export default function RecentSelections() {
         )}
 
         <div className="text-center mt-10">
-          <Button to="/Selections" variant="outline" size="lg" iconRight={FaArrowRight}>
+          <Button to="/Selections" variant="outline" iconRight={FaArrowRight}>
             View All Selections
           </Button>
         </div>

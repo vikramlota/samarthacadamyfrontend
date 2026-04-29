@@ -1,0 +1,12 @@
+export { default as AboutHero }             from './AboutHero';
+export { default as FounderStory }          from './FounderStory';
+export { default as FoundersGrid }          from './FoundersGrid';
+export { default as AboutStats }            from './AboutStats';
+export { default as MissionVisionValues }   from './MissionVisionValues';
+export { default as JourneyTimeline }       from './JourneyTimeline';
+export { default as AwardsRecognition }     from './AwardsRecognition';
+export { default as InfrastructureGallery } from './InfrastructureGallery';
+export { default as MediaCoverage }         from './MediaCoverage';
+export { default as FounderVideo }          from './FounderVideo';
+export { default as AboutCta }              from './AboutCta';
+export { default as AboutPageSkeleton }     from './AboutPageSkeleton';

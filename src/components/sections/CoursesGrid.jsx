@@ -20,7 +20,7 @@ function CourseItem({ course }) {
           <div className="w-12 h-12 rounded-2xl bg-gray-100 shrink-0" />
         )}
         {course.isPopular && (
-          <Badge variant="primary" size="sm">Popular</Badge>
+          <Badge variant="red" size="sm">Popular</Badge>
         )}
       </div>
 
