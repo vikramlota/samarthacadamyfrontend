@@ -51,7 +51,8 @@ const ManageCourses = () => {
   const fetchCourses = async () => {
     try {
       const { data } = await api.get('/courses');
-      setCourses(data);
+      // If data is an array, use it; if it's an object with a data property, use that
+      setCourses(Array.isArray(data) ? data : data.data || []);
     } catch (err) { console.error("Error loading courses", err); }
   };
 
