@@ -6,18 +6,33 @@
     <meta name="google-site-verification" content="sU9wMoN5Gp_yNILWMxUHvDdMtUKh4EP4w9n9KUPZb6M" />
 
     <!--
-      Fallback title only — react-helmet-async overrides this per page.
-      Do NOT add meta description, keywords, or viewport here again —
-      SEOHead already injects those, and duplicates cause Seobility errors.
+      Fallback title + meta only — react-helmet-async overrides these per page.
+      Keep these as short, accurate fallbacks for the rare case Helmet hasn't
+      mounted yet (e.g., first paint before hydration completes).
     -->
-    <title>Samarth Academy | SSC, Banking &amp; Govt Exam Coaching</title>
+    <title>Samarth Academy | SSC, Banking &amp; Govt Exam Coaching in Amritsar</title>
+    <meta name="description" content="Samarth Academy — officer-led coaching for SSC, Banking, Punjab Police and more. Located near GNDU Amritsar. Batches capped at 30. Free demo class." />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/images/purelogo.png" />
-    <link rel="apple-touch-icon" href="/images/purelogo.png" />
+    <!-- Favicons -->
+    <link rel="icon"             type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon"             type="image/png"    sizes="32x32"  href="/favicon-32x32.png" />
+    <link rel="icon"             type="image/png"    sizes="16x16"  href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon"                     sizes="180x180" href="/apple-touch-icon.png" />
+    <!-- Fallback: existing logo until proper favicons are generated -->
+    <link rel="icon"             type="image/png"    href="/images/purelogo.png" />
+
+    <!-- Brand theme color (matches Samarth red) -->
+    <meta name="theme-color" content="#C4151C" />
+
+    <!-- Default Open Graph (per-page Helmet overrides these) -->
+    <meta property="og:image"        content="https://thesamarthacademy.in/og.jpg" />
+    <meta property="og:image:width"  content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name"    content="Samarth Academy" />
+    <meta name="twitter:card"        content="summary_large_image" />
 
     <!--
-      Preconnect hints must be in static HTML (not in Helmet) to work early.
+      Preconnect hints MUST be in static HTML (not Helmet) to work early.
       Helmet injects after React mounts — too late for preconnect to help.
     -->
     <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useApiData } from '@/hooks/useApiData';
+import { Breadcrumbs } from '@/components/ui';
 import {
   AboutHero,
   FounderStory,
@@ -32,6 +33,7 @@ export default function AboutPage() {
         <link rel="canonical" href="https://thesamarthacademy.in/about" />
       </Helmet>
 
+      <Breadcrumbs items={[{ name: 'About' }]} />
       <AboutHero       hero={page?.hero} />
       <FounderStory    story={page?.story} />
       <FoundersGrid    founders={page?.founders} />

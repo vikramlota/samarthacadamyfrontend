@@ -5,11 +5,41 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "prebuild": "node scripts/pre-build.js",
+    "build": "vite build && node scripts/generate-sitemap.js",
+    "postbuild": "react-snap",
     "preview": "vite preview",
     "lint": "eslint .",
     "build:analyze": "vite-bundle-visualizer",
-    "optimize:check": "npm run build && echo 'Build completed successfully'"
+    "build:no-snap": "vite build && node scripts/generate-sitemap.js"
+  },
+  "reactSnap": {
+    "source": "dist",
+    "destination": "dist",
+    "include": [
+      "/",
+      "/about",
+      "/faculty",
+      "/contact",
+      "/courses"
+    ],
+    "minifyHtml": {
+      "collapseWhitespace": true,
+      "removeComments": true
+    },
+    "puppeteerArgs": [
+      "--no-sandbox",
+      "--disable-setuid-sandbox"
+    ],
+    "skipThirdPartyRequests": true,
+    "cacheAjaxRequests": false,
+    "inlineCss": false,
+    "fixWebpackChunksIssue": "CRA2",
+    "publicPath": "/",
+    "removeStyleTags": false,
+    "preloadImages": false,
+    "concurrency": 1,
+    "userAgent": "ReactSnap"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
@@ -35,6 +65,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "react-snap": "^1.23.0",
     "terser": "^5.46.2",
     "vite": "^7.2.4",
     "vite-bundle-visualizer": "^1.2.1"

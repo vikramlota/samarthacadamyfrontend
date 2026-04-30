@@ -12,3 +12,4 @@ export { default as Badge }            from './Badge';
 export { default as AnimatedCounter }  from './AnimatedCounter';
 export { default as MarqueeStrip }     from './MarqueeStrip';
 export { default as Skeleton, SkeletonText, SkeletonCard } from './Skeleton';
+export { default as Breadcrumbs } from './Breadcrumbs';

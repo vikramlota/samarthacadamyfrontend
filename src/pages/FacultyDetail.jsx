@@ -2,9 +2,9 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { useApiData } from '@/hooks/useApiData';
-import { Skeleton } from '@/components/ui';
+import { Skeleton, Button, Breadcrumbs } from '@/components/ui';
 import { FacultyDetailHero, FacultyAchievements } from '@/components/sections/faculty';
-import { Button } from '@/components/ui';
+import { getPersonSchema } from '@/lib/seo';
 
 function FacultyDetailSkeleton() {
   return (
@@ -57,8 +57,13 @@ export default function FacultyDetailPage() {
           name="description"
           content={`${member.name} — ${member.credential}. ${member.bio || 'Faculty at Samarth Academy, Amritsar.'}`}
         />
+        <script type="application/ld+json">{JSON.stringify(getPersonSchema(member))}</script>
       </Helmet>
 
+      <Breadcrumbs items={[
+        { name: 'Faculty', href: '/faculty' },
+        { name: member.name },
+      ]} />
       <FacultyDetailHero    member={member} />
       <FacultyAchievements  member={member} />
     </>

@@ -2,7 +2,8 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useApiData } from '@/hooks/useApiData';
-import { getCourseSchema, getFAQSchema, getBreadcrumbSchema } from '@/lib/seo';
+import { getCourseSchema, getFAQSchema } from '@/lib/seo';
+import Breadcrumbs from '@/components/ui/Breadcrumbs';
 import {
   LandingHero,
   LandingQuickInfo,
@@ -30,9 +31,8 @@ export default function LandingPage() {
   if (isLoading) return <LandingPageSkeleton />;
   if (error || !page) return <LandingNotFound slug={slug} />;
 
-  const faqSchema         = getFAQSchema(page.faqs);
-  const breadcrumbSchema  = getBreadcrumbSchema(page);
-  const courseSchema      = getCourseSchema(page);
+  const faqSchema    = getFAQSchema(page.faqs);
+  const courseSchema = getCourseSchema(page);
 
   return (
     <>
@@ -56,8 +56,12 @@ export default function LandingPage() {
         {faqSchema && (
           <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         )}
-        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
+
+      <Breadcrumbs items={[
+        { name: 'Courses', href: '/courses' },
+        { name: page.examShortName || page.slug },
+      ]} />
 
       <StickyPhoneBar />
 
