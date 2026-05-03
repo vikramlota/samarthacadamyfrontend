@@ -7,6 +7,9 @@ const Updates = () => {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const updatesPerPage = 10;
 
   // Helper to generate slug if not present
   const generateSlug = (title) => {
@@ -54,12 +57,25 @@ const Updates = () => {
     fetchUpdates();
   }, []);
 
+
   // Filter logic
   const filteredUpdates = updates.filter(item => {
     const matchesCategory = filter === 'All' || (item.type || 'Update')?.toLowerCase() === filter.toLowerCase();
     const matchesSearch = (item.title || '').toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
   });
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredUpdates.length / updatesPerPage);
+  const paginatedUpdates = filteredUpdates.slice(
+    (currentPage - 1) * updatesPerPage,
+    currentPage * updatesPerPage
+  );
+
+  // Reset to page 1 when filter or search changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filter, searchTerm]);
 
   return (
     <div className="bg-gray-50 min-h-screen py-12 px-4">
@@ -100,54 +116,83 @@ const Updates = () => {
             </div>
         </div>
 
+
         {/* Updates Grid */}
         {loading ? (
-             <div className="text-center py-20 text-gray-500">Loading updates...</div>
+          <div className="text-center py-20 text-gray-500">Loading updates...</div>
         ) : filteredUpdates.length === 0 ? (
-             <div className="text-center py-20 bg-white rounded-xl border border-dashed border-gray-300">
-                <FaBell className="mx-auto text-4xl text-gray-300 mb-2"/>
-                <p className="text-gray-500">No updates found for this category.</p>
-             </div>
+          <div className="text-center py-20 bg-white rounded-xl border border-dashed border-gray-300">
+            <FaBell className="mx-auto text-4xl text-gray-300 mb-2" />
+            <p className="text-gray-500">No updates found for this category.</p>
+          </div>
         ) : (
+          <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredUpdates.map((item) => (
-                    <div key={item._id} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col h-full">
-    
-    {/* Image */}
-    <Link to={`/notifications/${item.slug}`} className="h-48 overflow-hidden relative block bg-gray-100 flex items-center justify-center">
-        <img 
-            src={item.imageUrl || item.linkUrl || "https://placehold.co/600x400?text=Notification+Update"} 
-            alt={item.title} 
-            className="w-full h-full object-contain transition-transform duration-500 hover:scale-110"
-        />
-        
-    </Link>
+              {paginatedUpdates.map((item) => (
+                <div key={item._id} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col h-full">
+                  {/* Image */}
+                  <Link to={`/notifications/${item.slug}`} className="h-48 overflow-hidden relative block bg-gray-100 flex items-center justify-center">
+                    <img
+                      src={item.imageUrl || item.linkUrl || "https://placehold.co/600x400?text=Notification+Update"}
+                      alt={item.title}
+                      className="w-full h-full object-contain transition-transform duration-500 hover:scale-110"
+                    />
+                  </Link>
+                  {/* Content */}
+                  <div className="p-6 flex-grow flex flex-col">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center text-xs text-gray-500">
+                        <FaCalendarAlt className="mr-1 text-brand-red" />
+                        {new Date(item.datePosted || Date.now()).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </div>
+                      <div className="bg-brand-red text-white text-xs font-bold px-3 py-1 rounded-full uppercase shadow-md">
+                        {item.type || 'Update'}
+                      </div>
+                    </div>
+                    {/* Title as Link */}
+                    <Link to={`/notifications/${item.slug}`}>
+                      <h3 className="text-xl font-bold text-gray-900 mb-3 leading-tight hover:text-brand-red transition-colors">
+                        {item.title}
+                      </h3>
+                    </Link>
+                    <p className="text-gray-600 text-sm line-clamp-4 mb-4 flex-grow">
+                      {stripHtml(item.description || item.contentBody)}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-    {/* Content */}
-    <div className="p-6 flex-grow flex flex-col">
-        <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center text-xs text-gray-500">
-                <FaCalendarAlt className="mr-1 text-brand-red"/>
-                {new Date(item.datePosted || Date.now()).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-            </div>
-            <div className="bg-brand-red text-white text-xs font-bold px-3 py-1 rounded-full uppercase shadow-md">
-                {item.type || 'Update'}
-            </div>
-        </div>
-        
-        {/* Title as Link */}
-        <Link to={`/notifications/${item.slug}`}>
-            <h3 className="text-xl font-bold text-gray-900 mb-3 leading-tight hover:text-brand-red transition-colors">
-                {item.title}
-            </h3>
-        </Link>
-        <p className="text-gray-600 text-sm line-clamp-4 mb-4 flex-grow">
-            {stripHtml(item.description || item.contentBody)}
-        </p>
-    </div>
-</div>
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="flex justify-center items-center gap-2 mt-10">
+                <button
+                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                  disabled={currentPage === 1}
+                  className={`px-4 py-2 rounded-lg font-bold border border-gray-200 bg-white text-brand-red transition-colors ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-brand-red hover:text-white'}`}
+                >
+                  Previous
+                </button>
+                {/* Page Numbers */}
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`px-3 py-2 rounded-lg font-bold border border-gray-200 text-sm transition-colors ${currentPage === page ? 'bg-brand-red text-white' : 'bg-white text-brand-red hover:bg-brand-red hover:text-white'}`}
+                  >
+                    {page}
+                  </button>
                 ))}
-            </div>
+                <button
+                  onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                  className={`px-4 py-2 rounded-lg font-bold border border-gray-200 bg-white text-brand-red transition-colors ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:bg-brand-red hover:text-white'}`}
+                >
+                  Next
+                </button>
+              </div>
+            )}
+          </>
         )}
 
       </div>
