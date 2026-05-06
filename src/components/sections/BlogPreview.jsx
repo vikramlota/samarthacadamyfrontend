@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaArrowRight, FaClock } from 'react-icons/fa';
-import { useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { SectionHeader, Badge, Button } from '@/components/ui';
 import { BLOG_POSTS } from '@/data/homeStaticContent';
 import { staggerContainer, staggerItem, viewportConfig } from '@/lib/motion';
@@ -39,8 +38,6 @@ function BlogCard({ post }) {
 }
 
 export default function BlogPreview() {
-  const enabled = useFeatureFlag('blog');
-  if (!enabled) return null;
 
   return (
     <section className="py-16 md:py-24 bg-white" aria-labelledby="blog-heading">
@@ -67,7 +64,7 @@ export default function BlogPreview() {
         </motion.div>
 
         <div className="text-center mt-10">
-          <Button to="/current-affairs" variant="outline" size="lg" iconRight={FaArrowRight}>
+          <Button to="/blog" variant="outline" size="lg" iconRight={FaArrowRight}>
             Read All Articles
           </Button>
         </div>

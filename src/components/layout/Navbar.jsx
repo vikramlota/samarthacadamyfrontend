@@ -16,6 +16,7 @@ const EMAIL      = 'samarth.academy2006@gmail.com';
 
 const NAV_LINKS = [
   { name: 'Home',           path: '/' },
+  { name: 'Blog',           path: '/blog' },
   { name: 'Notifications',  path: '/notifications' },
   { name: 'Current Affairs',path: '/current-affairs' },
   { name: 'Results',        path: '/Selections' },
