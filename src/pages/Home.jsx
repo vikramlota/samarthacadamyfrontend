@@ -27,12 +27,18 @@ export default function Home() {
           name="description"
           content="Officer-led coaching for IBPS, SBI, SSC, Punjab Police & more. Ex-Bank Manager + Ex-GST Inspector faculty. Limited batches of 30. 800+ selections since 2006."
         />
-        <meta property="og:title" content="Samarth Academy — Government Exam Coaching in Amritsar" />
-        <meta
-          property="og:description"
-          content="Taught by ex-government officers. Limited batches, individual attention, 800+ selections."
-        />
-        <link rel="canonical" href="https://samarthacademy.in/" />
+        <meta property="og:title"       content="Samarth Academy — Government Exam Coaching in Amritsar" />
+        <meta property="og:description" content="Taught by ex-government officers. Limited batches, individual attention, 800+ selections." />
+        <meta property="og:image"       content="https://thesamarthacademy.in/og.jpg" />
+        <meta property="og:url"         content="https://thesamarthacademy.in/" />
+        <meta property="og:type"        content="website" />
+
+        <meta name="twitter:card"        content="summary_large_image" />
+        <meta name="twitter:title"       content="Samarth Academy — Government Exam Coaching in Amritsar" />
+        <meta name="twitter:description" content="Taught by ex-government officers. Limited batches, individual attention, 800+ selections." />
+        <meta name="twitter:image"       content="https://thesamarthacademy.in/og.jpg" />
+
+        <link rel="canonical" href="https://thesamarthacademy.in/" />
       </Helmet>
 
       {/* Notification strip — hides itself when API returns empty */}

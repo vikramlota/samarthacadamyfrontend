@@ -10,14 +10,17 @@ const TODAY     = new Date().toISOString().split('T')[0];
 const PRIORITIES = {
   '/':        { priority: 1.0, changefreq: 'weekly'  },
   '/courses': { priority: 0.9, changefreq: 'weekly'  },
+  '/blog':    { priority: 0.9, changefreq: 'daily'   },
   '/about':   { priority: 0.8, changefreq: 'monthly' },
   '/faculty': { priority: 0.7, changefreq: 'monthly' },
   '/contact': { priority: 0.6, changefreq: 'monthly' },
 };
 
 function meta(route) {
-  if (PRIORITIES[route])          return PRIORITIES[route];
-  if (route.startsWith('/faculty/')) return { priority: 0.6, changefreq: 'monthly' };
+  if (PRIORITIES[route])                     return PRIORITIES[route];
+  if (route.startsWith('/blog/category/'))   return { priority: 0.7, changefreq: 'weekly'  };
+  if (route.startsWith('/blog/'))            return { priority: 0.8, changefreq: 'monthly' };
+  if (route.startsWith('/faculty/'))         return { priority: 0.6, changefreq: 'monthly' };
   return { priority: 0.9, changefreq: 'weekly' }; // landing pages
 }
 

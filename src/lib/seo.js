@@ -105,7 +105,11 @@ export function getOrganizationSchema() {
       postalCode:      '143005',
       addressCountry:  'IN',
     },
-    sameAs: [],
+    sameAs: [
+      'https://www.facebook.com/samarthacademy2006',
+      'https://www.instagram.com/gyanm.samarth.academy',
+      'https://www.youtube.com/@samarth.academyy',
+    ],
   };
 }
 
@@ -158,6 +162,11 @@ export function getWebSiteSchema() {
     description:  'Best coaching institute in Amritsar for government exams',
     publisher:    { '@id': `${SITE_URL}/#organization` },
     inLanguage:   'en-IN',
+    potentialAction: {
+      '@type':       'SearchAction',
+      target:        `${SITE_URL}/courses?search={search_term_string}`,
+      'query-input': 'required name=search_term_string',
+    },
   };
 }
 
@@ -175,6 +184,71 @@ export function getCoursesListSchema(courses) {
       position:   idx + 1,
       url:        `${SITE_URL}/${c.slug}`,
       name:       c.examShortName || c.title,
+    })),
+  };
+}
+
+// ─── Blog schemas ─────────────────────────────────────────────────────────
+
+export function getArticleSchema(post) {
+  if (!post) return null;
+  const url          = `${SITE_URL}/blog/${post.slug}`;
+  const image        = post.seo?.ogImage || post.coverImage || DEFAULT_OG;
+  const datePublished = new Date(post.publishedAt).toISOString();
+  const dateModified  = new Date(post.updatedAt || post.publishedAt).toISOString();
+
+  return {
+    '@context':  'https://schema.org',
+    '@type':     'BlogPosting',
+    '@id':       `${url}#article`,
+    headline:    post.title,
+    description: post.seo?.description || post.excerpt,
+    image:       image.startsWith('http') ? image : `${SITE_URL}${image}`,
+    datePublished,
+    dateModified,
+    author: {
+      '@type': 'Organization',
+      name:    post.author?.name || 'Samarth Academy',
+      url:     SITE_URL,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name:    'Samarth Academy',
+      logo:    { '@type': 'ImageObject', url: `${SITE_URL}/images/purelogo.png` },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    wordCount:       post.wordCount,
+    timeRequired:    post.readingTimeMinutes ? `PT${post.readingTimeMinutes}M` : undefined,
+    articleSection:  post.categories?.map(c => c.name).join(', '),
+    keywords:        post.seo?.keywords || post.categories?.map(c => c.name).join(', '),
+    inLanguage:      'en-IN',
+  };
+}
+
+export function getBlogSchema() {
+  return {
+    '@context':   'https://schema.org',
+    '@type':      'Blog',
+    '@id':        `${SITE_URL}/blog#blog`,
+    name:         'Samarth Academy Blog',
+    description:  'Government exam preparation tips, strategies, and updates from Samarth Academy, Amritsar',
+    url:          `${SITE_URL}/blog`,
+    publisher:    { '@id': `${SITE_URL}/#organization` },
+    inLanguage:   'en-IN',
+  };
+}
+
+export function getBlogPostListSchema(posts, listName) {
+  return {
+    '@context':      'https://schema.org',
+    '@type':         'ItemList',
+    name:            listName,
+    numberOfItems:   posts.length,
+    itemListElement: posts.map((post, idx) => ({
+      '@type':   'ListItem',
+      position:  idx + 1,
+      url:       `${SITE_URL}/blog/${post.slug}`,
+      name:      post.title,
     })),
   };
 }

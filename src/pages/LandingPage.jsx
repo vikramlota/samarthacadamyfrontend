@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useApiData } from '@/hooks/useApiData';
 import { getCourseSchema, getFAQSchema } from '@/lib/seo';
+
+const DEFAULT_OG = 'https://thesamarthacademy.in/og.jpg';
 import Breadcrumbs from '@/components/ui/Breadcrumbs';
 import {
   LandingHero,
@@ -46,11 +48,12 @@ export default function LandingPage() {
         <meta property="og:description" content={page.seo?.description} />
         <meta property="og:url"         content={page.seo?.canonical} />
         <meta property="og:type"        content="website" />
-        {page.seo?.ogImage && <meta property="og:image" content={page.seo.ogImage} />}
+        <meta property="og:image" content={page.seo?.ogImage || DEFAULT_OG} />
 
         <meta name="twitter:card"        content="summary_large_image" />
         <meta name="twitter:title"       content={page.seo?.title} />
         <meta name="twitter:description" content={page.seo?.description} />
+        <meta name="twitter:image"       content={page.seo?.ogImage || DEFAULT_OG} />
 
         <script type="application/ld+json">{JSON.stringify(courseSchema)}</script>
         {faqSchema && (

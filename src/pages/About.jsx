@@ -31,6 +31,17 @@ export default function AboutPage() {
           content="Meet the founders of Samarth Academy — ex-Bank Manager and ex-GST Inspector who left government service to teach what actually works in competitive exams."
         />
         <link rel="canonical" href="https://thesamarthacademy.in/about" />
+
+        <meta property="og:title"       content="About Samarth Academy | Officer-Led Coaching in Amritsar" />
+        <meta property="og:description" content="Meet the founders of Samarth Academy — ex-Bank Manager and ex-GST Inspector who left government service to teach what actually works in competitive exams." />
+        <meta property="og:image"       content="https://thesamarthacademy.in/og.jpg" />
+        <meta property="og:url"         content="https://thesamarthacademy.in/about" />
+        <meta property="og:type"        content="website" />
+
+        <meta name="twitter:card"        content="summary_large_image" />
+        <meta name="twitter:title"       content="About Samarth Academy | Officer-Led Coaching in Amritsar" />
+        <meta name="twitter:description" content="Meet the founders of Samarth Academy — ex-Bank Manager and ex-GST Inspector who left government service to teach what actually works in competitive exams." />
+        <meta name="twitter:image"       content="https://thesamarthacademy.in/og.jpg" />
       </Helmet>
 
       <Breadcrumbs items={[{ name: 'About' }]} />

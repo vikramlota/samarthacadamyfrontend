@@ -31,6 +31,9 @@ const AboutPage               = React.lazy(() => import('./pages/About.jsx'));
 const FacultyPage             = React.lazy(() => import('./pages/Faculty.jsx'));
 const FacultyDetailPage       = React.lazy(() => import('./pages/FacultyDetail.jsx'));
 const ContactPage             = React.lazy(() => import('./pages/Contact.jsx'));
+const BlogIndexPage           = React.lazy(() => import('./pages/BlogIndex.jsx'));
+const BlogCategoryPage        = React.lazy(() => import('./pages/BlogCategory.jsx'));
+const BlogPostPage            = React.lazy(() => import('./pages/BlogPost.jsx'));
 
 // --- Admin Pages (Lazy loaded) ---
 const AdminLayout          = React.lazy(() => import('./admin/AdminLayout'));
@@ -181,6 +184,32 @@ function App() {
               element={
                 <Suspense fallback={<ComponentSkeleton size="large" />}>
                   <ContactPage />
+                </Suspense>
+              }
+            />
+
+            {/* Blog routes — all before /:slug */}
+            <Route
+              path="/blog"
+              element={
+                <Suspense fallback={<ComponentSkeleton size="large" />}>
+                  <BlogIndexPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/blog/category/:slug"
+              element={
+                <Suspense fallback={<ComponentSkeleton size="large" />}>
+                  <BlogCategoryPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/blog/:slug"
+              element={
+                <Suspense fallback={<ComponentSkeleton size="large" />}>
+                  <BlogPostPage />
                 </Suspense>
               }
             />

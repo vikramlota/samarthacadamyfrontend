@@ -57,6 +57,19 @@ export default function FacultyDetailPage() {
           name="description"
           content={`${member.name} — ${member.credential}. ${member.bio || 'Faculty at Samarth Academy, Amritsar.'}`}
         />
+        <link rel="canonical" href={`https://thesamarthacademy.in/faculty/${member.slug || member._id}`} />
+
+        <meta property="og:title"       content={`${member.name} — Samarth Academy Faculty`} />
+        <meta property="og:description" content={`${member.name} — ${member.credential}. ${member.bio || 'Faculty at Samarth Academy, Amritsar.'}`} />
+        <meta property="og:image"       content="https://thesamarthacademy.in/og.jpg" />
+        <meta property="og:url"         content={`https://thesamarthacademy.in/faculty/${member.slug || member._id}`} />
+        <meta property="og:type"        content="profile" />
+
+        <meta name="twitter:card"        content="summary_large_image" />
+        <meta name="twitter:title"       content={`${member.name} — Samarth Academy Faculty`} />
+        <meta name="twitter:description" content={`${member.name} — ${member.credential}. ${member.bio || 'Faculty at Samarth Academy, Amritsar.'}`} />
+        <meta name="twitter:image"       content="https://thesamarthacademy.in/og.jpg" />
+
         <script type="application/ld+json">{JSON.stringify(getPersonSchema(member))}</script>
       </Helmet>
 
