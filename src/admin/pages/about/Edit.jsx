@@ -149,8 +149,8 @@ export default function AboutEdit() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    adminApi.get('/about/admin').then(res => {
-      setData(res.data || empty());
+    adminApi.get('/about').then(res => {
+      setData(res.data || res || empty());
       setIsLoading(false);
     }).catch(() => setIsLoading(false));
   }, []);
