@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useNavigate, useBlocker } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaSave, FaTrash } from 'react-icons/fa';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
@@ -23,10 +23,12 @@ export default function FormBuilder({
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  const blocker = useBlocker(
-    useCallback(({ currentLocation, nextLocation }) =>
-      dirty && currentLocation.pathname !== nextLocation.pathname, [dirty])
-  );
+  useEffect(() => {
+    if (!dirty) return;
+    const handler = (e) => { e.preventDefault(); e.returnValue = ''; };
+    window.addEventListener('beforeunload', handler);
+    return () => window.removeEventListener('beforeunload', handler);
+  }, [dirty]);
 
   function update(path, value) {
     setDirty(true);
@@ -72,19 +74,6 @@ export default function FormBuilder({
 
   return (
     <>
-      {/* Unsaved changes warning */}
-      {blocker.state === 'blocked' && (
-        <ConfirmDialog
-          open
-          title="Unsaved changes"
-          message="You have unsaved changes. Leave anyway?"
-          confirmLabel="Leave"
-          confirmVariant="outline"
-          onConfirm={() => blocker.proceed()}
-          onCancel={() => blocker.reset()}
-        />
-      )}
-
       <ConfirmDialog
         open={showDeleteConfirm}
         title="Delete this record?"
