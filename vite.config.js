@@ -44,8 +44,20 @@ export default defineConfig(() => {
   const isAdmin = process.env.BUILD_TARGET === 'admin';
 
   return {
-    plugins: [react(), tailwindcss()],
-    base: '/',
+    plugins: [
+      react(),
+      tailwindcss(),
+      isAdmin && {
+        name: 'admin-spa-fallback',
+        configureServer(server) {
+          server.middlewares.use((req, _res, next) => {
+            if (req.url.startsWith('/admin')) req.url = '/admin.html';
+            next();
+          });
+        },
+      },
+    ].filter(Boolean),
+    base: isAdmin ? '/admin/' : '/',
 
     resolve: {
       alias: { '@': path.resolve(__dirname, './src') },

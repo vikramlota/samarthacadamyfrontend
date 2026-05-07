@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:admin": "cross-env BUILD_TARGET=admin vite --open /admin.html",
+    "dev:admin": "cross-env BUILD_TARGET=admin vite --open /admin/",
     "prebuild": "node scripts/pre-build.js",
     "build": "vite build && node scripts/generate-sitemap.js",
     "build:admin": "cross-env BUILD_TARGET=admin vite build",
