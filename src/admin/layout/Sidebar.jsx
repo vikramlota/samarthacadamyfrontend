@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import {
   FaTachometerAlt, FaFileAlt, FaInfoCircle, FaChalkboardTeacher,
   FaCalendarAlt, FaTrophy, FaNewspaper, FaInbox, FaBlog, FaTags,
-  FaTimes, FaSignOutAlt, FaUser,
+  FaTimes, FaSignOutAlt, FaUser, FaBook, FaBell, FaClipboardList,
 } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import { cn } from '@/lib/utils';
@@ -18,12 +18,22 @@ const NAV = [
       { to: '/batches',        label: 'Batches',        icon: FaCalendarAlt },
       { to: '/selections',     label: 'Selections',     icon: FaTrophy },
       { to: '/media-coverage', label: 'Media Coverage', icon: FaNewspaper },
+      { to: '/courses',        label: 'Courses',        icon: FaBook },
+    ],
+  },
+  {
+    label: 'Updates',
+    items: [
+      { to: '/current-affairs', label: 'Current Affairs',    icon: FaNewspaper },
+      { to: '/notifications',   label: 'Notifications',      icon: FaBell },
+      { to: '/results',         label: 'Results / Hall of Fame', icon: FaTrophy },
     ],
   },
   {
     label: 'Engagement',
     items: [
-      { to: '/inquiries', label: 'Inquiries', icon: FaInbox },
+      { to: '/inquiries',     label: 'Inquiries',      icon: FaInbox },
+      { to: '/demo-requests', label: 'Demo Requests',  icon: FaClipboardList },
     ],
   },
   {

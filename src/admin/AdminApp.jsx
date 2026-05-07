@@ -26,6 +26,15 @@ const BlogPostEdit     = lazy(() => import('./pages/blog/posts/Edit'));
 const CategoriesList   = lazy(() => import('./pages/blog/categories/List'));
 const CategoryEdit     = lazy(() => import('./pages/blog/categories/Edit'));
 const Profile          = lazy(() => import('./pages/Profile'));
+const CoursesList      = lazy(() => import('./pages/courses/List'));
+const CourseEdit       = lazy(() => import('./pages/courses/Edit'));
+const CurrentAffairsList = lazy(() => import('./pages/current-affairs/List'));
+const CurrentAffairsEdit = lazy(() => import('./pages/current-affairs/Edit'));
+const NotificationsList  = lazy(() => import('./pages/notifications/List'));
+const NotificationsEdit  = lazy(() => import('./pages/notifications/Edit'));
+const ResultsList      = lazy(() => import('./pages/results/List'));
+const ResultsEdit      = lazy(() => import('./pages/results/Edit'));
+const DemoRequestsList = lazy(() => import('./pages/demo-requests/List'));
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated, isLoading } = useAuth();
@@ -81,6 +90,24 @@ export default function AdminApp() {
           <Route path="blog/categories/:id" element={<S><CategoryEdit /></S>} />
 
           <Route path="profile"            element={<S><Profile /></S>} />
+
+          <Route path="courses"            element={<S><CoursesList /></S>} />
+          <Route path="courses/new"        element={<S><CourseEdit /></S>} />
+          <Route path="courses/:id"        element={<S><CourseEdit /></S>} />
+
+          <Route path="current-affairs"        element={<S><CurrentAffairsList /></S>} />
+          <Route path="current-affairs/new"    element={<S><CurrentAffairsEdit /></S>} />
+          <Route path="current-affairs/:id"    element={<S><CurrentAffairsEdit /></S>} />
+
+          <Route path="notifications"       element={<S><NotificationsList /></S>} />
+          <Route path="notifications/new"   element={<S><NotificationsEdit /></S>} />
+          <Route path="notifications/:id"   element={<S><NotificationsEdit /></S>} />
+
+          <Route path="results"            element={<S><ResultsList /></S>} />
+          <Route path="results/new"        element={<S><ResultsEdit /></S>} />
+          <Route path="results/:id"        element={<S><ResultsEdit /></S>} />
+
+          <Route path="demo-requests"      element={<S><DemoRequestsList /></S>} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
