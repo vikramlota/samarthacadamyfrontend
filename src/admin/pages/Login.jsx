@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, Link, useLocation, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { FaLock, FaEnvelope, FaShieldAlt } from 'react-icons/fa';
 
 export default function Login() {
-  const { login, isAuthenticated } = useAuth();
+  const { login, isAuthenticated, isLoading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -15,10 +15,8 @@ export default function Login() {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  if (isAuthenticated) {
-    navigate('/', { replace: true });
-    return null;
-  }
+  if (isLoading) return null;
+  if (isAuthenticated) return <Navigate to="/" replace />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
