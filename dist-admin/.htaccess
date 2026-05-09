@@ -1,0 +1,9 @@
+# www to non-www 301 redirect
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^www\.thesamarthacademy\.in [NC]
+RewriteRule ^(.*)$ https://thesamarthacademy.in/$1 [R=301,L]
+
+# SPA fallback — send all routes to index.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ /index.html [L]

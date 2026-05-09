@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { adminApi } from '../../lib/api';
 import { useToast } from '../../components/Toast';
@@ -27,16 +27,16 @@ export default function NotificationsList() {
   const [isLoading, setIsLoading] = useState(true);
   const [deleteId, setDeleteId] = useState(null);
 
-  useState(() => {
-    adminApi.get('/notifications')
+  useEffect(() => {
+    adminApi.get('/updates')
       .then(res => setData(Array.isArray(res) ? res : (res?.data || [])))
       .catch(e => toast.error(e.message))
       .finally(() => setIsLoading(false));
-  });
+  }, []);
 
   async function handleDelete() {
     try {
-      await adminApi.delete(`/notifications/${deleteId}`);
+      await adminApi.delete(`/updates/${deleteId}`);
       toast.success('Notification deleted');
       setData(prev => prev.filter(n => n._id !== deleteId));
       setDeleteId(null);

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { adminApi } from '../../lib/api';
 import { useToast } from '../../components/Toast';
@@ -13,12 +13,12 @@ export default function ResultsList() {
   const [isLoading, setIsLoading] = useState(true);
   const [deleteId, setDeleteId] = useState(null);
 
-  useState(() => {
+  useEffect(() => {
     adminApi.get('/results')
       .then(res => setData(Array.isArray(res) ? res : (res?.data || [])))
       .catch(e => toast.error(e.message))
       .finally(() => setIsLoading(false));
-  });
+  }, []);
 
   async function handleDelete() {
     try {
