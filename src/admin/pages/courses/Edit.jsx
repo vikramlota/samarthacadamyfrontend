@@ -126,6 +126,7 @@ export default function CourseEdit() {
     e.preventDefault();
     if (!form.title.trim()) return toast.error('Title is required');
     if (!form.slug.trim()) return toast.error('Slug is required');
+    if (!form.description?.trim()) return toast.error('Description is required');
 
     setSaving(true);
     try {
