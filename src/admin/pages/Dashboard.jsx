@@ -24,7 +24,7 @@ function SectionTitle({ children }) {
 
 export default function Dashboard() {
   const { data: inqStats } = useApiData('/inquiries/admin/stats/summary');
-  const { data: blogStats } = useApiData('/blog/posts/admin/stats/summary');
+  const { data: blogStats } = useApiData('/blog/posts/manage/stats/summary');
   const { data: recentInq } = useApiData('/inquiries/admin/all?limit=5&sort=newest');
   const { data: lpData } = useApiData('/landing-pages/admin/all');
   const { data: facultyData } = useApiData('/faculty/admin/all');

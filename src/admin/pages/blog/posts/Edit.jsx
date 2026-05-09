@@ -32,19 +32,40 @@ export default function BlogPostEdit() {
 
   useEffect(() => {
     if (isNew) return;
-    adminApi.get(`/blog/posts/admin/${id}`).then(res => { setData(res.data); setIsLoading(false); }).catch(() => setIsLoading(false));
+    adminApi.get(`/blog/posts/manage/${id}`).then(res => { setData(res.data); setIsLoading(false); }).catch(() => setIsLoading(false));
   }, [id]);
 
+  function stripHtml(html = '') {
+    return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+
   async function handleSave(d) {
-    const res = isNew
-      ? await adminApi.post('/blog/posts/admin', d)
-      : await adminApi.put(`/blog/posts/admin/${id}`, d);
-    toast.success(isNew ? 'Post created!' : 'Saved!');
-    if (isNew) navigate(`/blog/posts/${res.data._id}`, { replace: true });
+    if (!d.title?.trim()) {
+      toast.error('Title required');
+      return;
+    }
+    if (!stripHtml(d.content).length) {
+      toast.error('Content required');
+      return;
+    }
+    if (!d.categories?.length) {
+      toast.error('Select at least one category');
+      return;
+    }
+
+    try {
+      const res = isNew
+        ? await adminApi.post('/blog/posts/manage', d)
+        : await adminApi.put(`/blog/posts/manage/${id}`, d);
+      toast.success(isNew ? 'Post created!' : 'Saved!');
+      if (isNew) navigate(`/blog/posts/${res.data._id}`, { replace: true });
+    } catch (error) {
+      toast.error(error.message || 'Unable to save blog post');
+    }
   }
 
   async function handleDelete() {
-    await adminApi.delete(`/blog/posts/admin/${id}`);
+    await adminApi.delete(`/blog/posts/manage/${id}`);
     toast.success('Deleted');
     navigate('/blog/posts');
   }

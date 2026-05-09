@@ -14,12 +14,12 @@ export default function BlogPostsList() {
   const navigate = useNavigate();
   const toast = useToast();
   const { canDelete } = useAuth();
-  const { data, isLoading, refetch } = useApiData('/blog/posts/admin/all');
+  const { data, isLoading, refetch } = useApiData('/blog/posts/manage/all');
   const [deleteId, setDeleteId] = useState(null);
 
   async function handleDelete() {
     try {
-      await adminApi.delete(`/blog/posts/admin/${deleteId}`);
+      await adminApi.delete(`/blog/posts/manage/${deleteId}`);
       toast.success('Post deleted');
       setDeleteId(null);
       refetch();
