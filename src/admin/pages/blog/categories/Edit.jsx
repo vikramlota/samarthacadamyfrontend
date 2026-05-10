@@ -7,7 +7,7 @@ import FormBuilder from '../../../components/FormBuilder';
 import ColorPicker from '../../../components/ColorPicker';
 import FormField, { TInput, TTextarea } from '../../../components/FormField';
 
-const empty = () => ({ name: '', slug: '', description: '', color: '#C4151C' });
+const empty = () => ({ name: '', slug: '', description: '', color: 'red' });
 
 const TABS = [
   {

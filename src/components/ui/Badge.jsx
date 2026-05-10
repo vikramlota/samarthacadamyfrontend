@@ -6,6 +6,7 @@ const VARIANTS = {
   orange: 'bg-orange-100 text-orange-700',
   green:  'bg-green-100 text-green-700',
   gray:   'bg-gray-100 text-gray-700',
+  blue:   'bg-blue-100 text-blue-700',
 };
 
 const SIZES = {
@@ -17,7 +18,7 @@ const SIZES = {
  * Badge — pill tag for labels like "New Batch", "Hot", "Limited Seats".
  *
  * Props:
- *   variant — 'red' | 'orange' | 'green' | 'gray'
+ *   variant — 'red' | 'orange' | 'green' | 'gray' | 'blue'
  *   size    — 'sm' | 'md'
  *   icon    — react-icon component
  *   pulse   — enables animate-pulse-soft for emphasis

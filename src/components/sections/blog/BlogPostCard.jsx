@@ -10,9 +10,9 @@ function formatDate(dateString) {
   });
 }
 
-// Badge only supports red/orange/green/gray — map anything else to red
+// Badge only supports red/orange/green/gray/blue — map anything else to red
 function safeBadgeVariant(color) {
-  const supported = ['red', 'orange', 'green', 'gray'];
+  const supported = ['red', 'orange', 'green', 'gray', 'blue'];
   return supported.includes(color) ? color : 'red';
 }
 

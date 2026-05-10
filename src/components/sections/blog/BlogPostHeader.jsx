@@ -10,7 +10,7 @@ function formatDate(dateString) {
 }
 
 function safeBadgeVariant(color) {
-  return ['red', 'orange', 'green', 'gray'].includes(color) ? color : 'red';
+  return ['red', 'orange', 'green', 'gray', 'blue'].includes(color) ? color : 'red';
 }
 
 export default function BlogPostHeader({ post }) {

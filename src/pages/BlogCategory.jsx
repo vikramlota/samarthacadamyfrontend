@@ -19,7 +19,7 @@ const DEFAULT_OG = `${SITE_URL}/og.jpg`;
 const PAGE_SIZE  = 9;
 
 function safeBadgeVariant(color) {
-  return ['red', 'orange', 'green', 'gray'].includes(color) ? color : 'red';
+  return ['red', 'orange', 'green', 'gray', 'blue'].includes(color) ? color : 'red';
 }
 
 export default function BlogCategory() {

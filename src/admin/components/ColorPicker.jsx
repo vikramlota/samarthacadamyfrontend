@@ -1,16 +1,11 @@
 import { cn } from '@/lib/utils';
 
 const PALETTE = [
-  { label: 'Red',    value: '#C4151C' },
-  { label: 'Orange', value: '#F27A29' },
-  { label: 'Amber',  value: '#F59E0B' },
-  { label: 'Green',  value: '#16A34A' },
-  { label: 'Blue',   value: '#2563EB' },
-  { label: 'Purple', value: '#7C3AED' },
-  { label: 'Pink',   value: '#DB2777' },
-  { label: 'Gray',   value: '#6B7280' },
-  { label: 'Slate',  value: '#475569' },
-  { label: 'Black',  value: '#111827' },
+  { label: 'Red',    value: 'red' },
+  { label: 'Orange', value: 'orange' },
+  { label: 'Gray',   value: 'gray' },
+  { label: 'Green',  value: 'green' },
+  { label: 'Blue',   value: 'blue' },
 ];
 
 export default function ColorPicker({ label, value, onChange }) {
