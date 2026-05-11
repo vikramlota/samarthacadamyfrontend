@@ -14,13 +14,21 @@ const empty = () => ({
   color: 'red',
 });
 
-// 🔁 map HEX → NAME (for old DB data safety)
-const COLOR_MAP = {
-  '#ef4444': 'red',
-  '#f97316': 'orange',
-  '#6b7280': 'gray',
-  '#22c55e': 'green',
-  '#3b82f6': 'blue',
+// 🔥 normalize ANY incoming value → valid enum
+const normalizeColor = (c) => {
+  if (!c) return 'red';
+
+  const HEX_TO_NAME = {
+    '#ef4444': 'red',
+    '#f97316': 'orange',
+    '#6b7280': 'gray',
+    '#22c55e': 'green',
+    '#3b82f6': 'blue',
+  };
+
+  const cleaned = String(c).toLowerCase().trim();
+
+  return HEX_TO_NAME[cleaned] || cleaned;
 };
 
 const TABS = [
@@ -65,11 +73,15 @@ const TABS = [
           />
         </FormField>
 
+        {/* 🎯 Color Picker */}
         <ColorPicker
           label="Category Colour"
           value={d.color}
           onChange={(v) => update('color', v)}
         />
+
+        {/* 🧪 Debug (remove later) */}
+        {/* <pre>{JSON.stringify(d, null, 2)}</pre> */}
       </div>
     ),
   },
@@ -96,8 +108,7 @@ export default function CategoryEdit() {
 
         setData({
           ...incoming,
-          color:
-            COLOR_MAP[incoming.color] || incoming.color || 'red', // 👈 FIX
+          color: normalizeColor(incoming.color), // 🔥 THE FIX
         });
 
         setIsLoading(false);
@@ -106,9 +117,14 @@ export default function CategoryEdit() {
   }, [id]);
 
   async function handleSave(d) {
+    const payload = {
+      ...d,
+      color: normalizeColor(d.color), // safety before sending
+    };
+
     const res = isNew
-      ? await adminApi.post('/blog/categories/admin', d)
-      : await adminApi.put(`/blog/categories/admin/${id}`, d);
+      ? await adminApi.post('/blog/categories/admin', payload)
+      : await adminApi.put(`/blog/categories/admin/${id}`, payload);
 
     toast.success(isNew ? 'Category created!' : 'Saved!');
 
