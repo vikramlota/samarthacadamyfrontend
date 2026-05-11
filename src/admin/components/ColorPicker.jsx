@@ -26,18 +26,6 @@ export default function ColorPicker({ label, value, onChange }) {
             style={{ background: color.value }}
           />
         ))}
-        {/* Custom hex input */}
-        <div className="flex items-center gap-1.5 border border-gray-200 rounded-lg px-2 py-1">
-          <div className="w-5 h-5 rounded-full border border-gray-200" style={{ background: value || '#000' }} />
-          <input
-            type="text"
-            value={value || ''}
-            onChange={e => onChange(e.target.value)}
-            placeholder="#RRGGBB"
-            maxLength={7}
-            className="text-xs w-20 outline-none font-mono"
-          />
-        </div>
       </div>
     </div>
   );
