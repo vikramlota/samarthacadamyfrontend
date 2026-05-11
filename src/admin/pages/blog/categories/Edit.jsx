@@ -82,7 +82,9 @@ const TABS = [
               rows={3}
             />
           </FormField>
-
+          <p className="text-sm text-gray-500">
+  Color: {JSON.stringify(d.color)}
+</p>    
           {/* 🎯 Color Picker */}
           <ColorPicker
             label="Category Colour"
