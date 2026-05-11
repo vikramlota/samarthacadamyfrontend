@@ -7,30 +7,69 @@ import FormBuilder from '../../../components/FormBuilder';
 import ColorPicker from '../../../components/ColorPicker';
 import FormField, { TInput, TTextarea } from '../../../components/FormField';
 
-const empty = () => ({ name: '', slug: '', description: '', color: 'red' });
+const empty = () => ({
+  name: '',
+  slug: '',
+  description: '',
+  color: 'red',
+});
+
+// 🔁 map HEX → NAME (for old DB data safety)
+const COLOR_MAP = {
+  '#ef4444': 'red',
+  '#f97316': 'orange',
+  '#6b7280': 'gray',
+  '#22c55e': 'green',
+  '#3b82f6': 'blue',
+};
 
 const TABS = [
   {
-    id: 'details', label: 'Details',
+    id: 'details',
+    label: 'Details',
     render: ({ data: d, update }) => (
       <div className="space-y-5">
         <FormField label="Category Name" required>
           <TInput
             value={d.name}
-            onChange={v => {
+            onChange={(v) => {
               update('name', v);
-              if (!d.slug) update('slug', v.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''));
+              if (!d.slug) {
+                update(
+                  'slug',
+                  v
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, '-')
+                    .replace(/(^-|-$)/g, '')
+                );
+              }
             }}
             required
           />
         </FormField>
+
         <FormField label="Slug">
-          <TInput value={d.slug} onChange={v => update('slug', v.toLowerCase().replace(/[^a-z0-9-]+/g, ''))} />
+          <TInput
+            value={d.slug}
+            onChange={(v) =>
+              update('slug', v.toLowerCase().replace(/[^a-z0-9-]+/g, ''))
+            }
+          />
         </FormField>
+
         <FormField label="Description">
-          <TTextarea value={d.description} onChange={v => update('description', v)} rows={3} />
+          <TTextarea
+            value={d.description}
+            onChange={(v) => update('description', v)}
+            rows={3}
+          />
         </FormField>
-        <ColorPicker label="Category Colour" value={d.color} onChange={v => update('color', v)} />
+
+        <ColorPicker
+          label="Category Colour"
+          value={d.color}
+          onChange={(v) => update('color', v)}
+        />
       </div>
     ),
   },
@@ -41,6 +80,7 @@ export default function CategoryEdit() {
   const navigate = useNavigate();
   const toast = useToast();
   const { canDelete } = useAuth();
+
   const isNew = !id || id === 'new';
 
   const [data, setData] = useState(empty());
@@ -48,15 +88,33 @@ export default function CategoryEdit() {
 
   useEffect(() => {
     if (isNew) return;
-    adminApi.get(`/blog/categories/admin/${id}`).then(res => { setData(res.data); setIsLoading(false); }).catch(() => setIsLoading(false));
+
+    adminApi
+      .get(`/blog/categories/admin/${id}`)
+      .then((res) => {
+        const incoming = res.data;
+
+        setData({
+          ...incoming,
+          color:
+            COLOR_MAP[incoming.color] || incoming.color || 'red', // 👈 FIX
+        });
+
+        setIsLoading(false);
+      })
+      .catch(() => setIsLoading(false));
   }, [id]);
 
   async function handleSave(d) {
     const res = isNew
       ? await adminApi.post('/blog/categories/admin', d)
       : await adminApi.put(`/blog/categories/admin/${id}`, d);
+
     toast.success(isNew ? 'Category created!' : 'Saved!');
-    if (isNew) navigate(`/blog/categories/${res.data._id}`, { replace: true });
+
+    if (isNew) {
+      navigate(`/blog/categories/${res.data._id}`, { replace: true });
+    }
   }
 
   async function handleDelete() {
