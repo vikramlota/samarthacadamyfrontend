@@ -89,7 +89,7 @@ const TABS = [
             value={safeColor} // 👈 ALWAYS VALID
             onChange={(v) => update('color', v)}
           />
-
+            
           {/* 🧪 DEBUG (remove later) */}
           {/* <pre>{JSON.stringify(d, null, 2)}</pre> */}
         </div>
@@ -160,6 +160,7 @@ export default function CategoryEdit() {
       onDelete={!isNew && canDelete ? handleDelete : undefined}
       isLoading={isLoading}
       backUrl="/blog/categories"
+      
     />
   );
 }

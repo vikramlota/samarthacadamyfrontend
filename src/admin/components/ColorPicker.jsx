@@ -9,30 +9,34 @@ const PALETTE = [
 ];
 
 export default function ColorPicker({ label, value, onChange }) {
-  // 🔥 ensure value is valid
-  const safeValue = PALETTE.some(c => c.value === value)
-    ? value
-    : 'red';
+  const safeValue = PALETTE.some(c => c.value === value) ? value : 'red';
 
   return (
     <div className="space-y-2">
       {label && <p className="text-sm font-medium text-gray-700">{label}</p>}
 
-      <div className="flex flex-wrap gap-2">
-        {PALETTE.map((color) => (
-          <button
-            key={color.value}
-            type="button"
-            onClick={() => onChange(color.value)}
-            className={cn(
-              'w-8 h-8 rounded-full border-2 transition-all duration-200',
-              safeValue === color.value
-                ? 'border-black scale-110 ring-2 ring-black'
-                : 'border-white shadow hover:scale-110'
-            )}
-            style={{ backgroundColor: color.hex }}
-          />
-        ))}
+      <div className="flex flex-wrap gap-3">
+        {PALETTE.map((color) => {
+          const selected = safeValue === color.value;
+
+          return (
+            <button
+              key={color.value}
+              type="button"
+              onClick={() => onChange(color.value)}
+              className={cn(
+                'w-9 h-9 rounded-full transition-all duration-200 relative',
+                'hover:scale-110'
+              )}
+              style={{ backgroundColor: color.hex }}
+            >
+              {/* 🔥 STRONG selection indicator */}
+              {selected && (
+                <span className="absolute inset-0 rounded-full ring-4 ring-black ring-offset-2" />
+              )}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
