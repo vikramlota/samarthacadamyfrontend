@@ -14,7 +14,7 @@ const empty = () => ({
   color: 'red',
 });
 
-// 🔥 normalize ANY incoming value → valid enum
+// 🔥 normalize ANY garbage → valid enum
 const normalizeColor = (c) => {
   if (!c) return 'red';
 
@@ -28,62 +28,73 @@ const normalizeColor = (c) => {
 
   const cleaned = String(c).toLowerCase().trim();
 
-  return HEX_TO_NAME[cleaned] || cleaned;
+  // if hex → convert
+  if (HEX_TO_NAME[cleaned]) return HEX_TO_NAME[cleaned];
+
+  // if already valid → return
+  const allowed = ['red', 'orange', 'gray', 'green', 'blue'];
+  if (allowed.includes(cleaned)) return cleaned;
+
+  return 'red'; // fallback
 };
 
 const TABS = [
   {
     id: 'details',
     label: 'Details',
-    render: ({ data: d, update }) => (
-      <div className="space-y-5">
-        <FormField label="Category Name" required>
-          <TInput
-            value={d.name}
-            onChange={(v) => {
-              update('name', v);
-              if (!d.slug) {
-                update(
-                  'slug',
-                  v
-                    .toLowerCase()
-                    .replace(/[^a-z0-9]+/g, '-')
-                    .replace(/(^-|-$)/g, '')
-                );
+    render: ({ data: d, update }) => {
+      const safeColor = normalizeColor(d.color); // 👈 FORCE before render
+
+      return (
+        <div className="space-y-5">
+          <FormField label="Category Name" required>
+            <TInput
+              value={d.name}
+              onChange={(v) => {
+                update('name', v);
+                if (!d.slug) {
+                  update(
+                    'slug',
+                    v
+                      .toLowerCase()
+                      .replace(/[^a-z0-9]+/g, '-')
+                      .replace(/(^-|-$)/g, '')
+                  );
+                }
+              }}
+              required
+            />
+          </FormField>
+
+          <FormField label="Slug">
+            <TInput
+              value={d.slug}
+              onChange={(v) =>
+                update('slug', v.toLowerCase().replace(/[^a-z0-9-]+/g, ''))
               }
-            }}
-            required
+            />
+          </FormField>
+
+          <FormField label="Description">
+            <TTextarea
+              value={d.description}
+              onChange={(v) => update('description', v)}
+              rows={3}
+            />
+          </FormField>
+
+          {/* 🎯 Color Picker */}
+          <ColorPicker
+            label="Category Colour"
+            value={safeColor} // 👈 ALWAYS VALID
+            onChange={(v) => update('color', v)}
           />
-        </FormField>
 
-        <FormField label="Slug">
-          <TInput
-            value={d.slug}
-            onChange={(v) =>
-              update('slug', v.toLowerCase().replace(/[^a-z0-9-]+/g, ''))
-            }
-          />
-        </FormField>
-
-        <FormField label="Description">
-          <TTextarea
-            value={d.description}
-            onChange={(v) => update('description', v)}
-            rows={3}
-          />
-        </FormField>
-
-        {/* 🎯 Color Picker */}
-        <ColorPicker
-          label="Category Colour"
-          value={d.color}
-          onChange={(v) => update('color', v)}
-        />
-
-        {/* 🧪 Debug (remove later) */}
-        {/* <pre>{JSON.stringify(d, null, 2)}</pre> */}
-      </div>
-    ),
+          {/* 🧪 DEBUG (remove later) */}
+          {/* <pre>{JSON.stringify(d, null, 2)}</pre> */}
+        </div>
+      );
+    },
   },
 ];
 
@@ -108,7 +119,7 @@ export default function CategoryEdit() {
 
         setData({
           ...incoming,
-          color: normalizeColor(incoming.color), // 🔥 THE FIX
+          color: normalizeColor(incoming.color), // 👈 normalize ON LOAD
         });
 
         setIsLoading(false);
@@ -119,7 +130,7 @@ export default function CategoryEdit() {
   async function handleSave(d) {
     const payload = {
       ...d,
-      color: normalizeColor(d.color), // safety before sending
+      color: normalizeColor(d.color), // 👈 normalize BEFORE SAVE
     };
 
     const res = isNew

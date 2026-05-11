@@ -9,26 +9,28 @@ const PALETTE = [
 ];
 
 export default function ColorPicker({ label, value, onChange }) {
+  // 🔥 ensure value is valid
+  const safeValue = PALETTE.some(c => c.value === value)
+    ? value
+    : 'red';
+
   return (
     <div className="space-y-2">
-      {label && (
-        <p className="text-sm font-medium text-gray-700">{label}</p>
-      )}
+      {label && <p className="text-sm font-medium text-gray-700">{label}</p>}
 
       <div className="flex flex-wrap gap-2">
         {PALETTE.map((color) => (
           <button
             key={color.value}
             type="button"
-            title={color.label}
-            onClick={() => onChange(color.value)} // 👈 send NAME to backend
+            onClick={() => onChange(color.value)}
             className={cn(
               'w-8 h-8 rounded-full border-2 transition-all duration-200',
-              value === color.value
-                ? 'border-black scale-110'
+              safeValue === color.value
+                ? 'border-black scale-110 ring-2 ring-black'
                 : 'border-white shadow hover:scale-110'
             )}
-            style={{ backgroundColor: color.hex }} // 👈 use HEX for UI
+            style={{ backgroundColor: color.hex }}
           />
         ))}
       </div>
