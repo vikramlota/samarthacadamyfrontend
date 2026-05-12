@@ -12,16 +12,17 @@ import FormField, { TInput, TTextarea, TToggle, TagInput, TSelect } from '../../
 function empty() {
   return {
     examShortName: '', examFullName: '', slug: '', active: true,
-    seo: { title: '', description: '', keywords: [] },
-    hero: { headline: '', subheadline: '', backgroundImage: '', ctaText: '', ctaLink: '' },
-    quickInfo: [],
-    overview: { intro: '', highlights: [] },
-    whyChoose: { points: [] },
-    courseDetails: { duration: '', mode: '', fee: '', inclusions: [] },
-    syllabus: { topics: [] },
+    seo: { title: '', description: '', keywords: '', canonical: '', ogImage: '' },
+    hero: { badge: '', headline: '', headlineAccent: '', subheadline: '', trustPoints: [] },
+    quickInfo: { duration: '', fees: '', batchSize: '', mode: '' },
+    overview: { paragraphs: [], examStats: [] },
+    whyChoose: [],
+    courseDetails: { inclusions: [], fees: { original: 0, discounted: 0, currency: '₹', emiAvailable: false, emiNote: '' } },
+    syllabus: { subjects: [] },
     faqs: [],
-    ctas: { midPageHeadline: '', midPageSubtext: '', finalHeadline: '', finalSubtext: '' },
-    tags: [],
+    midCta: { eyebrow: '', title: '', description: '', trustPoints: [] },
+    finalCta: { eyebrow: '', title: '', subtitle: '' },
+    facultyTags: [],
   };
 }
 
@@ -30,11 +31,11 @@ const TABS = [
     id: 'general', label: 'General',
     render: ({ data: d, update }) => (
       <div className="grid md:grid-cols-2 gap-5">
-        <FormField label="Exam Short Name" required><TInput value={d.examShortName} onChange={v => update('examShortName', v)} placeholder="UPSC" required /></FormField>
-        <FormField label="Exam Full Name"><TInput value={d.examFullName} onChange={v => update('examFullName', v)} placeholder="Union Public Service Commission" /></FormField>
-        <FormField label="URL Slug" required hint="e.g. upsc — used in the page URL"><TInput value={d.slug} onChange={v => update('slug', v.toLowerCase().replace(/\s+/g, '-'))} placeholder="upsc" required /></FormField>
+        <FormField label="Exam Short Name" required><TInput value={d.examShortName} onChange={v => update('examShortName', v)} placeholder="SSC" required /></FormField>
+        <FormField label="Exam Full Name" required><TInput value={d.examFullName} onChange={v => update('examFullName', v)} placeholder="SSC CGL / CHSL / MTS / CPO" required /></FormField>
+        <FormField label="URL Slug" required hint="e.g. ssc-coaching-amritsar — used in the page URL"><TInput value={d.slug} onChange={v => update('slug', v.toLowerCase().replace(/\s+/g, '-'))} placeholder="ssc-coaching-amritsar" required /></FormField>
         <FormField label="Status"><TToggle label="Active (visible on site)" checked={d.active} onChange={v => update('active', v)} /></FormField>
-        <div className="md:col-span-2"><FormField label="Tags"><TagInput value={d.tags || []} onChange={v => update('tags', v)} /></FormField></div>
+        <div className="md:col-span-2"><FormField label="Display Order" hint="Lower numbers appear first"><TInput type="number" value={d.displayOrder || 0} onChange={v => update('displayOrder', Number(v))} placeholder="1" /></FormField></div>
       </div>
     ),
   },
@@ -42,9 +43,11 @@ const TABS = [
     id: 'seo', label: 'SEO',
     render: ({ data: d, update }) => (
       <div className="space-y-5">
-        <FormField label="Meta Title" hint="Ideal: 50–60 chars"><TInput value={d.seo?.title} onChange={v => update('seo.title', v)} placeholder="UPSC Coaching in Prayagraj | Samarth Academy" /></FormField>
-        <FormField label="Meta Description" hint="Ideal: 150–160 chars"><TTextarea value={d.seo?.description} onChange={v => update('seo.description', v)} rows={3} /></FormField>
-        <FormField label="Keywords"><TagInput value={d.seo?.keywords || []} onChange={v => update('seo.keywords', v)} /></FormField>
+        <FormField label="Meta Title" hint="Ideal: 50–60 chars" required><TInput value={d.seo?.title} onChange={v => update('seo.title', v)} placeholder="UPSC Coaching in Prayagraj | Samarth Academy" required /></FormField>
+        <FormField label="Meta Description" hint="Ideal: 150–160 chars" required><TTextarea value={d.seo?.description} onChange={v => update('seo.description', v)} rows={3} required /></FormField>
+        <FormField label="Canonical URL" required hint="e.g. https://thesamarthacademy.in/ssc-coaching-amritsar"><TInput value={d.seo?.canonical} onChange={v => update('seo.canonical', v)} placeholder="https://thesamarthacademy.in/..." required /></FormField>
+        <FormField label="Keywords"><TInput value={d.seo?.keywords} onChange={v => update('seo.keywords', v)} placeholder="Comma-separated keywords" /></FormField>
+        <FormField label="OG Image URL"><TInput value={d.seo?.ogImage} onChange={v => update('seo.ogImage', v)} placeholder="https://..." /></FormField>
       </div>
     ),
   },
@@ -52,43 +55,52 @@ const TABS = [
     id: 'hero', label: 'Hero',
     render: ({ data: d, update }) => (
       <div className="space-y-5">
-        <FormField label="Headline"><TInput value={d.hero?.headline} onChange={v => update('hero.headline', v)} /></FormField>
-        <FormField label="Subheadline"><TTextarea value={d.hero?.subheadline} onChange={v => update('hero.subheadline', v)} rows={2} /></FormField>
-        <ImageUpload label="Background Image" value={d.hero?.backgroundImage} onChange={v => update('hero.backgroundImage', v)} />
-        <div className="grid md:grid-cols-2 gap-5">
-          <FormField label="CTA Button Text"><TInput value={d.hero?.ctaText} onChange={v => update('hero.ctaText', v)} placeholder="Enroll Now" /></FormField>
-          <FormField label="CTA Link"><TInput value={d.hero?.ctaLink} onChange={v => update('hero.ctaLink', v)} placeholder="/contact" /></FormField>
-        </div>
+        <FormField label="Badge" hint="e.g. 🏆 500+ SSC Selections"><TInput value={d.hero?.badge} onChange={v => update('hero.badge', v)} placeholder="🏆 500+ SSC Selections" /></FormField>
+        <FormField label="Headline" required><TInput value={d.hero?.headline} onChange={v => update('hero.headline', v)} placeholder="Best SSC Coaching in" required /></FormField>
+        <FormField label="Headline Accent" hint="Part of headline with different styling"><TInput value={d.hero?.headlineAccent} onChange={v => update('hero.headlineAccent', v)} placeholder="Amritsar" /></FormField>
+        <FormField label="Subheadline" required><TTextarea value={d.hero?.subheadline} onChange={v => update('hero.subheadline', v)} rows={2} required /></FormField>
+        <FieldArray
+          label="Trust Points"
+          value={d.hero?.trustPoints || []}
+          onChange={v => update('hero.trustPoints', v)}
+          itemSchema={[{ name: 'text', type: 'text', label: 'Trust point', required: true }]}
+          emptyItem={{ text: '' }}
+        />
       </div>
     ),
   },
   {
     id: 'quickInfo', label: 'Quick Info',
     render: ({ data: d, update }) => (
-      <FieldArray
-        label="Quick Info Cards"
-        value={d.quickInfo || []}
-        onChange={v => update('quickInfo', v)}
-        itemSchema={[
-          { name: 'icon', type: 'text', label: 'Icon name (FaBook etc.)' },
-          { name: 'label', type: 'text', label: 'Label', required: true },
-          { name: 'value', type: 'text', label: 'Value', required: true },
-        ]}
-        emptyItem={{ icon: '', label: '', value: '' }}
-      />
+      <div className="grid md:grid-cols-2 gap-5">
+        <FormField label="Duration"><TInput value={d.quickInfo?.duration} onChange={v => update('quickInfo.duration', v)} placeholder="6–12 months (exam-wise)" /></FormField>
+        <FormField label="Fees"><TInput value={d.quickInfo?.fees} onChange={v => update('quickInfo.fees', v)} placeholder="₹12,000 – ₹18,000" /></FormField>
+        <FormField label="Batch Size"><TInput value={d.quickInfo?.batchSize} onChange={v => update('quickInfo.batchSize', v)} placeholder="30 students max" /></FormField>
+        <FormField label="Mode"><TInput value={d.quickInfo?.mode} onChange={v => update('quickInfo.mode', v)} placeholder="Classroom (Amritsar)" /></FormField>
+      </div>
     ),
   },
   {
     id: 'overview', label: 'Overview',
     render: ({ data: d, update }) => (
       <div className="space-y-5">
-        <FormField label="Intro Text"><TTextarea value={d.overview?.intro} onChange={v => update('overview.intro', v)} rows={4} /></FormField>
         <FieldArray
-          label="Highlights"
-          value={d.overview?.highlights || []}
-          onChange={v => update('overview.highlights', v)}
-          itemSchema={[{ name: 'text', type: 'text', label: 'Highlight point', required: true }]}
+          label="Overview Paragraphs"
+          value={d.overview?.paragraphs || []}
+          onChange={v => update('overview.paragraphs', v)}
+          itemSchema={[{ name: 'text', type: 'textarea', label: 'Paragraph', required: true, span: 'full' }]}
           emptyItem={{ text: '' }}
+        />
+        <FieldArray
+          label="Exam Stats"
+          value={d.overview?.examStats || []}
+          onChange={v => update('overview.examStats', v)}
+          itemSchema={[
+            { name: 'iconName', type: 'text', label: 'Icon Name (e.g., FaBriefcase)', required: true },
+            { name: 'label', type: 'text', label: 'Label', required: true },
+            { name: 'value', type: 'text', label: 'Value', required: true },
+          ]}
+          emptyItem={{ iconName: '', label: '', value: '' }}
         />
       </div>
     ),
@@ -98,14 +110,15 @@ const TABS = [
     render: ({ data: d, update }) => (
       <FieldArray
         label="Why Choose Points"
-        value={d.whyChoose?.points || []}
-        onChange={v => update('whyChoose.points', v)}
+        value={d.whyChoose || []}
+        onChange={v => update('whyChoose', v)}
         itemSchema={[
+          { name: 'iconName', type: 'text', label: 'Icon Name (e.g., FaUserTie)', required: true },
           { name: 'title', type: 'text', label: 'Title', required: true },
-          { name: 'description', type: 'textarea', label: 'Description', span: 'full' },
-          { name: 'icon', type: 'text', label: 'Icon (Fa...)' },
+          { name: 'description', type: 'textarea', label: 'Description', required: true, span: 'full' },
+          { name: 'iconBg', type: 'select', label: 'Icon Background', options: ['red', 'orange'] },
         ]}
-        emptyItem={{ title: '', description: '', icon: '' }}
+        emptyItem={{ iconName: '', title: '', description: '', iconBg: 'red' }}
       />
     ),
   },
@@ -113,10 +126,17 @@ const TABS = [
     id: 'courseDetails', label: 'Course Details',
     render: ({ data: d, update }) => (
       <div className="space-y-5">
-        <div className="grid md:grid-cols-3 gap-5">
-          <FormField label="Duration"><TInput value={d.courseDetails?.duration} onChange={v => update('courseDetails.duration', v)} placeholder="1 Year" /></FormField>
-          <FormField label="Mode"><TInput value={d.courseDetails?.mode} onChange={v => update('courseDetails.mode', v)} placeholder="Offline / Online" /></FormField>
-          <FormField label="Fee"><TInput value={d.courseDetails?.fee} onChange={v => update('courseDetails.fee', v)} placeholder="₹45,000" /></FormField>
+        <div className="space-y-4">
+          <h3 className="font-semibold text-gray-900">Fees</h3>
+          <div className="grid md:grid-cols-2 gap-5">
+            <FormField label="Original Price"><TInput type="number" value={d.courseDetails?.fees?.original || 0} onChange={v => update('courseDetails.fees.original', Number(v))} placeholder="18000" /></FormField>
+            <FormField label="Discounted Price" required><TInput type="number" value={d.courseDetails?.fees?.discounted || 0} onChange={v => update('courseDetails.fees.discounted', Number(v))} placeholder="15000" required /></FormField>
+          </div>
+          <FormField label="Currency"><TInput value={d.courseDetails?.fees?.currency} onChange={v => update('courseDetails.fees.currency', v)} placeholder="₹" /></FormField>
+          <FormField label="EMI Available"><TToggle checked={d.courseDetails?.fees?.emiAvailable} onChange={v => update('courseDetails.fees.emiAvailable', v)} /></FormField>
+          {d.courseDetails?.fees?.emiAvailable && (
+            <FormField label="EMI Note"><TInput value={d.courseDetails?.fees?.emiNote} onChange={v => update('courseDetails.fees.emiNote', v)} placeholder="Pay ₹7,500 now + ₹7,500 after 3 months" /></FormField>
+          )}
         </div>
         <FieldArray
           label="What's Included"
@@ -132,14 +152,14 @@ const TABS = [
     id: 'syllabus', label: 'Syllabus',
     render: ({ data: d, update }) => (
       <FieldArray
-        label="Syllabus Topics"
-        value={d.syllabus?.topics || []}
-        onChange={v => update('syllabus.topics', v)}
+        label="Subjects"
+        value={d.syllabus?.subjects || []}
+        onChange={v => update('syllabus.subjects', v)}
         itemSchema={[
-          { name: 'subject', type: 'text', label: 'Subject', required: true },
+          { name: 'name', type: 'text', label: 'Subject Name', required: true },
           { name: 'topics', type: 'textarea', label: 'Topics (comma separated)', span: 'full' },
         ]}
-        emptyItem={{ subject: '', topics: '' }}
+        emptyItem={{ name: '', topics: '' }}
       />
     ),
   },
@@ -153,20 +173,43 @@ const TABS = [
         itemSchema={[
           { name: 'question', type: 'text', label: 'Question', required: true },
           { name: 'answer', type: 'textarea', label: 'Answer', span: 'full', required: true },
+          { name: 'order', type: 'number', label: 'Display Order' },
         ]}
-        emptyItem={{ question: '', answer: '' }}
+        emptyItem={{ question: '', answer: '', order: 0 }}
       />
     ),
   },
   {
-    id: 'ctas', label: 'CTAs',
+    id: 'midCta', label: 'Mid-Page CTA',
     render: ({ data: d, update }) => (
-      <div className="grid md:grid-cols-2 gap-5">
-        <FormField label="Mid-Page Headline"><TInput value={d.ctas?.midPageHeadline} onChange={v => update('ctas.midPageHeadline', v)} /></FormField>
-        <FormField label="Mid-Page Subtext"><TInput value={d.ctas?.midPageSubtext} onChange={v => update('ctas.midPageSubtext', v)} /></FormField>
-        <FormField label="Final CTA Headline"><TInput value={d.ctas?.finalHeadline} onChange={v => update('ctas.finalHeadline', v)} /></FormField>
-        <FormField label="Final CTA Subtext"><TInput value={d.ctas?.finalSubtext} onChange={v => update('ctas.finalSubtext', v)} /></FormField>
+      <div className="space-y-5">
+        <FormField label="Eyebrow"><TInput value={d.midCta?.eyebrow} onChange={v => update('midCta.eyebrow', v)} placeholder="🔥 Batch Filling Fast" /></FormField>
+        <FormField label="Title"><TInput value={d.midCta?.title} onChange={v => update('midCta.title', v)} placeholder="Only 30 Seats Per Batch — Book Yours Today" /></FormField>
+        <FormField label="Description"><TTextarea value={d.midCta?.description} onChange={v => update('midCta.description', v)} rows={3} placeholder="Join the coaching centre trusted by 500+ SSC selections in Amritsar. Free demo class — no commitment needed." /></FormField>
+        <FieldArray
+          label="Trust Points"
+          value={d.midCta?.trustPoints || []}
+          onChange={v => update('midCta.trustPoints', v)}
+          itemSchema={[{ name: 'text', type: 'text', label: 'Trust point', required: true }]}
+          emptyItem={{ text: '' }}
+        />
       </div>
+    ),
+  },
+  {
+    id: 'finalCta', label: 'Final CTA',
+    render: ({ data: d, update }) => (
+      <div className="space-y-5">
+        <FormField label="Eyebrow"><TInput value={d.finalCta?.eyebrow} onChange={v => update('finalCta.eyebrow', v)} placeholder="Your government job is one decision away" /></FormField>
+        <FormField label="Title"><TInput value={d.finalCta?.title} onChange={v => update('finalCta.title', v)} placeholder="Start Your SSC Preparation Today" /></FormField>
+        <FormField label="Subtitle"><TInput value={d.finalCta?.subtitle} onChange={v => update('finalCta.subtitle', v)} placeholder="Call us, WhatsApp us, or walk into our centre in Amritsar. We'll match you to the right batch." /></FormField>
+      </div>
+    ),
+  },
+  {
+    id: 'tags', label: 'Faculty Tags',
+    render: ({ data: d, update }) => (
+      <FormField label="Tags"><TagInput value={d.facultyTags || []} onChange={v => update('facultyTags', v)} /></FormField>
     ),
   },
 ];
@@ -183,13 +226,52 @@ export default function LandingPageEdit() {
 
   useEffect(() => {
     if (isNew) return;
-    adminApi.get(`/landing-pages/admin/${id}`).then(res => { setData(res.data); setIsLoading(false); }).catch(() => setIsLoading(false));
-  }, [id]);
+    adminApi.get(`/landing-pages/admin/${id}`).then(res => { 
+      const data = res.data;
+      // Convert data from backend format to frontend format
+      if (data.hero?.trustPoints) {
+        data.hero.trustPoints = data.hero.trustPoints.map(tp => ({ text: tp }));
+      }
+      if (data.midCta?.trustPoints) {
+        data.midCta.trustPoints = data.midCta.trustPoints.map(tp => ({ text: tp }));
+      }
+      if (data.syllabus?.subjects) {
+        data.syllabus.subjects = data.syllabus.subjects.map(s => ({
+          ...s,
+          topics: Array.isArray(s.topics) ? s.topics.join(', ') : s.topics
+        }));
+      }
+      setData(data); 
+      setIsLoading(false); 
+    }).catch(() => setIsLoading(false));
+  }, [id, isNew]);
 
   async function handleSave(d) {
+    // Transform data to match backend expectations
+    const processedData = {
+      ...d,
+      hero: {
+        ...d.hero,
+        trustPoints: (d.hero?.trustPoints || []).map(tp => typeof tp === 'string' ? tp : tp.text).filter(Boolean)
+      },
+      midCta: d.midCta ? {
+        ...d.midCta,
+        trustPoints: (d.midCta?.trustPoints || []).map(tp => typeof tp === 'string' ? tp : tp.text).filter(Boolean)
+      } : undefined,
+      syllabus: {
+        ...d.syllabus,
+        subjects: (d.syllabus?.subjects || []).map(s => ({
+          ...s,
+          topics: typeof s.topics === 'string' 
+            ? s.topics.split(',').map(t => t.trim()).filter(Boolean)
+            : s.topics || []
+        }))
+      }
+    };
+
     const res = isNew
-      ? await adminApi.post('/landing-pages/admin', d)
-      : await adminApi.put(`/landing-pages/admin/${id}`, d);
+      ? await adminApi.post('/landing-pages/admin', processedData)
+      : await adminApi.put(`/landing-pages/admin/${id}`, processedData);
     toast.success(isNew ? 'Created!' : 'Saved!');
     if (isNew) navigate(`/landing-pages/${res.data._id}`, { replace: true });
   }
