@@ -44,7 +44,7 @@ const TABS = [
     render: ({ data: d, update }) => (
       <div className="space-y-5">
         <FormField label="Meta Title" hint="Ideal: 50–60 chars" required><TInput value={d.seo?.title} onChange={v => update('seo.title', v)} placeholder="UPSC Coaching in Prayagraj | Samarth Academy" required /></FormField>
-        <FormField label="Meta Description" hint="Ideal: 150–500 chars" required><TTextarea value={d.seo?.description} onChange={v => update('seo.description', v)} rows={3} required /></FormField>
+        <FormField label="Meta Description" hint="Ideal: 150–500 chars" required><TTextarea value={d.seo?.description} onChange={v => update('seo.description', v)} rows={5} required /></FormField>
         <FormField label="Canonical URL" required hint="e.g. https://thesamarthacademy.in/ssc-coaching-amritsar"><TInput value={d.seo?.canonical} onChange={v => update('seo.canonical', v)} placeholder="https://thesamarthacademy.in/..." required /></FormField>
         <FormField label="Keywords"><TInput value={d.seo?.keywords} onChange={v => update('seo.keywords', v)} placeholder="Comma-separated keywords" /></FormField>
         <FormField label="OG Image URL"><TInput value={d.seo?.ogImage} onChange={v => update('seo.ogImage', v)} placeholder="https://..." /></FormField>
