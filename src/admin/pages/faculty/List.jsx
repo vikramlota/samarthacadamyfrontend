@@ -32,9 +32,10 @@ export default function FacultyList() {
       render: r => r.photo ? <img src={r.photo} alt="" className="w-9 h-9 rounded-full object-cover" /> : <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-sm">{r.name?.[0]}</div>,
     },
     { key: 'name', label: 'Name', sortable: true, render: r => <span className="font-medium">{r.name}</span> },
-    { key: 'subject', label: 'Subject', render: r => r.subject || r.subjects?.[0] || '—' },
+    { key: 'subjects', label: 'Subjects', render: r => r.subjects?.length ? r.subjects.join(', ') : '—' },
     { key: 'designation', label: 'Designation' },
     { key: 'active', label: 'Status', render: r => <StatusBadge status={r.active !== false ? 'active' : 'inactive'} /> },
+    { key: 'featured', label: 'Featured', render: r => r.featured ? <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full font-medium">Featured</span> : '—' },
     {
       key: 'actions', label: '',
       render: r => (
@@ -53,7 +54,7 @@ export default function FacultyList() {
         <h1 className="text-2xl font-bold text-gray-900">Faculty</h1>
         <Button variant="primary" icon={FaPlus} onClick={() => navigate('/faculty/new')}>Add Faculty</Button>
       </div>
-      <DataTable columns={columns} data={data?.data || []} isLoading={isLoading} emptyMessage="No faculty added yet." searchKeys={['name', 'subject', 'designation']} />
+      <DataTable columns={columns} data={data?.data || []} isLoading={isLoading} emptyMessage="No faculty added yet." searchKeys={['name', 'subjects', 'designation']} />
     </div>
   );
 }
