@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import './App.css';
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -35,15 +35,19 @@ const BlogIndexPage           = React.lazy(() => import('./pages/BlogIndex.jsx')
 const BlogCategoryPage        = React.lazy(() => import('./pages/BlogCategory.jsx'));
 const BlogPostPage            = React.lazy(() => import('./pages/BlogPost.jsx'));
 
-// --- Admin Pages (Lazy loaded) ---
-const AdminLayout          = React.lazy(() => import('./admin/AdminLayout'));
-const Login                = React.lazy(() => import('./admin/Login'));
-const Dashboard            = React.lazy(() => import('./admin/Dashboard.jsx'));
-const ManageCourses        = React.lazy(() => import('./admin/ManageCourses'));
-const ManageUpdates        = React.lazy(() => import('./admin/ManageUpdates'));
-const ManageResults        = React.lazy(() => import('./admin/ManageResults'));
-const ManageCurrentAffairs = React.lazy(() => import('./admin/ManageCurrentAffairs'));
-const ManageDemoRequests   = React.lazy(() => import('./admin/ManageDemoRequests.jsx'));
+// --- New Admin Panel (Lazy loaded as a single unit) ---
+const AdminApp = React.lazy(() => import('./admin/AdminApp'));
+
+// Lazy-load admin providers to keep the main bundle lean
+const AdminAuthProvider = React.lazy(() =>
+  import('./admin/context/AuthContext').then(m => ({ default: m.AuthProvider }))
+);
+const AdminToastProvider = React.lazy(() =>
+  import('./admin/components/Toast').then(m => ({ default: m.ToastProvider }))
+);
+const AdminToastConsumer = React.lazy(() =>
+  import('./admin/components/Toast').then(m => ({ default: m.ToastConsumer }))
+);
 
 // --- Layout Wrapper for Public Pages ---
 const PublicLayout = () => (
@@ -60,11 +64,19 @@ const PublicLayout = () => (
   </div>
 );
 
-// --- Protected Route Wrapper ---
-const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem('adminToken');
-  return token ? children : <Navigate to="/admin/login" replace />;
-};
+// --- Admin Wrapper — loads providers + AdminApp together ---
+function AdminWrapper() {
+  return (
+    <Suspense fallback={<ComponentSkeleton size="large" />}>
+      <AdminToastProvider>
+        <AdminToastConsumer />
+        <AdminAuthProvider>
+          <AdminApp />
+        </AdminAuthProvider>
+      </AdminToastProvider>
+    </Suspense>
+  );
+}
 
 function App() {
   return (
@@ -225,33 +237,15 @@ function App() {
             />
           </Route>
 
-          {/* ADMIN ROUTES */}
+          {/* NEW ADMIN PANEL — single route mounts the entire admin SPA */}
           <Route
-            path="/admin/login"
+            path="/admin/*"
             element={
-              <Suspense fallback={<ComponentSkeleton size="medium" />}>
-                <Login />
+              <Suspense fallback={<ComponentSkeleton size="large" />}>
+                <AdminWrapper />
               </Suspense>
             }
           />
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute>
-                <Suspense fallback={<ComponentSkeleton size="large" />}>
-                  <AdminLayout />
-                </Suspense>
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<Navigate to="dashboard" replace />} />
-            <Route path="dashboard"      element={<Suspense fallback={<ComponentSkeleton size="large" />}><Dashboard /></Suspense>} />
-            <Route path="courses"        element={<Suspense fallback={<ComponentSkeleton size="large" />}><ManageCourses /></Suspense>} />
-            <Route path="updates"        element={<Suspense fallback={<ComponentSkeleton size="large" />}><ManageUpdates /></Suspense>} />
-            <Route path="results"        element={<Suspense fallback={<ComponentSkeleton size="large" />}><ManageResults /></Suspense>} />
-            <Route path="current-affairs" element={<Suspense fallback={<ComponentSkeleton size="large" />}><ManageCurrentAffairs /></Suspense>} />
-            <Route path="demo-requests"  element={<Suspense fallback={<ComponentSkeleton size="large" />}><ManageDemoRequests /></Suspense>} />
-          </Route>
         </Routes>
       </Router>
     </HelmetProvider>
@@ -259,3 +253,4 @@ function App() {
 }
 
 export default App;
+

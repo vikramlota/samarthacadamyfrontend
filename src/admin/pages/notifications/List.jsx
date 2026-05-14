@@ -28,7 +28,7 @@ export default function NotificationsList() {
   const [deleteId, setDeleteId] = useState(null);
 
   useEffect(() => {
-    adminApi.get('/updates')
+    adminApi.get('/notifications')
       .then(res => setData(Array.isArray(res) ? res : (res?.data || [])))
       .catch(e => toast.error(e.message))
       .finally(() => setIsLoading(false));
@@ -36,7 +36,7 @@ export default function NotificationsList() {
 
   async function handleDelete() {
     try {
-      await adminApi.delete(`/updates/${deleteId}`);
+      await adminApi.delete(`/notifications/${deleteId}`);
       toast.success('Notification deleted');
       setData(prev => prev.filter(n => n._id !== deleteId));
       setDeleteId(null);

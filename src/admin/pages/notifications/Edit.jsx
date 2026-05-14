@@ -28,7 +28,7 @@ export default function NotificationsEdit() {
   useEffect(() => {
     if (isNew) return;
     setIsLoading(true);
-    adminApi.get(`/updates/${id}`)
+    adminApi.get(`/notifications/${id}`)
       .then(res => {
         const d = res?.data || res;
         setForm({
@@ -41,7 +41,7 @@ export default function NotificationsEdit() {
       })
       .catch(async () => {
         try {
-          const list = await adminApi.get('/updates');
+          const list = await adminApi.get('/notifications');
           const all = Array.isArray(list) ? list : (list?.data || []);
           const found = all.find(n => n._id === id);
           if (found) {
@@ -79,8 +79,8 @@ export default function NotificationsEdit() {
       if (imageFile) fd.append('image', imageFile);
 
       const res = isNew
-        ? await adminApi.post('/updates', fd)
-        : await adminApi.put(`/updates/${id}`, fd);
+        ? await adminApi.post('/notifications', fd)
+        : await adminApi.put(`/notifications/${id}`, fd);
 
       toast.success(isNew ? 'Notification created!' : 'Notification saved!');
       const newId = res?._id || res?.data?._id || id;

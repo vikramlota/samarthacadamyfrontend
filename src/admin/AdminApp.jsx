@@ -3,6 +3,7 @@ import { Suspense, lazy } from 'react';
 import { useAuth } from './context/AuthContext';
 import AdminLayout from './layout/AdminLayout';
 import LoadingScreen from './components/LoadingScreen';
+import './admin.css';
 
 const Login            = lazy(() => import('./pages/Login'));
 const ForgotPassword   = lazy(() => import('./pages/ForgotPassword'));
@@ -39,7 +40,7 @@ const DemoRequestsList = lazy(() => import('./pages/demo-requests/List'));
 function ProtectedRoute({ children }) {
   const { isAuthenticated, isLoading } = useAuth();
   if (isLoading) return <LoadingScreen />;
-  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (!isAuthenticated) return <Navigate to="login" replace />;
   return children;
 }
 
@@ -49,9 +50,9 @@ export default function AdminApp() {
   return (
     <S>
       <Routes>
-        <Route path="/login"          element={<S><Login /></S>} />
-        <Route path="/forgot-password" element={<S><ForgotPassword /></S>} />
-        <Route path="/reset-password" element={<S><ResetPassword /></S>} />
+        <Route path="login"          element={<S><Login /></S>} />
+        <Route path="forgot-password" element={<S><ForgotPassword /></S>} />
+        <Route path="reset-password" element={<S><ResetPassword /></S>} />
 
         <Route element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
           <Route index element={<S><Dashboard /></S>} />
@@ -109,7 +110,7 @@ export default function AdminApp() {
 
           <Route path="demo-requests"      element={<S><DemoRequestsList /></S>} />
 
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<Navigate to="" replace />} />
         </Route>
       </Routes>
     </S>
