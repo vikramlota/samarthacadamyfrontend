@@ -7,8 +7,8 @@ import { staggerContainer, staggerItem, viewportConfig } from '@/lib/motion';
 
 export default function AboutHero({ hero }) {
   const eyebrow = hero?.eyebrow || 'Our Story';
-  const title   = hero?.title   || 'Built by Officers, For Aspirants';
-  const description = hero?.description ||
+  const title   = hero?.headline   || 'Built by Officers, For Aspirants';
+  const description = hero?.subheadline ||
     'Samarth Academy was founded in 2006 by two government officers who cleared competitive exams themselves — and decided to teach what actually works.';
 
   return (

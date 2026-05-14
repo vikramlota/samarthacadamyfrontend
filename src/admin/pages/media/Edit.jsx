@@ -7,27 +7,32 @@ import FormBuilder from '../../components/FormBuilder';
 import ImageUpload from '../../components/ImageUpload';
 import FormField, { TInput, TTextarea, TToggle } from '../../components/FormField';
 
-const empty = () => ({ source: '', title: '', url: '', date: '', description: '', image: '', active: true, featured: false });
+const empty = () => ({ outletName: '', outletLogo: '', articleTitle: '', articleUrl: '', publishedDate: '', excerpt: '', thumbnailImage: '', active: true, featured: false, displayOrder: 0 });
 
 const TABS = [
   {
     id: 'details', label: 'Details',
     render: ({ data: d, update }) => (
       <div className="grid md:grid-cols-2 gap-5">
-        <FormField label="Source / Publication" required><TInput value={d.source || d.publication} onChange={v => { update('source', v); update('publication', v); }} required /></FormField>
-        <FormField label="Date"><TInput type="date" value={d.date?.slice(0, 10)} onChange={v => update('date', v)} /></FormField>
-        <div className="md:col-span-2"><FormField label="Headline / Title" required><TInput value={d.title} onChange={v => update('title', v)} required /></FormField></div>
-        <div className="md:col-span-2"><FormField label="Article URL"><TInput type="url" value={d.url} onChange={v => update('url', v)} placeholder="https://" /></FormField></div>
-        <div className="md:col-span-2"><FormField label="Description"><TTextarea value={d.description} onChange={v => update('description', v)} rows={3} /></FormField></div>
-        <FormField label="Status"><TToggle label="Active" checked={d.active !== false} onChange={v => update('active', v)} /></FormField>
-        <FormField label="Featured"><TToggle label="Featured on About page" checked={!!d.featured} onChange={v => update('featured', v)} /></FormField>
+        <FormField label="Outlet Name (Source)" required><TInput value={d.outletName} onChange={v => update('outletName', v)} required placeholder="e.g. The Times of India" /></FormField>
+        <FormField label="Published Date" required><TInput type="date" value={d.publishedDate?.slice(0, 10)} onChange={v => update('publishedDate', v)} required /></FormField>
+        <div className="md:col-span-2"><FormField label="Article Title / Headline" required><TInput value={d.articleTitle} onChange={v => update('articleTitle', v)} required /></FormField></div>
+        <div className="md:col-span-2"><FormField label="Article URL" required><TInput type="url" value={d.articleUrl} onChange={v => update('articleUrl', v)} placeholder="https://" required /></FormField></div>
+        <div className="md:col-span-2"><FormField label="Excerpt / Description"><TTextarea value={d.excerpt} onChange={v => update('excerpt', v)} rows={3} /></FormField></div>
+        
+        <FormField label="Status"><TToggle label="Active (visible)" checked={d.active !== false} onChange={v => update('active', v)} /></FormField>
+        <FormField label="Featured"><TToggle label="Featured on Home/About" checked={!!d.featured} onChange={v => update('featured', v)} /></FormField>
+        <FormField label="Display Order"><TInput type="number" value={d.displayOrder} onChange={v => update('displayOrder', Number(v))} /></FormField>
       </div>
     ),
   },
   {
-    id: 'image', label: 'Image',
+    id: 'images', label: 'Images',
     render: ({ data: d, update }) => (
-      <ImageUpload label="Article Image / Logo" value={d.image} onChange={v => update('image', v)} />
+      <div className="space-y-5">
+        <ImageUpload label="Thumbnail Image" value={d.thumbnailImage} onChange={v => update('thumbnailImage', v)} />
+        <ImageUpload label="Outlet Logo (Optional)" value={d.outletLogo} onChange={v => update('outletLogo', v)} />
+      </div>
     ),
   },
 ];
@@ -44,26 +49,34 @@ export default function MediaEdit() {
 
   useEffect(() => {
     if (isNew) return;
-    adminApi.get(`/media-coverage/admin/${id}`).then(res => { setData(res.data); setIsLoading(false); }).catch(() => setIsLoading(false));
-  }, [id]);
+    adminApi.get(`/media-coverage/admin/${id}`).then(res => { setData(res.data?.data || res.data); setIsLoading(false); }).catch(() => setIsLoading(false));
+  }, [id, isNew]);
 
   async function handleSave(d) {
-    const res = isNew
-      ? await adminApi.post('/media-coverage/admin', d)
-      : await adminApi.put(`/media-coverage/admin/${id}`, d);
-    toast.success(isNew ? 'Created!' : 'Saved!');
-    if (isNew) navigate(`/media-coverage/${res.data._id}`, { replace: true });
+    try {
+      const res = isNew
+        ? await adminApi.post('/media-coverage/admin', d)
+        : await adminApi.put(`/media-coverage/admin/${id}`, d);
+      toast.success(isNew ? 'Created!' : 'Saved!');
+      if (isNew) navigate(`/media-coverage/${res.data?.data?._id || res.data?._id}`, { replace: true });
+    } catch (err) {
+      toast.error(err.response?.data?.error || err.message);
+    }
   }
 
   async function handleDelete() {
-    await adminApi.delete(`/media-coverage/admin/${id}`);
-    toast.success('Deleted');
-    navigate('/media-coverage');
+    try {
+      await adminApi.delete(`/media-coverage/admin/${id}`);
+      toast.success('Deleted');
+      navigate('/media-coverage');
+    } catch (err) {
+      toast.error(err.message);
+    }
   }
 
   return (
     <FormBuilder
-      title={isNew ? 'Add Coverage' : `Edit: ${data.source || '…'}`}
+      title={isNew ? 'Add Media Coverage' : `Edit: ${data.outletName || '…'}`}
       tabs={TABS}
       data={data}
       onChange={setData}

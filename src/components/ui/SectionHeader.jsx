@@ -25,7 +25,7 @@ const SectionHeader = ({
   const isCentered = align === 'center';
 
   const renderTitle = () => {
-    if (!titleAccent || !title.includes(titleAccent)) return title;
+    if (!title || !titleAccent || !title.includes(titleAccent)) return title || '';
     const [before, after] = title.split(titleAccent);
     return (
       <>

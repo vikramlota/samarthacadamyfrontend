@@ -12,16 +12,16 @@ const FALLBACK_MILESTONES = [
   { year: '2024', title: '800+ Selections',      description: '18 years, 800+ government selections, and both founders still in the classroom every day.' },
 ];
 
-export default function JourneyTimeline({ milestones: apiMilestones }) {
-  const items = (apiMilestones && apiMilestones.length > 0) ? apiMilestones : FALLBACK_MILESTONES;
+export default function JourneyTimeline({ journey }) {
+  const items = (journey?.milestones && journey.milestones.length > 0) ? journey.milestones : FALLBACK_MILESTONES;
 
   return (
     <section className="py-16 md:py-24 bg-white" aria-labelledby="journey-heading">
       <div className="container-custom">
         <SectionHeader
-          eyebrow="18 Years"
-          title="Our Journey"
-          description="From a small batch near GNDU to 800+ government selections — milestone by milestone."
+          eyebrow={journey?.eyebrow || "18 Years"}
+          title={journey?.headline || "Our Journey"}
+          description={journey?.subheadline || "From a small batch near GNDU to 800+ government selections — milestone by milestone."}
           className="mb-14"
         />
 

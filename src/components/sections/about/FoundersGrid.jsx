@@ -6,35 +6,40 @@ import { FOUNDERS } from '@/data/homeStaticContent';
 import { staggerContainer, staggerItem, viewportConfig } from '@/lib/motion';
 
 function FounderCard({ founder }) {
+  const initials = founder.name ? founder.name.split(' ').map(n => n[0]).join('') : '';
+
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-soft overflow-hidden">
+    <div className="bg-white rounded-2xl border border-gray-100 shadow-soft overflow-hidden h-full">
       {/* Avatar band */}
       <div className="gradient-primary h-32 flex items-end px-8 pb-0 relative">
-        <div className="absolute bottom-0 translate-y-1/2 left-8 w-20 h-20 rounded-2xl bg-white shadow-card flex items-center justify-center border-4 border-white">
-          <span className="text-3xl font-black text-red-500">{founder.initials}</span>
+        <div className="absolute bottom-0 translate-y-1/2 left-8 w-20 h-20 rounded-2xl bg-white shadow-card flex items-center justify-center border-4 border-white overflow-hidden">
+          {founder.photo ? (
+            <img src={founder.photo} alt={founder.name} className="w-full h-full object-cover" />
+          ) : (
+            <span className="text-3xl font-black text-red-500">{initials}</span>
+          )}
         </div>
       </div>
 
       <div className="pt-14 px-8 pb-8">
         <h3 className="text-xl font-bold text-gray-900">{founder.name}</h3>
-        <p className="text-sm text-red-500 font-medium mt-0.5">{founder.credential}</p>
-        <p className="text-xs text-gray-500 mt-1">{founder.years}</p>
+        <p className="text-sm text-red-500 font-medium mt-0.5">{founder.title}</p>
+        <p className="text-xs text-gray-500 mt-1">{founder.formerRole || (founder.yearsOfService ? `${founder.yearsOfService}+ Years` : '')}</p>
 
         <div className="mt-5">
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Teaches</p>
-          <ul className="space-y-2">
-            {founder.subjects.map(subject => (
-              <li key={subject} className="flex items-center gap-2 text-sm text-gray-700">
-                <FaCheckCircle className="text-green-500 shrink-0 text-xs" aria-hidden="true" />
-                {subject}
-              </li>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Credentials</p>
+          <div className="flex flex-wrap gap-2">
+            {(founder.credentials || []).map((cred, i) => (
+              <Badge key={i} variant="outline" size="sm" className="bg-gray-50 border-gray-100 text-gray-600">
+                {cred}
+              </Badge>
             ))}
-          </ul>
+          </div>
         </div>
 
-        <blockquote className="mt-5 text-sm text-gray-600 italic leading-relaxed border-t border-gray-100 pt-4">
-          "{founder.quote}"
-        </blockquote>
+        <p className="mt-5 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-4 line-clamp-4">
+          {founder.bio}
+        </p>
       </div>
     </div>
   );

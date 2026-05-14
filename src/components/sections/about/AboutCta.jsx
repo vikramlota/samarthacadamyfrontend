@@ -7,7 +7,7 @@ import { staggerContainer, staggerItem, viewportConfig } from '@/lib/motion';
 
 export default function AboutCta({ cta }) {
   const title       = cta?.title       || 'Ready to Start Your Government Exam Journey?';
-  const description = cta?.description || 'Book a free demo class. No commitment. Just one session to see if Samarth Academy is the right fit for you.';
+  const description = cta?.subtitle    || 'Book a free demo class. No commitment. Just one session to see if Samarth Academy is the right fit for you.';
 
   return (
     <section className="relative gradient-primary section-padding" aria-labelledby="about-cta-heading">

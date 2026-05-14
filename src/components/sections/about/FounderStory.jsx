@@ -6,18 +6,17 @@ import { FOUNDERS } from '@/data/homeStaticContent';
 import { slideInLeft, slideInRight, viewportConfig } from '@/lib/motion';
 
 export default function FounderStory({ story }) {
-  const title       = story?.title       || 'Why We Started Samarth Academy';
-  const description = story?.description ||
-    'Both founders cleared government exams and served in their posts before deciding the coaching available to aspirants wasn\'t good enough.';
-  const body        = story?.body        || null;
+  const eyebrow     = story?.eyebrow     || 'The Origin';
+  const title       = story?.headline    || 'Why We Started Samarth Academy';
+  const paragraphs  = Array.isArray(story?.paragraphs) ? story.paragraphs : [];
+  const photo       = story?.photo       || null;
 
   return (
     <section className="py-16 md:py-24 bg-white" aria-labelledby="founder-story-heading">
       <div className="container-custom">
         <SectionHeader
-          eyebrow="The Origin"
+          eyebrow={eyebrow}
           title={title}
-          description={description}
           id="founder-story-heading"
           className="mb-14"
         />
@@ -30,16 +29,25 @@ export default function FounderStory({ story }) {
             viewport={viewportConfig}
             className="space-y-5"
           >
-            <p className="text-gray-700 leading-relaxed text-lg">
-              {body ||
-                'In 2006, Sidharth — an ex-Bank Manager at Bank of India — and Deepika — an ex-GST & Customs Inspector — saw a gap: students were being coached by people who had never sat in a government exam hall, let alone served in a government post.'}
-            </p>
-            <p className="text-gray-600 leading-relaxed">
-              They founded Samarth Academy on a single conviction: the best person to prepare you for a government exam is someone who has already cleared one — and knows the real skills that matter inside the job, not just on paper.
-            </p>
-            <p className="text-gray-600 leading-relaxed">
-              Eighteen years and 800+ selections later, that conviction hasn't changed. Every batch is capped at 30 students. Both founders still teach. And every faculty member has direct government exam experience.
-            </p>
+            {paragraphs.length > 0 ? (
+              paragraphs.map((p, i) => (
+                <p key={i} className={`text-gray-700 leading-relaxed ${i === 0 ? 'text-lg font-medium' : 'text-base'}`}>
+                  {p}
+                </p>
+              ))
+            ) : (
+              <>
+                <p className="text-gray-700 leading-relaxed text-lg">
+                  In 2006, Sidharth — an ex-Bank Manager at Bank of India — and Deepika — an ex-GST & Customs Inspector — saw a gap: students were being coached by people who had never sat in a government exam hall, let alone served in a government post.
+                </p>
+                <p className="text-gray-600 leading-relaxed">
+                  They founded Samarth Academy on a single conviction: the best person to prepare you for a government exam is someone who has already cleared one — and knows the real skills that matter inside the job, not just on paper.
+                </p>
+                <p className="text-gray-600 leading-relaxed">
+                  Eighteen years and 800+ selections later, that conviction hasn't changed. Every batch is capped at 30 students. Both founders still teach. And every faculty member has direct government exam experience.
+                </p>
+              </>
+            )}
           </motion.div>
 
           <motion.div

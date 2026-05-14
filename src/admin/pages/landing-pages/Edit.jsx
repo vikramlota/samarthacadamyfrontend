@@ -43,7 +43,7 @@ const TABS = [
     id: 'seo', label: 'SEO',
     render: ({ data: d, update }) => (
       <div className="space-y-5">
-        <FormField label="Meta Title" hint="Ideal: 50–60 chars" required><TInput value={d.seo?.title} onChange={v => update('seo.title', v)} placeholder="UPSC Coaching in Prayagraj | Samarth Academy" required /></FormField>
+        <FormField label="Meta Title" hint="Ideal: 150–200 chars" required><TInput value={d.seo?.title} onChange={v => update('seo.title', v)} placeholder="UPSC Coaching in Prayagraj | Samarth Academy" required /></FormField>
         <FormField label="Meta Description" hint="Ideal: 150–500 chars" required><TTextarea value={d.seo?.description} onChange={v => update('seo.description', v)} rows={5} required /></FormField>
         <FormField label="Canonical URL" required hint="e.g. https://thesamarthacademy.in/ssc-coaching-amritsar"><TInput value={d.seo?.canonical} onChange={v => update('seo.canonical', v)} placeholder="https://thesamarthacademy.in/..." required /></FormField>
         <FormField label="Keywords"><TInput value={d.seo?.keywords} onChange={v => update('seo.keywords', v)} placeholder="Comma-separated keywords" /></FormField>
@@ -241,6 +241,12 @@ export default function LandingPageEdit() {
           topics: Array.isArray(s.topics) ? s.topics.join(', ') : s.topics
         }));
       }
+      if (data.overview?.paragraphs) {
+        data.overview.paragraphs = data.overview.paragraphs.map(p => ({ text: p }));
+      }
+      if (data.courseDetails?.inclusions) {
+        data.courseDetails.inclusions = data.courseDetails.inclusions.map(i => ({ text: i }));
+      }
       setData(data); 
       setIsLoading(false); 
     }).catch(() => setIsLoading(false));
@@ -258,6 +264,14 @@ export default function LandingPageEdit() {
         ...d.midCta,
         trustPoints: (d.midCta?.trustPoints || []).map(tp => typeof tp === 'string' ? tp : tp.text).filter(Boolean)
       } : undefined,
+      overview: {
+        ...d.overview,
+        paragraphs: (d.overview?.paragraphs || []).map(p => typeof p === 'string' ? p : p.text).filter(Boolean)
+      },
+      courseDetails: {
+        ...d.courseDetails,
+        inclusions: (d.courseDetails?.inclusions || []).map(i => typeof i === 'string' ? i : i.text).filter(Boolean)
+      },
       syllabus: {
         ...d.syllabus,
         subjects: (d.syllabus?.subjects || []).map(s => ({

@@ -18,44 +18,43 @@ import {
 } from '@/components/sections/about';
 
 export default function AboutPage() {
-  const { data: page, isLoading } = useApiData('/about', { fallback: null });
+  const { data: pageResp, isLoading } = useApiData('/about', { fallback: null });
+  const { data: mediaResp } = useApiData('/media-coverage', { fallback: null });
 
   if (isLoading) return <AboutPageSkeleton />;
+
+  const aboutData = pageResp?.data || pageResp || {};
+  const mediaData = mediaResp?.data || mediaResp || [];
 
   return (
     <>
       <Helmet>
-        <title>About Samarth Academy | Officer-Led Coaching in Amritsar</title>
-        <meta
-          name="description"
-          content="Meet the founders of Samarth Academy — ex-Bank Manager and ex-GST Inspector who left government service to teach what actually works in competitive exams."
-        />
-        <link rel="canonical" href="https://thesamarthacademy.in/about" />
-
-        <meta property="og:title"       content="About Samarth Academy | Officer-Led Coaching in Amritsar" />
-        <meta property="og:description" content="Meet the founders of Samarth Academy — ex-Bank Manager and ex-GST Inspector who left government service to teach what actually works in competitive exams." />
-        <meta property="og:image"       content="https://thesamarthacademy.in/og.jpg" />
-        <meta property="og:url"         content="https://thesamarthacademy.in/about" />
-        <meta property="og:type"        content="website" />
-
-        <meta name="twitter:card"        content="summary_large_image" />
-        <meta name="twitter:title"       content="About Samarth Academy | Officer-Led Coaching in Amritsar" />
-        <meta name="twitter:description" content="Meet the founders of Samarth Academy — ex-Bank Manager and ex-GST Inspector who left government service to teach what actually works in competitive exams." />
-        <meta name="twitter:image"       content="https://thesamarthacademy.in/og.jpg" />
+        <title>{aboutData.seo?.title || 'About Samarth Academy | Officer-Led Coaching in Amritsar'}</title>
+        <meta name="description" content={aboutData.seo?.description || 'Meet the founders of Samarth Academy.'} />
+        {aboutData.seo?.canonical && <link rel="canonical" href={aboutData.seo.canonical} />}
+        
+        <meta property="og:title"       content={aboutData.seo?.title || 'About Samarth Academy | Officer-Led Coaching in Amritsar'} />
+        <meta property="og:description" content={aboutData.seo?.description || 'Meet the founders of Samarth Academy.'} />
+        <meta property="og:image"       content={aboutData.seo?.ogImage || 'https://thesamarthacademy.in/og.jpg'} />
       </Helmet>
 
       <Breadcrumbs items={[{ name: 'About' }]} />
-      <AboutHero       hero={page?.hero} />
-      <FounderStory    story={page?.story} />
-      <FoundersGrid    founders={page?.founders} />
-      <AboutStats />
-      <MissionVisionValues mvv={page?.mvv} />
-      <JourneyTimeline milestones={page?.milestones} />
-      <AwardsRecognition   awards={page?.awards} />
-      <InfrastructureGallery gallery={page?.gallery} />
-      <MediaCoverage       media={page?.media} />
-      <FounderVideo        video={page?.video} />
-      <AboutCta            cta={page?.cta} />
+      
+      {aboutData && (
+        <>
+          <AboutHero       hero={aboutData.hero} />
+          <FounderStory    story={aboutData.founderStory} />
+          <FoundersGrid    founders={aboutData.founders} />
+          <AboutStats      stats={aboutData.stats} />
+          <MissionVisionValues mission={aboutData.mission} vision={aboutData.vision} values={aboutData.values} />
+          <JourneyTimeline journey={aboutData.journey} />
+          <AwardsRecognition   awards={aboutData.awards} />
+          <InfrastructureGallery infrastructure={aboutData.infrastructure} />
+          <MediaCoverage       media={mediaData} />
+          <FounderVideo        video={aboutData.video} />
+          <AboutCta            cta={aboutData.cta} />
+        </>
+      )}
     </>
   );
 }

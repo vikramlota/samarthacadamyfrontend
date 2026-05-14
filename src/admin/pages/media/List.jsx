@@ -27,16 +27,17 @@ export default function MediaList() {
   }
 
   const columns = [
-    { key: 'source', label: 'Source', sortable: true, render: r => <span className="font-medium">{r.source || r.publication}</span> },
-    { key: 'title', label: 'Title', render: r => <span className="line-clamp-1">{r.title}</span> },
-    { key: 'date', label: 'Date', sortable: true, render: r => r.date ? new Date(r.date).toLocaleDateString('en-IN') : '—' },
+    { key: 'outletName', label: 'Outlet Name', sortable: true, render: r => <span className="font-medium">{r.outletName}</span> },
+    { key: 'articleTitle', label: 'Headline', render: r => <span className="line-clamp-1">{r.articleTitle}</span> },
+    { key: 'publishedDate', label: 'Published Date', sortable: true, render: r => r.publishedDate ? new Date(r.publishedDate).toLocaleDateString('en-IN') : '—' },
+    { key: 'featured', label: 'Featured', render: r => r.featured ? '⭐️ Yes' : '—' },
     { key: 'active', label: 'Status', render: r => <StatusBadge status={r.active !== false ? 'active' : 'inactive'} /> },
     {
       key: 'actions', label: '',
       render: r => (
-        <div className="flex gap-1.5">
+        <div className="flex gap-1.5 justify-end">
           <button onClick={() => navigate(`/media-coverage/${r._id}`)} className="p-1.5 text-blue-500 hover:text-blue-700"><FaEdit /></button>
-          {r.url && <a href={r.url} target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-400 hover:text-gray-600"><FaExternalLinkAlt /></a>}
+          {r.articleUrl && <a href={r.articleUrl} target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-400 hover:text-gray-600"><FaExternalLinkAlt /></a>}
           {canDelete && <button onClick={() => setDeleteId(r._id)} className="p-1.5 text-red-400 hover:text-red-600"><FaTrash /></button>}
         </div>
       ),
@@ -50,7 +51,7 @@ export default function MediaList() {
         <h1 className="text-2xl font-bold text-gray-900">Media Coverage</h1>
         <Button variant="primary" icon={FaPlus} onClick={() => navigate('/media-coverage/new')}>Add Coverage</Button>
       </div>
-      <DataTable columns={columns} data={data?.data || []} isLoading={isLoading} emptyMessage="No media coverage added." searchKeys={['source', 'publication', 'title']} />
+      <DataTable columns={columns} data={data?.data || []} isLoading={isLoading} emptyMessage="No media coverage added." searchKeys={['outletName', 'articleTitle']} />
     </div>
   );
 }

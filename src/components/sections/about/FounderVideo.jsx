@@ -7,7 +7,10 @@ import { scaleIn, viewportConfig } from '@/lib/motion';
 export default function FounderVideo({ video }) {
   const [playing, setPlaying] = useState(false);
 
-  if (!video?.embedUrl && !video?.thumbnailUrl) return null;
+  if (!video?.enabled || !video?.youtubeId) return null;
+
+  const embedUrl = `https://www.youtube.com/embed/${video.youtubeId}`;
+  const thumbnailUrl = `https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`;
 
   return (
     <section className="py-16 md:py-24 bg-white" aria-labelledby="video-heading">
@@ -26,9 +29,9 @@ export default function FounderVideo({ video }) {
           viewport={viewportConfig}
           className="relative max-w-3xl mx-auto rounded-2xl overflow-hidden shadow-card aspect-video bg-gray-900"
         >
-          {playing && video.embedUrl ? (
+          {playing ? (
             <iframe
-              src={`${video.embedUrl}?autoplay=1`}
+              src={`${embedUrl}?autoplay=1`}
               title={video.title || 'Founder Video'}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
@@ -36,9 +39,9 @@ export default function FounderVideo({ video }) {
             />
           ) : (
             <>
-              {video.thumbnailUrl && (
+              {thumbnailUrl && (
                 <img
-                  src={video.thumbnailUrl}
+                  src={thumbnailUrl}
                   alt="Video thumbnail"
                   className="w-full h-full object-cover opacity-75"
                 />

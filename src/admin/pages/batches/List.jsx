@@ -27,15 +27,16 @@ export default function BatchesList() {
   }
 
   const columns = [
-    { key: 'name', label: 'Batch Name', sortable: true, render: r => <span className="font-medium">{r.name || r.batchName}</span> },
-    { key: 'exam', label: 'Exam', render: r => r.exam || r.examName || '—' },
+    { key: 'name', label: 'Batch Name', sortable: true, render: r => <span className="font-medium">{r.name}</span> },
+    { key: 'courseSlug', label: 'Course Slug', render: r => r.courseSlug || '—' },
     { key: 'startDate', label: 'Start Date', sortable: true, render: r => r.startDate ? new Date(r.startDate).toLocaleDateString('en-IN') : '—' },
-    { key: 'mode', label: 'Mode', render: r => r.mode || '—' },
+    { key: 'mode', label: 'Mode', render: r => <span className="capitalize">{r.mode || '—'}</span> },
+    { key: 'featured', label: 'Featured', render: r => r.featured ? '⭐️ Yes' : '—' },
     { key: 'active', label: 'Status', render: r => <StatusBadge status={r.active !== false ? 'active' : 'inactive'} /> },
     {
       key: 'actions', label: '',
       render: r => (
-        <div className="flex gap-1.5">
+        <div className="flex gap-1.5 justify-end">
           <button onClick={() => navigate(`/batches/${r._id}`)} className="p-1.5 text-blue-500 hover:text-blue-700"><FaEdit /></button>
           {canDelete && <button onClick={() => setDeleteId(r._id)} className="p-1.5 text-red-400 hover:text-red-600"><FaTrash /></button>}
         </div>
@@ -50,7 +51,7 @@ export default function BatchesList() {
         <h1 className="text-2xl font-bold text-gray-900">Batches</h1>
         <Button variant="primary" icon={FaPlus} onClick={() => navigate('/batches/new')}>New Batch</Button>
       </div>
-      <DataTable columns={columns} data={data?.data || []} isLoading={isLoading} emptyMessage="No batches found." searchKeys={['name', 'batchName', 'exam', 'examName']} />
+      <DataTable columns={columns} data={data?.data || []} isLoading={isLoading} emptyMessage="No batches found." searchKeys={['name', 'courseSlug', 'faculty']} />
     </div>
   );
 }

@@ -34,8 +34,24 @@ const COLOR_CLASSES = {
   green:  { bg: 'bg-green-50',  icon: 'text-green-500',  border: 'border-green-100'  },
 };
 
-export default function MissionVisionValues({ mvv: apiMvv }) {
-  const items = (apiMvv && apiMvv.length > 0) ? apiMvv : FALLBACK_MVV;
+export default function MissionVisionValues({ mission, vision, values }) {
+  const items = [
+    {
+      icon: FaBullseye, color: 'red', label: 'Mission',
+      heading: 'Our Mission',
+      description: mission || FALLBACK_MVV[0].description
+    },
+    {
+      icon: FaEye, color: 'orange', label: 'Vision',
+      heading: 'Our Vision',
+      description: vision || FALLBACK_MVV[1].description
+    },
+    ...((values && values.length > 0) ? values.map(v => ({
+      icon: FaHeart, color: 'green', label: 'Value',
+      heading: v.title,
+      description: v.description
+    })) : [FALLBACK_MVV[2]])
+  ];
 
   return (
     <section className="py-16 md:py-24 bg-brand-bg" aria-labelledby="mvv-heading">

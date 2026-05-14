@@ -5,15 +5,15 @@ import { SectionHeader, Badge } from '@/components/ui';
 import { staggerContainer, staggerItem, viewportConfig } from '@/lib/motion';
 
 export default function AwardsRecognition({ awards }) {
-  if (!awards || awards.length === 0) return null;
+  if (!awards || !awards.items || awards.items.length === 0) return null;
 
   return (
     <section className="py-16 md:py-24 bg-brand-bg" aria-labelledby="awards-heading">
       <div className="container-custom">
         <SectionHeader
-          eyebrow="Recognition"
-          title="Awards & Achievements"
-          description="Formal recognition of the results our students achieve."
+          eyebrow={awards.eyebrow || "Recognition"}
+          title={awards.headline || "Awards & Achievements"}
+          description={awards.subheadline || "Formal recognition of the results our students achieve."}
           className="mb-12"
         />
 
@@ -24,7 +24,7 @@ export default function AwardsRecognition({ awards }) {
           viewport={viewportConfig}
           className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {awards.map((award, i) => (
+          {awards.items.map((award, i) => (
             <motion.div
               key={award.id || i}
               variants={staggerItem}

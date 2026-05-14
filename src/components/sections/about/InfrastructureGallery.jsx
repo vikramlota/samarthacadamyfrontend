@@ -45,18 +45,18 @@ function LightboxModal({ image, onClose }) {
   );
 }
 
-export default function InfrastructureGallery({ gallery }) {
+export default function InfrastructureGallery({ infrastructure }) {
   const [lightbox, setLightbox] = useState(null);
 
-  if (!gallery || gallery.length === 0) return null;
+  if (!infrastructure || !infrastructure.photos || infrastructure.photos.length === 0) return null;
 
   return (
     <section className="py-16 md:py-24 bg-white" aria-labelledby="gallery-heading">
       <div className="container-custom">
         <SectionHeader
-          eyebrow="Our Campus"
-          title="Infrastructure & Facilities"
-          description="A focused learning environment designed for government exam preparation."
+          eyebrow={infrastructure.eyebrow || "Our Campus"}
+          title={infrastructure.headline || "Infrastructure & Facilities"}
+          description={infrastructure.subheadline || "A focused learning environment designed for government exam preparation."}
           className="mb-12"
         />
 
@@ -67,7 +67,7 @@ export default function InfrastructureGallery({ gallery }) {
           viewport={viewportConfig}
           className="grid grid-cols-2 md:grid-cols-3 gap-4"
         >
-          {gallery.map((image, i) => (
+          {infrastructure.photos.map((image, i) => (
             <motion.div
               key={image.id || i}
               variants={staggerItem}

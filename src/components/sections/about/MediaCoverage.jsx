@@ -26,28 +26,28 @@ export default function MediaCoverage({ media }) {
         >
           {media.map((item, i) => (
             <motion.a
-              key={item.id || i}
+              key={item._id || i}
               variants={staggerItem}
-              href={item.url || '#'}
-              target={item.url ? '_blank' : undefined}
+              href={item.articleUrl || '#'}
+              target={item.articleUrl ? '_blank' : undefined}
               rel="noopener noreferrer"
               className="bg-white rounded-2xl border border-gray-100 shadow-soft p-6 flex flex-col gap-4 hover:-translate-y-0.5 hover:shadow-card transition-all duration-base group"
             >
               <div className="flex items-center justify-between">
-                {item.logo ? (
-                  <img src={item.logo} alt={item.outlet} className="h-7 object-contain" />
+                {item.outletLogo ? (
+                  <img src={item.outletLogo} alt={item.outletName} className="h-7 object-contain" />
                 ) : (
                   <div className="flex items-center gap-2">
                     <FaNewspaper className="text-gray-400" aria-hidden="true" />
-                    <span className="font-semibold text-sm text-gray-700">{item.outlet}</span>
+                    <span className="font-semibold text-sm text-gray-700">{item.outletName}</span>
                   </div>
                 )}
-                {item.date && <span className="text-xs text-gray-400">{item.date}</span>}
+                {item.publishedDate && <span className="text-xs text-gray-400">{new Date(item.publishedDate).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}</span>}
               </div>
 
-              <p className="text-sm text-gray-800 font-medium leading-snug flex-1">{item.headline}</p>
+              <p className="text-sm text-gray-800 font-medium leading-snug flex-1">{item.articleTitle}</p>
 
-              {item.url && (
+              {item.articleUrl && (
                 <div className="flex items-center gap-1.5 text-xs text-red-500 font-medium group-hover:text-red-600">
                   Read article <FaExternalLinkAlt className="text-[10px]" aria-hidden="true" />
                 </div>
