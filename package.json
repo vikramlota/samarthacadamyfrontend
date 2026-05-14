@@ -26,7 +26,21 @@
       "/faculty",
       "/contact",
       "/courses",
-      "/blog"
+      "/blog",
+      "/ssc-coaching-amritsar",
+      "/bank-coaching-amritsar",
+      "/psssb-online-course-punjab-govt-exams",
+      "/punjab-police-coaching-amritsar",
+      "/ssc-cgl-coaching-amritsar",
+      "/ibps-po-coaching-amritsar",
+      "/ugc-net-coaching-amritsar",
+      "/cat-coaching-amritsar",
+      "/blog/category/ssc-tips",
+      "/blog/category/banking-prep",
+      "/blog/category/punjab-police-state",
+      "/blog/category/exam-notifications",
+      "/blog/category/career-guidance",
+      "/blog/category/success-stories"
     ],
     "minifyHtml": {
       "collapseWhitespace": true,
