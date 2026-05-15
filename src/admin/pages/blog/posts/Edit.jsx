@@ -37,6 +37,14 @@ export default function BlogPostEdit() {
       // Ensure seo structure exists
       if (!post.seo) post.seo = empty().seo;
       if (!post.author) post.author = empty().author;
+      
+      // Convert backend comma-separated string to frontend array for TagInput
+      if (typeof post.seo.keywords === 'string' && post.seo.keywords.trim()) {
+        post.seo.keywords = post.seo.keywords.split(',').map(k => k.trim()).filter(Boolean);
+      } else if (!Array.isArray(post.seo.keywords)) {
+        post.seo.keywords = [];
+      }
+
       setData(post); 
       setIsLoading(false); 
     }).catch(() => setIsLoading(false));
@@ -61,9 +69,18 @@ export default function BlogPostEdit() {
     }
 
     try {
+      const processedData = {
+        ...d,
+        seo: {
+          ...d.seo,
+          // Convert array back to a comma-separated string for backend
+          keywords: Array.isArray(d.seo?.keywords) ? d.seo.keywords.join(', ') : d.seo?.keywords || ''
+        }
+      };
+
       const res = isNew
-        ? await adminApi.post('/blog/posts/manage', d)
-        : await adminApi.put(`/blog/posts/manage/${id}`, d);
+        ? await adminApi.post('/blog/posts/manage', processedData)
+        : await adminApi.put(`/blog/posts/manage/${id}`, processedData);
       toast.success(isNew ? 'Post created!' : 'Saved!');
       if (isNew) navigate(`/blog/posts/${res.data._id}`, { replace: true });
     } catch (error) {
