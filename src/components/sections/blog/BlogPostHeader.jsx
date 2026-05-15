@@ -47,7 +47,16 @@ export default function BlogPostHeader({ post }) {
         )}
 
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-6 text-sm text-gray-600">
-          <span>By {post.author?.name || 'Samarth Academy'}</span>
+          <div className="flex items-center gap-2">
+            {post.author?.avatar && (
+              <img 
+                src={post.author.avatar} 
+                alt={post.author.name} 
+                className="w-6 h-6 rounded-full object-cover border border-gray-100" 
+              />
+            )}
+            <span>By {post.author?.name || 'Samarth Academy'}</span>
+          </div>
           <span aria-hidden="true">•</span>
           <span>{formatDate(post.publishedAt)}</span>
           {post.readingTimeMinutes && (

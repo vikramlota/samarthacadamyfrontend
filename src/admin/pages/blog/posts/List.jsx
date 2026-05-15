@@ -29,7 +29,7 @@ export default function BlogPostsList() {
   const columns = [
     { key: 'title', label: 'Title', sortable: true, render: r => <span className="font-medium line-clamp-1">{r.title}</span> },
     { key: 'slug', label: 'Slug', render: r => <code className="text-xs bg-gray-100 px-1.5 py-0.5 rounded">{r.slug}</code> },
-    { key: 'status', label: 'Status', render: r => <StatusBadge status={r.status || (r.published ? 'published' : 'draft')} /> },
+    { key: 'status', label: 'Status', render: r => <StatusBadge status={r.active ? 'published' : 'draft'} /> },
     { key: 'views', label: 'Views', render: r => r.views || 0 },
     { key: 'publishedAt', label: 'Published', sortable: true, render: r => r.publishedAt ? new Date(r.publishedAt).toLocaleDateString('en-IN') : '—' },
     {

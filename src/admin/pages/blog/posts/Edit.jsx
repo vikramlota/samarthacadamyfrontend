@@ -12,9 +12,9 @@ import FormField, { TInput, TTextarea, TToggle, TSelect, TagInput } from '../../
 
 const empty = () => ({
   title: '', slug: '', excerpt: '', content: '', coverImage: '', coverImageAlt: '',
-  categories: [], tags: [], status: 'draft', featured: false,
-  seo: { title: '', description: '', keywords: [] },
-  readingTime: 0,
+  categories: [], tags: [], active: true, featured: false,
+  author: { name: 'Samarth Academy', avatar: '' },
+  seo: { title: '', description: '', keywords: [], ogImage: '', canonicalUrl: '', noindex: false },
 });
 
 export default function BlogPostEdit() {
@@ -32,7 +32,14 @@ export default function BlogPostEdit() {
 
   useEffect(() => {
     if (isNew) return;
-    adminApi.get(`/blog/posts/manage/${id}`).then(res => { setData(res.data); setIsLoading(false); }).catch(() => setIsLoading(false));
+    adminApi.get(`/blog/posts/manage/${id}`).then(res => { 
+      const post = res.data;
+      // Ensure seo structure exists
+      if (!post.seo) post.seo = empty().seo;
+      if (!post.author) post.author = empty().author;
+      setData(post); 
+      setIsLoading(false); 
+    }).catch(() => setIsLoading(false));
   }, [id]);
 
   function stripHtml(html = '') {
@@ -78,10 +85,7 @@ export default function BlogPostEdit() {
           <FormField label="Title" required><TInput value={d.title} onChange={v => { update('title', v); if (!d.slug || d.slug === d.title?.toLowerCase().replace(/\s+/g,'-')) update('slug', v.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')); }} required /></FormField>
           <FormField label="Slug"><TInput value={d.slug} onChange={v => update('slug', v.toLowerCase().replace(/[^a-z0-9-]+/g,''))} /></FormField>
           <FormField label="Excerpt / Summary" hint="150–200 chars"><TTextarea value={d.excerpt} onChange={v => update('excerpt', v)} rows={3} /></FormField>
-          <div className="grid md:grid-cols-3 gap-5">
-            <FormField label="Status">
-              <TSelect value={d.status} onChange={v => update('status', v)} options={['draft', 'published', 'archived']} />
-            </FormField>
+          <div className="grid md:grid-cols-2 gap-5">
             <FormField label="Categories">
               <MultiSelect
                 options={categories}
@@ -92,7 +96,8 @@ export default function BlogPostEdit() {
                 placeholder="Select categories"
               />
             </FormField>
-            <div className="space-y-3 pt-6">
+            <div className="flex gap-8 items-center pt-6">
+              <TToggle label="Active (Published)" checked={!!d.active} onChange={v => update('active', v)} />
               <TToggle label="Featured post" checked={!!d.featured} onChange={v => update('featured', v)} />
             </div>
           </div>
@@ -119,12 +124,28 @@ export default function BlogPostEdit() {
       ),
     },
     {
+      id: 'author', label: 'Author',
+      render: ({ data: d, update }) => (
+        <div className="grid md:grid-cols-2 gap-5">
+          <FormField label="Author Name"><TInput value={d.author?.name} onChange={v => update('author.name', v)} /></FormField>
+          <ImageUpload
+            label="Author Avatar"
+            value={d.author?.avatar}
+            onChange={v => update('author.avatar', v)}
+          />
+        </div>
+      ),
+    },
+    {
       id: 'seo', label: 'SEO',
       render: ({ data: d, update }) => (
         <div className="space-y-5">
-          <FormField label="Meta Title"><TInput value={d.seo?.title} onChange={v => update('seo.title', v)} /></FormField>
-          <FormField label="Meta Description"><TTextarea value={d.seo?.description} onChange={v => update('seo.description', v)} rows={3} /></FormField>
+          <FormField label="Meta Title" hint="Max 200 chars"><TInput value={d.seo?.title} onChange={v => update('seo.title', v)} /></FormField>
+          <FormField label="Meta Description" hint="Max 500 chars"><TTextarea value={d.seo?.description} onChange={v => update('seo.description', v)} rows={3} /></FormField>
           <FormField label="Keywords"><TagInput value={d.seo?.keywords || []} onChange={v => update('seo.keywords', v)} /></FormField>
+          <FormField label="OG Image URL" hint="Leave blank to use cover image"><TInput value={d.seo?.ogImage} onChange={v => update('seo.ogImage', v)} /></FormField>
+          <FormField label="Canonical URL"><TInput value={d.seo?.canonicalUrl} onChange={v => update('seo.canonicalUrl', v)} /></FormField>
+          <TToggle label="Noindex (Hide from search engines)" checked={!!d.seo?.noindex} onChange={v => update('seo.noindex', v)} />
         </div>
       ),
     },

@@ -64,7 +64,12 @@ export default function BlogPost() {
       <Helmet>
         <title>{title} | Samarth Academy Blog</title>
         <meta name="description" content={description} />
-        {post.seo?.keywords && <meta name="keywords" content={post.seo.keywords} />}
+        {post.seo?.keywords && (
+          <meta 
+            name="keywords" 
+            content={Array.isArray(post.seo.keywords) ? post.seo.keywords.join(', ') : post.seo.keywords} 
+          />
+        )}
         <link rel="canonical" href={canonicalUrl} />
         {noindex && <meta name="robots" content="noindex" />}
 
