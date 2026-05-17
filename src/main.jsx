@@ -7,6 +7,10 @@ const AppTree = <App />;
 
 // react-snap pre-renders pages — on those pages we hydrate instead of re-render.
 if (root.hasChildNodes()) {
+  if (typeof window !== 'undefined' && navigator.userAgent !== 'ReactSnap') {
+    window.__IS_HYDRATING__ = true;
+    setTimeout(() => { window.__IS_HYDRATING__ = false; }, 2000);
+  }
   hydrateRoot(root, AppTree);
 } else {
   createRoot(root).render(AppTree);

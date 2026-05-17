@@ -27,31 +27,41 @@ const smooth = [0.22, 1, 0.36, 1];
 // ─── Direct-spread variants ───────────────────────────────────────────
 
 export const fadeInUp = {
-  initial:    { opacity: 0, y: 24 },
+  get initial() {
+    return typeof window !== 'undefined' && window.__IS_HYDRATING__ ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 };
+  },
   animate:    { opacity: 1, y: 0 },
   transition: { duration: 0.5, ease: smooth },
 };
 
 export const fadeIn = {
-  initial:    { opacity: 0 },
+  get initial() {
+    return typeof window !== 'undefined' && window.__IS_HYDRATING__ ? { opacity: 1 } : { opacity: 0 };
+  },
   animate:    { opacity: 1 },
   transition: { duration: 0.4, ease: smooth },
 };
 
 export const slideInLeft = {
-  initial:    { opacity: 0, x: -32 },
+  get initial() {
+    return typeof window !== 'undefined' && window.__IS_HYDRATING__ ? { opacity: 1, x: 0 } : { opacity: 0, x: -32 };
+  },
   animate:    { opacity: 1, x: 0 },
   transition: { duration: 0.5, ease: smooth },
 };
 
 export const slideInRight = {
-  initial:    { opacity: 0, x: 32 },
+  get initial() {
+    return typeof window !== 'undefined' && window.__IS_HYDRATING__ ? { opacity: 1, x: 0 } : { opacity: 0, x: 32 };
+  },
   animate:    { opacity: 1, x: 0 },
   transition: { duration: 0.5, ease: smooth },
 };
 
 export const scaleIn = {
-  initial:    { opacity: 0, scale: 0.94 },
+  get initial() {
+    return typeof window !== 'undefined' && window.__IS_HYDRATING__ ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.94 };
+  },
   animate:    { opacity: 1, scale: 1 },
   transition: { duration: 0.4, ease: smooth },
 };
@@ -69,7 +79,9 @@ export const staggerContainer = {
 };
 
 export const staggerItem = {
-  initial: { opacity: 0, y: 20 },
+  get initial() {
+    return typeof window !== 'undefined' && window.__IS_HYDRATING__ ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 };
+  },
   animate: {
     opacity: 1,
     y: 0,
