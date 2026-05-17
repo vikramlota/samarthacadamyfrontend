@@ -19,7 +19,7 @@ export default function HeroSection() {
     useLeadForm({ source: 'home-hero' });
 
   return (
-    <section className="relative bg-brand-bg overflow-hidden py-16 md:py-24">
+    <section className="relative bg-brand-bg overflow-hidden py-16 md:py-24" style={{ minHeight: '580px' }}>
       <div
         className="absolute inset-0 bg-dot-pattern-dark opacity-40 pointer-events-none"
         aria-hidden="true"

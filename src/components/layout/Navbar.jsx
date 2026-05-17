@@ -101,6 +101,8 @@ const Navbar = () => {
               alt="Samarth Academy"
               className="object-contain transition-all duration-200 group-hover:scale-105 rounded-md"
               style={{ height: scrolled ? '42px' : '52px', width: 'auto' }}
+              width="52"
+              height="52"
             />
             <div className="flex flex-col leading-none">
               <span className="text-xl font-black text-gray-900 tracking-tight">SAMARTH</span>
@@ -226,7 +228,7 @@ const Navbar = () => {
               {/* Drawer header */}
               <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
                 <div className="flex items-center gap-2">
-                  <img src="/images/purelogo.png" alt="Samarth Academy" className="h-9 w-auto object-contain rounded" />
+                  <img src="/images/purelogo.png" alt="Samarth Academy" className="h-9 w-auto object-contain rounded" width="36" height="36" />
                   <span className="font-black text-gray-900 tracking-tight">SAMARTH</span>
                 </div>
                 <button

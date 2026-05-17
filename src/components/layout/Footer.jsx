@@ -66,7 +66,7 @@ const Footer = () => {
           <div>
             <Link to="/" className="flex items-center gap-2 mb-5 w-fit">
               <div className="bg-white rounded-xl p-1.5 flex-shrink-0">
-                <img src="/images/purelogo.png" alt="Samarth Academy" className="h-9 w-auto object-contain" />
+                <img src="/images/purelogo.png" alt="Samarth Academy" className="h-9 w-auto object-contain" width="36" height="36" />
               </div>
               <div className="flex flex-col leading-none">
                 <span className="text-lg font-black text-white tracking-tight">SAMARTH</span>

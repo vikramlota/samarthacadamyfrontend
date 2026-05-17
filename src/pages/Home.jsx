@@ -3,20 +3,19 @@ import { Helmet } from 'react-helmet-async';
 import {
   NotificationStrip,
   HeroSection,
-  StatsBar,
-  CoursesGrid,
-  WhyChooseUs,
-  FoundersStory,
-  MidPageLeadForm,
-  RecentSelections,
-  TestimonialsSection,
-  ExamSpotlight,
-  FaqSection,
-  FinalCTA,
 } from '@/components/sections';
 
-// BlogPreview is feature-flagged — lazy-load so it tree-shakes when disabled
-const BlogPreview = lazy(() => import('@/components/sections/BlogPreview'));
+const StatsBar            = lazy(() => import('@/components/sections/StatsBar'));
+const CoursesGrid         = lazy(() => import('@/components/sections/CoursesGrid'));
+const WhyChooseUs         = lazy(() => import('@/components/sections/WhyChooseUs'));
+const FoundersStory       = lazy(() => import('@/components/sections/FoundersStory'));
+const MidPageLeadForm     = lazy(() => import('@/components/sections/MidPageLeadForm'));
+const RecentSelections    = lazy(() => import('@/components/sections/RecentSelections'));
+const TestimonialsSection = lazy(() => import('@/components/sections/TestimonialsSection'));
+const ExamSpotlight       = lazy(() => import('@/components/sections/ExamSpotlight'));
+const BlogPreview         = lazy(() => import('@/components/sections/BlogPreview'));
+const FaqSection          = lazy(() => import('@/components/sections/FaqSection'));
+const FinalCTA            = lazy(() => import('@/components/sections/FinalCTA'));
 
 export default function Home() {
   return (
@@ -47,40 +46,42 @@ export default function Home() {
       {/* Hero + lead form (above fold) */}
       <HeroSection />
 
-      {/* Trust signal: key stats on dark bg */}
-      <StatsBar />
+      {/* Below the fold sections lazy loaded */}
+      <Suspense fallback={<div className="h-32 animate-pulse bg-brand-bg opacity-20" />}>
+        {/* Trust signal: key stats on dark bg */}
+        <StatsBar />
 
-      {/* Exam spotlight — hides itself when API returns null */}
-      <ExamSpotlight />
+        {/* Exam spotlight — hides itself when API returns null */}
+        <ExamSpotlight />
 
-      {/* Course catalogue */}
-      <CoursesGrid />
+        {/* Course catalogue */}
+        <CoursesGrid />
 
-      {/* Differentiator: why not mass coaching */}
-      <WhyChooseUs />
+        {/* Differentiator: why not mass coaching */}
+        <WhyChooseUs />
 
-      {/* Founders story — THE conversion differentiator */}
-      <FoundersStory />
+        {/* Founders story — THE conversion differentiator */}
+        <FoundersStory />
 
-      {/* Mid-page conversion form (red gradient) */}
-      <MidPageLeadForm />
+        {/* Mid-page conversion form (red gradient) */}
+        <MidPageLeadForm />
 
-      {/* Hall of Fame — hides itself when API returns empty */}
-      <RecentSelections />
+        {/* Hall of Fame — hides itself when API returns empty */}
+        <RecentSelections />
 
-      {/* Social proof — hides itself when API returns empty */}
-      <TestimonialsSection />
+        {/* Social proof — hides itself when API returns empty */}
+        <TestimonialsSection />
 
-      {/* Blog — feature-flagged (VITE_FF_BLOG=true to enable) */}
-      <Suspense fallback={null}>
+        {/* Blog — feature-flagged (VITE_FF_BLOG=true to enable) */}
         <BlogPreview />
+
+        {/* FAQ */}
+        <FaqSection />
+
+        {/* Final CTA with contact details */}
+        <FinalCTA />
       </Suspense>
-
-      {/* FAQ */}
-      <FaqSection />
-
-      {/* Final CTA with contact details */}
-      <FinalCTA />
     </>
   );
 }
+

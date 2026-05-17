@@ -29,7 +29,7 @@
       "/blog",
       "/ssc-coaching-amritsar",
       "/bank-coaching-amritsar",
-      "/psssb-online-course-punjab-govt-exams",
+      "/psssb-coaching-amritsar",
       "/punjab-police-coaching-amritsar",
       "/ssc-cgl-coaching-amritsar",
       "/ibps-po-coaching-amritsar",
@@ -40,7 +40,9 @@
       "/blog/category/punjab-police-state",
       "/blog/category/exam-notifications",
       "/blog/category/career-guidance",
-      "/blog/category/success-stories"
+      "/blog/category/success-stories",
+      "/blog/ssc-cgl-2026-notification-complete-guide-important-dates-3-month-strategy",
+      "/blog/how-to-prepare-for-psssb-exam-2026-complete-strategy-guide"
     ],
     "minifyHtml": {
       "collapseWhitespace": true,
@@ -89,6 +91,7 @@
     "react-snap": "^1.23.0",
     "terser": "^5.46.2",
     "vite": "^7.2.4",
-    "vite-bundle-visualizer": "^1.2.1"
+    "vite-bundle-visualizer": "^1.2.1",
+    "vite-plugin-purgecss": "^0.2.13"
   }
 }

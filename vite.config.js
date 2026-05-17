@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
+import purgeCSS from 'vite-plugin-purgecss';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -8,11 +9,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const publicRollupOutput = {
   manualChunks(id) {
-    if (id.includes('jodit-react') || id.includes('jodit')) return 'vendor-jodit';
-    if (id.includes('browser-image-compression')) return 'vendor-image-compression';
-    if (id.includes('node_modules/framer-motion')) return 'vendor-framer-motion';
-    if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/') || id.includes('node_modules/scheduler/')) return 'vendor-react';
-    if (id.includes('node_modules/react-router') || id.includes('node_modules/@remix-run')) return 'vendor-router';
+    if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/') || id.includes('node_modules/scheduler/')) return 'react-core';
+    if (id.includes('node_modules/react-router') || id.includes('node_modules/@remix-run')) return 'react-router';
+    if (id.includes('node_modules/framer-motion') || id.includes('node_modules/swiper') || id.includes('node_modules/jodit') || id.includes('node_modules/browser-image-compression')) return 'ui-libs';
     if (id.includes('node_modules/react-icons')) return 'vendor-icons';
     if (id.includes('node_modules/axios') || id.includes('node_modules/react-helmet-async')) return 'vendor-utils';
     if (id.includes('/src/admin/')) return 'admin-pages';
@@ -47,6 +46,9 @@ export default defineConfig(() => {
     plugins: [
       react(),
       tailwindcss(),
+      purgeCSS({
+        safelist: ['html', 'body'],
+      }),
       isAdmin && {
         name: 'admin-spa-fallback',
         configureServer(server) {
@@ -65,7 +67,7 @@ export default defineConfig(() => {
 
     build: {
       outDir: isAdmin ? 'dist-admin' : 'dist',
-      target: 'esnext',
+      target: 'es2019',
       minify: 'terser',
       terserOptions: { compress: { drop_console: true, drop_debugger: true } },
       chunkSizeWarningLimit: 600,

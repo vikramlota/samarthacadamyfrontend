@@ -19,7 +19,6 @@ import { ComponentSkeleton } from './components/SkeletonLoader';
 const HomePage                = React.lazy(() => import('./pages/Home.jsx'));
 const LandingPage             = React.lazy(() => import('./pages/LandingPage.jsx'));
 const CoursesIndexPage        = React.lazy(() => import('./pages/CoursesIndex.jsx'));
-const CoursesPage             = React.lazy(() => import('./pages/CoursePage.jsx'));
 const UpdatesPage             = React.lazy(() => import('./pages/Updates.jsx'));
 const NotificationPage        = React.lazy(() => import('./pages/Notification.jsx'));
 const SelectionPage           = React.lazy(() => import('./pages/Selections.jsx'));

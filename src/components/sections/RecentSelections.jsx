@@ -13,6 +13,8 @@ function SelectionCard({ student }) {
           src={student.photo}
           alt={student.name}
           className="w-16 h-16 rounded-full object-cover border-2 border-red-100"
+          width="64"
+          height="64"
         />
       ) : (
         <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">

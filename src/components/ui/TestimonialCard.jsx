@@ -53,6 +53,8 @@ const TestimonialCard = ({
           src={photo}
           alt={name}
           className="w-12 h-12 rounded-full object-cover border-2 border-red-100 flex-shrink-0"
+          width="48"
+          height="48"
         />
       ) : (
         <div
