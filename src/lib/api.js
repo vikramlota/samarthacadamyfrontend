@@ -31,6 +31,23 @@ async function request(path, options = {}) {
       );
     }
 
+    // Embed data into window.__INITIAL_API_DATA__ during react-snap pre-rendering
+    if (typeof window !== 'undefined' && navigator.userAgent === 'ReactSnap') {
+      window.__INITIAL_API_DATA__ = window.__INITIAL_API_DATA__ || {};
+      if (data && data.data !== undefined) {
+        window.__INITIAL_API_DATA__[path] = data.data;
+      } else {
+        window.__INITIAL_API_DATA__[path] = data;
+      }
+      let script = document.getElementById('initial-api-data-script');
+      if (!script) {
+        script = document.createElement('script');
+        script.id = 'initial-api-data-script';
+        document.head.appendChild(script);
+      }
+      script.textContent = `window.__INITIAL_API_DATA__ = ${JSON.stringify(window.__INITIAL_API_DATA__)};`;
+    }
+
     return data;
   } catch (error) {
     if (error instanceof ApiError) throw error;

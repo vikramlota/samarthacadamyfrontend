@@ -11,22 +11,26 @@ import { api } from '@/lib/api';
  * @param {function} options.transform - Map response.data before storing
  */
 export function useApiData(endpoint, { fallback = null, enabled = true, transform } = {}) {
+  const initialCache = typeof window !== 'undefined' && window.__INITIAL_API_DATA__ && window.__INITIAL_API_DATA__[endpoint];
+  const hasInitialData = initialCache !== undefined || fallback !== null;
+  const initialData = initialCache !== undefined ? (transform ? transform(initialCache) : initialCache) : fallback;
+
   const [state, setState] = useState({
-    data: fallback,
-    isLoading: enabled,
+    data: initialData,
+    isLoading: initialCache !== undefined ? false : (!hasInitialData && enabled),
     error: null,
   });
 
   const fetchData = useCallback(async () => {
     if (!enabled) return;
-    setState(prev => ({ ...prev, isLoading: true, error: null }));
+    setState(prev => ({ ...prev, isLoading: !prev.data, error: null }));
 
     try {
       const response = await api.get(endpoint);
       const data = transform ? transform(response.data) : response.data;
       setState({ data, isLoading: false, error: null });
     } catch (error) {
-      setState({ data: fallback, isLoading: false, error: error.message });
+      setState(prev => ({ data: prev.data || fallback, isLoading: false, error: error.message }));
     }
   }, [endpoint, enabled]);   // eslint-disable-line react-hooks/exhaustive-deps
 
