@@ -20,6 +20,10 @@
   "reactSnap": {
     "source": "dist",
     "destination": "dist",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
     "include": [
       "/",
       "/about",
