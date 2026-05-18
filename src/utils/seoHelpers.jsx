@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 
 /**
  * SEO Meta Tags Component
@@ -21,6 +22,90 @@ export const SEOHead = ({
   author = 'Samarth Academy',
   keywords = 'SSC, Banking, UPSC, State Exams, Defense, Competitive Exams'
 }) => {
+  const { pathname } = useLocation();
+  const canonicalUrl = `https://thesamarthacademy.in${pathname}`;
+
+  const homeSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "EducationalOrganization",
+        "@id": "https://thesamarthacademy.in/#organization",
+        "name": "Samarth Academy",
+        "alternateName": "The Samarth Academy",
+        "url": "https://thesamarthacademy.in",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://thesamarthacademy.in/images/purelogo.png",
+          "width": 200,
+          "height": 200
+        },
+        "description": "Top government exam coaching centre in Amritsar for SSC, Bank PO, Railway, Punjab Police, TET, UGC NET, CAT and PSSSB exams.",
+        "telephone": "+91-XXXXXXXXXX",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "UT Market, Opposite Guru Nanak Dev University",
+          "addressLocality": "Amritsar",
+          "addressRegion": "Punjab",
+          "postalCode": "143005",
+          "addressCountry": "IN"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": "31.6340",
+          "longitude": "74.8723"
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+            "opens": "09:00",
+            "closes": "19:00"
+          }
+        ],
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.5",
+          "reviewCount": "50",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "sameAs": [
+          "https://www.google.com/maps?cid=YOUR_GOOGLE_CID",
+          "https://www.facebook.com/samarthacademy",
+          "https://www.instagram.com/samarthacademy",
+          "https://www.youtube.com/@samarthacademy"
+        ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Coaching Courses",
+          "itemListElement": [
+            {"@type": "Offer", "itemOffered": {"@type": "Course", "name": "SSC Coaching in Amritsar"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Course", "name": "Bank PO Coaching in Amritsar"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Course", "name": "Railway Coaching in Amritsar"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Course", "name": "Punjab Police Coaching in Amritsar"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Course", "name": "TET Coaching in Amritsar"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Course", "name": "UGC NET Coaching in Amritsar"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Course", "name": "CAT Coaching in Amritsar"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Course", "name": "PSSSB Coaching in Amritsar"}}
+          ]
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://thesamarthacademy.in/#website",
+        "url": "https://thesamarthacademy.in",
+        "name": "Samarth Academy",
+        "publisher": {"@id": "https://thesamarthacademy.in/#organization"},
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://thesamarthacademy.in/blog?search={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    ]
+  };
+
   return (
     <Helmet>
       {/* Title & core meta — viewport/charset stay in index.html */}
@@ -35,13 +120,13 @@ export const SEOHead = ({
       <meta httpEquiv="content-language" content="en" />
 
       {/* Canonical URL */}
-      <link rel="canonical" href={canonical} />
+      <link rel="canonical" href={canonicalUrl} />
 
       {/* Open Graph */}
       <meta property="og:title" content={ogTitle || title} />
       <meta property="og:description" content={ogDescription || description} />
       <meta property="og:image" content={ogImage} />
-      <meta property="og:url" content={canonical} />
+      <meta property="og:url" content={canonicalUrl} />
       <meta property="og:type" content={ogType} />
       <meta property="og:site_name" content="Samarth Academy" />
 
@@ -50,6 +135,12 @@ export const SEOHead = ({
       <meta name="twitter:title" content={ogTitle || title} />
       <meta name="twitter:description" content={ogDescription || description} />
       <meta name="twitter:image" content={ogImage} />
+
+      {pathname === '/' && (
+        <script type="application/ld+json">
+          {JSON.stringify(homeSchema)}
+        </script>
+      )}
     </Helmet>
   );
 };

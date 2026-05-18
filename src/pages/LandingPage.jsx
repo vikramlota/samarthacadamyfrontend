@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useApiData } from '@/hooks/useApiData';
-import { getCourseSchema, getFAQSchema } from '@/lib/seo';
+import { generateCourseSchema, generateFAQSchema } from '@/utils/schemaHelpers';
 
 const DEFAULT_OG = 'https://thesamarthacademy.in/og.jpg';
 import Breadcrumbs from '@/components/ui/Breadcrumbs';
@@ -33,8 +33,12 @@ export default function LandingPage() {
   if (isLoading) return <LandingPageSkeleton />;
   if (error || !page) return <LandingNotFound slug={slug} />;
 
-  const faqSchema    = getFAQSchema(page.faqs);
-  const courseSchema = getCourseSchema(page);
+  const faqSchema    = page.faqs?.length ? generateFAQSchema(page.faqs) : null;
+  const courseSchema = generateCourseSchema(
+    page.examShortName || page.examFullName || page.slug,
+    page.slug,
+    [page.examShortName || page.slug]
+  );
 
   return (
     <>
