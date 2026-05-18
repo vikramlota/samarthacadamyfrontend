@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import purgeCSS from 'vite-plugin-purgecss';
+import viteCompression from 'vite-plugin-compression';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -48,6 +49,18 @@ export default defineConfig(() => {
       tailwindcss(),
       purgeCSS({
         safelist: ['html', 'body'],
+      }),
+      // Brotli compression
+      viteCompression({
+        algorithm: 'brotliCompress',
+        ext: '.br',
+        threshold: 1024,
+      }),
+      // Gzip compression (fallback)
+      viteCompression({
+        algorithm: 'gzip',
+        ext: '.gz',
+        threshold: 1024,
       }),
       isAdmin && {
         name: 'admin-spa-fallback',
