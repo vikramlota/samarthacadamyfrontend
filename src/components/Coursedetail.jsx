@@ -6,6 +6,7 @@ import {
   FaTag, FaGraduationCap, FaChalkboardTeacher, FaClock, FaExternalLinkAlt 
 } from 'react-icons/fa'; // Added FaExternalLinkAlt
 import { Helmet } from 'react-helmet-async';
+import { generateCourseSchema } from '../utils/schemaHelpers';
 const CourseDetail = () => {
   const { slug } = useParams();
   const [course, setCourse] = useState(null);
@@ -92,6 +93,12 @@ const CourseDetail = () => {
   const themeText = course.colorTheme?.text || 'text-brand-red';
   const themeBg = course.colorTheme?.from || 'from-brand-red';
 
+  const courseSchemaData = generateCourseSchema(
+    course.title,
+    slug,
+    [course.title, course.category || 'Government Exam']
+  );
+
   return (
     <div className="bg-gray-50 min-h-screen flex flex-col font-sans">
       <Helmet>
@@ -105,6 +112,10 @@ const CourseDetail = () => {
         <meta property="og:image" content={course.image} />
         <meta property="og:url" content={window.location.href} />
         <meta property="og:type" content="website" />
+
+        <script type="application/ld+json">
+          {JSON.stringify(courseSchemaData)}
+        </script>
       </Helmet>
       {/* --- HERO SECTION --- */}
       <header className={`relative bg-gradient-to-r ${themeBg} ${course.colorTheme?.to || 'to-red-900'} pt-24 pb-32 overflow-hidden`}>
