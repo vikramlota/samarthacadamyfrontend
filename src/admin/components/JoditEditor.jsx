@@ -1,5 +1,8 @@
 import { useRef, useMemo } from 'react';
 import JoditReact from 'jodit-react';
+import { TOKEN_KEY } from '../lib/api';
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
 
 export default function JoditEditor({ value = '', onChange, label, height = 400 }) {
   const editorRef = useRef(null);
@@ -24,7 +27,26 @@ export default function JoditEditor({ value = '', onChange, label, height = 400 
       'undo', 'redo', '|',
       'source',
     ],
-    uploader: { insertImageAsBase64URI: true },
+    uploader: {
+      url: `${API_BASE}/upload/image`,
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem(TOKEN_KEY)}`,
+      },
+      filesVariableName: 'image',
+      isSuccess: (resp) => resp.success,
+      process: (resp) => ({
+        files: resp.data ? [resp.data.url] : [],
+        path: resp.data ? resp.data.url : '',
+        error: resp.success ? 0 : 1,
+        msg: resp.error || ''
+      }),
+      defaultHandlerSuccess: function (data) {
+        if (data.files && data.files.length) {
+          this.selection.insertImage(data.files[0]);
+        }
+      }
+    },
     style: { fontFamily: 'inherit', fontSize: '15px' },
   }), [height]);
 

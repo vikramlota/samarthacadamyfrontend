@@ -27,15 +27,8 @@ export default function ImageUpload({
       const formData = new FormData();
       formData.append('image', file);
 
-      const token = localStorage.getItem(TOKEN_KEY);
-      const res = await fetch('/api/upload/image', {
-        method: 'POST',
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-        body: formData,
-      });
-      const data = await res.json();
-      if (!data.success) throw new Error(data.error || 'Upload failed');
-      onChange(data.data.url);
+      const res = await adminApi.post('/upload/image', formData);
+      onChange(res.data.url);
     } catch (err) {
       setError(err.message || 'Upload failed');
     } finally {
