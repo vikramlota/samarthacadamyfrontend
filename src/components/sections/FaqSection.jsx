@@ -5,6 +5,8 @@ import { SectionHeader, Button } from '@/components/ui';
 import { FAQS, CONTACT } from '@/data/homeStaticContent';
 import { staggerContainer, staggerItem, viewportConfig } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { Helmet } from 'react-helmet-async';
+import { generateFAQSchema } from '@/utils/schemaHelpers';
 
 function FaqItem({ faq, isOpen, onToggle }) {
   return (
@@ -39,8 +41,15 @@ export default function FaqSection() {
 
   const toggle = (i) => setOpenIndex(prev => (prev === i ? null : i));
 
+  const faqSchemaData = generateFAQSchema(FAQS);
+
   return (
     <section className="py-16 md:py-24 bg-brand-bg" aria-labelledby="faq-heading">
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(faqSchemaData)}
+        </script>
+      </Helmet>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           eyebrow="FAQ"

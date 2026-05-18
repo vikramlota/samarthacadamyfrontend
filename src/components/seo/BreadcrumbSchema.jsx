@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { getBreadcrumbSchema } from '@/lib/seo';
+import { generateBreadcrumbSchema } from '@/utils/schemaHelpers';
 
 /**
  * Injects BreadcrumbList JSON-LD schema with no visible UI.
@@ -13,11 +13,12 @@ export default function BreadcrumbSchema({ items }) {
   if (!items || items.length === 0) return null;
 
   const full = [{ name: 'Home', href: '/' }, ...items];
+  const schemaData = generateBreadcrumbSchema(full.map(item => ({ name: item.name, path: item.href })));
 
   return (
     <Helmet>
       <script type="application/ld+json">
-        {JSON.stringify(getBreadcrumbSchema(full))}
+        {JSON.stringify(schemaData)}
       </script>
     </Helmet>
   );

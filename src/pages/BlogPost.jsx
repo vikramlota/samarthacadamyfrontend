@@ -13,7 +13,7 @@ import {
 } from '@/components/sections/blog';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import { Skeleton } from '@/components/ui';
-import { getArticleSchema } from '@/lib/seo';
+import { generateArticleSchema } from '@/utils/schemaHelpers';
 
 const SITE_URL   = 'https://thesamarthacademy.in';
 const DEFAULT_OG = `${SITE_URL}/og.jpg`;
@@ -59,6 +59,15 @@ export default function BlogPost() {
     { name: post.title, href: `/blog/${post.slug}` },
   ];
 
+  const articleSchema = generateArticleSchema(
+    title,
+    description,
+    ogImage,
+    new Date(post.publishedAt).toISOString(),
+    new Date(post.updatedAt || post.publishedAt).toISOString(),
+    post.slug
+  );
+
   return (
     <>
       <Helmet>
@@ -92,7 +101,7 @@ export default function BlogPost() {
         <meta name="twitter:image"       content={ogImage} />
 
         <script type="application/ld+json">
-          {JSON.stringify(getArticleSchema(post))}
+          {JSON.stringify(articleSchema)}
         </script>
       </Helmet>
 

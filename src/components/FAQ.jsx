@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { useScrollReveal } from '../hooks';
+import { Helmet } from 'react-helmet-async';
+import { generateFAQSchema } from '../utils/schemaHelpers';
 
 const FAQItem = ({ question, answer, isOpen, toggle }) => {
   return (
@@ -31,8 +33,15 @@ const FAQ = () => {
     { q: "Do you offer a demo class?", a: "Yes, absolutely! We encourage prospective students to attend a free demo class to experience our teaching methodology and infrastructure firsthand before committing to a full course." },
   ];
 
+  const faqSchemaData = generateFAQSchema(faqs.map(item => ({ question: item.q, answer: item.a })));
+
   return (
     <section className="py-16 md:py-24 bg-white">
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(faqSchemaData)}
+        </script>
+      </Helmet>
       <div className="container mx-auto px-4 flex flex-col md:flex-row gap-12 items-center">
         {/* Image */}
         <div className={`md:w-1/3 flex justify-center transform transition-all duration-700 ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'}`}>

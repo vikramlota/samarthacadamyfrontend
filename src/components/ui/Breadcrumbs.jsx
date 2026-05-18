@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { FaChevronRight, FaHome } from 'react-icons/fa';
 import { cn } from '@/lib/utils';
-import { getBreadcrumbSchema } from '@/lib/seo';
+import { generateBreadcrumbSchema } from '@/utils/schemaHelpers';
 
 /**
  * Visual breadcrumb nav + BreadcrumbList schema injected into <head>.
@@ -15,12 +15,13 @@ export default function Breadcrumbs({ items, className }) {
   if (!items || items.length === 0) return null;
 
   const full = [{ name: 'Home', href: '/' }, ...items];
+  const schemaData = generateBreadcrumbSchema(full.map(item => ({ name: item.name, path: item.href })));
 
   return (
     <>
       <Helmet>
         <script type="application/ld+json">
-          {JSON.stringify(getBreadcrumbSchema(full))}
+          {JSON.stringify(schemaData)}
         </script>
       </Helmet>
 
