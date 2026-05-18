@@ -52,12 +52,9 @@ const AdminToastConsumer = React.lazy(() =>
 const PublicLayout = () => (
   <div className="font-sans text-gray-700 bg-gray-50 min-h-screen flex flex-col">
     <Navbar />
-    <div className="flex grow w-full">
-      <GlobalCourseSidebar />
-      <main className="flex-1 bg-white min-w-0">
-        <Outlet />
-      </main>
-    </div>
+    <main className="flex-1 bg-white w-full min-w-0">
+      <Outlet />
+    </main>
     <Footer />
     <FloatingButtons />
   </div>
