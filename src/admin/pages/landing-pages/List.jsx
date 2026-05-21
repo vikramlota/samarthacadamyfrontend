@@ -43,7 +43,7 @@ export default function LandingPagesList() {
       key: 'actions', label: '',
       render: r => (
         <div className="flex gap-1.5">
-          <button onClick={() => navigate(`/landing-pages/${r._id}`)} className="p-1.5 text-blue-500 hover:text-blue-700"><FaEdit /></button>
+          <button onClick={() => navigate(`/admin/landing-pages/${r._id}`)} className="p-1.5 text-blue-500 hover:text-blue-700"><FaEdit /></button>
           <button onClick={() => handleDuplicate(r._id)} className="p-1.5 text-gray-400 hover:text-gray-600"><FaCopy /></button>
           {canDelete && <button onClick={() => setDeleteId(r._id)} className="p-1.5 text-red-400 hover:text-red-600"><FaTrash /></button>}
         </div>
@@ -56,7 +56,7 @@ export default function LandingPagesList() {
       <ConfirmDialog open={!!deleteId} title="Deactivate this page?" onConfirm={handleDelete} onCancel={() => setDeleteId(null)} confirmLabel="Deactivate" />
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Landing Pages</h1>
-        <Button variant="primary" icon={FaPlus} onClick={() => navigate('/landing-pages/new')}>New Page</Button>
+        <Button variant="primary" icon={FaPlus} onClick={() => navigate('/admin/landing-pages/new')}>New Page</Button>
       </div>
       <DataTable columns={columns} data={data?.data || []} isLoading={isLoading} emptyMessage="No landing pages yet." searchKeys={['examShortName', 'slug']} />
     </div>
