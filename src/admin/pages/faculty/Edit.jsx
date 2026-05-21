@@ -143,7 +143,7 @@ export default function FacultyEdit() {
       toast.success(isNew ? 'Faculty created!' : 'Saved!');
       if (isNew) {
          const newId = res.data?.data?._id || res.data?._id;
-         navigate(`/faculty/${newId}`, { replace: true });
+         navigate(`/admin/faculty/${newId}`, { replace: true });
       }
     } catch (err) {
       toast.error(err.response?.data?.error || err.message);
@@ -154,7 +154,7 @@ export default function FacultyEdit() {
     try {
       await adminApi.delete(`/faculty/admin/${id}`);
       toast.success('Deleted');
-      navigate('/faculty');
+      navigate('/admin/faculty');
     } catch (err) {
       toast.error(err.message);
     }
@@ -169,7 +169,7 @@ export default function FacultyEdit() {
       onSubmit={handleSave}
       onDelete={!isNew && canDelete ? handleDelete : undefined}
       isLoading={isLoading}
-      backUrl="/faculty"
+      backUrl="/admin/faculty"
     />
   );
 }

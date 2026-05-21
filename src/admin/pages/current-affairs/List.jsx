@@ -61,7 +61,7 @@ export default function CurrentAffairsList() {
       render: r => (
         <div className="flex gap-1.5">
           <button
-            onClick={() => navigate(`/current-affairs/${r._id}`)}
+            onClick={() => navigate(`/admin/current-affairs/${r._id}`)}
             className="p-1.5 text-blue-500 hover:text-blue-700"
             title="Edit"
           >
@@ -90,7 +90,7 @@ export default function CurrentAffairsList() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Current Affairs</h1>
         <Link
-          to="/current-affairs/new"
+          to="/admin/current-affairs/new"
           className="inline-flex items-center gap-2 bg-red-500 text-white px-4 py-2.5 rounded-xl font-semibold text-sm hover:bg-red-600 transition-colors"
         >
           <FaPlus className="text-xs" />

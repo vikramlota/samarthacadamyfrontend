@@ -58,7 +58,7 @@ export default function MediaEdit() {
         ? await adminApi.post('/media-coverage/admin', d)
         : await adminApi.put(`/media-coverage/admin/${id}`, d);
       toast.success(isNew ? 'Created!' : 'Saved!');
-      if (isNew) navigate(`/media-coverage/${res.data?.data?._id || res.data?._id}`, { replace: true });
+      if (isNew) navigate(`/admin/media-coverage/${res.data?.data?._id || res.data?._id}`, { replace: true });
     } catch (err) {
       toast.error(err.response?.data?.error || err.message);
     }
@@ -68,7 +68,7 @@ export default function MediaEdit() {
     try {
       await adminApi.delete(`/media-coverage/admin/${id}`);
       toast.success('Deleted');
-      navigate('/media-coverage');
+      navigate('/admin/media-coverage');
     } catch (err) {
       toast.error(err.message);
     }
@@ -83,7 +83,7 @@ export default function MediaEdit() {
       onSubmit={handleSave}
       onDelete={!isNew && canDelete ? handleDelete : undefined}
       isLoading={isLoading}
-      backUrl="/media-coverage"
+      backUrl="/admin/media-coverage"
     />
   );
 }

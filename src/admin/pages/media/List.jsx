@@ -36,7 +36,7 @@ export default function MediaList() {
       key: 'actions', label: '',
       render: r => (
         <div className="flex gap-1.5 justify-end">
-          <button onClick={() => navigate(`/media-coverage/${r._id}`)} className="p-1.5 text-blue-500 hover:text-blue-700"><FaEdit /></button>
+          <button onClick={() => navigate(`/admin/media-coverage/${r._id}`)} className="p-1.5 text-blue-500 hover:text-blue-700"><FaEdit /></button>
           {r.articleUrl && <a href={r.articleUrl} target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-400 hover:text-gray-600"><FaExternalLinkAlt /></a>}
           {canDelete && <button onClick={() => setDeleteId(r._id)} className="p-1.5 text-red-400 hover:text-red-600"><FaTrash /></button>}
         </div>
@@ -49,7 +49,7 @@ export default function MediaList() {
       <ConfirmDialog open={!!deleteId} title="Delete this coverage?" onConfirm={handleDelete} onCancel={() => setDeleteId(null)} />
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Media Coverage</h1>
-        <Button variant="primary" icon={FaPlus} onClick={() => navigate('/media-coverage/new')}>Add Coverage</Button>
+        <Button variant="primary" icon={FaPlus} onClick={() => navigate('/admin/media-coverage/new')}>Add Coverage</Button>
       </div>
       <DataTable columns={columns} data={data?.data || []} isLoading={isLoading} emptyMessage="No media coverage added." searchKeys={['outletName', 'articleTitle']} />
     </div>

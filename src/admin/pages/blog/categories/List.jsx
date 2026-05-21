@@ -37,7 +37,7 @@ export default function CategoriesList() {
       key: 'actions', label: '',
       render: r => (
         <div className="flex gap-1.5">
-          <button onClick={() => navigate(`/blog/categories/${r._id}`)} className="p-1.5 text-blue-500 hover:text-blue-700"><FaEdit /></button>
+          <button onClick={() => navigate(`/admin/blog/categories/${r._id}`)} className="p-1.5 text-blue-500 hover:text-blue-700"><FaEdit /></button>
           {canDelete && <button onClick={() => setDeleteId(r._id)} className="p-1.5 text-red-400 hover:text-red-600"><FaTrash /></button>}
         </div>
       ),
@@ -49,7 +49,7 @@ export default function CategoriesList() {
       <ConfirmDialog open={!!deleteId} title="Delete this category?" message="This may affect posts using it." onConfirm={handleDelete} onCancel={() => setDeleteId(null)} />
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Blog Categories</h1>
-        <Button variant="primary" icon={FaPlus} onClick={() => navigate('/blog/categories/new')}>New Category</Button>
+        <Button variant="primary" icon={FaPlus} onClick={() => navigate('/admin/blog/categories/new')}>New Category</Button>
       </div>
       <DataTable columns={columns} data={data?.data || []} isLoading={isLoading} emptyMessage="No categories yet." searchKeys={['name', 'slug']} />
     </div>

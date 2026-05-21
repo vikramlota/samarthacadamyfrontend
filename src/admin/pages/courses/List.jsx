@@ -52,7 +52,7 @@ export default function CoursesList() {
       render: r => (
         <div className="flex gap-1.5">
           <button
-            onClick={() => navigate(`/courses/${r._id}`)}
+            onClick={() => navigate(`/admin/courses/${r._id}`)}
             className="p-1.5 text-blue-500 hover:text-blue-700"
             title="Edit"
           >
@@ -81,7 +81,7 @@ export default function CoursesList() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Courses</h1>
         <Link
-          to="/courses/new"
+          to="/admin/courses/new"
           className="inline-flex items-center gap-2 bg-red-500 text-white px-4 py-2.5 rounded-xl font-semibold text-sm hover:bg-red-600 transition-colors"
         >
           <FaPlus className="text-xs" />

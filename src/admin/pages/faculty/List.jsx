@@ -40,7 +40,7 @@ export default function FacultyList() {
       key: 'actions', label: '',
       render: r => (
         <div className="flex gap-1.5">
-          <button onClick={() => navigate(`/faculty/${r._id}`)} className="p-1.5 text-blue-500 hover:text-blue-700"><FaEdit /></button>
+          <button onClick={() => navigate(`/admin/faculty/${r._id}`)} className="p-1.5 text-blue-500 hover:text-blue-700"><FaEdit /></button>
           {canDelete && <button onClick={() => setDeleteId(r._id)} className="p-1.5 text-red-400 hover:text-red-600"><FaTrash /></button>}
         </div>
       ),
@@ -52,7 +52,7 @@ export default function FacultyList() {
       <ConfirmDialog open={!!deleteId} title="Delete faculty member?" onConfirm={handleDelete} onCancel={() => setDeleteId(null)} />
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Faculty</h1>
-        <Button variant="primary" icon={FaPlus} onClick={() => navigate('/faculty/new')}>Add Faculty</Button>
+        <Button variant="primary" icon={FaPlus} onClick={() => navigate('/admin/faculty/new')}>Add Faculty</Button>
       </div>
       <DataTable columns={columns} data={data?.data || []} isLoading={isLoading} emptyMessage="No faculty added yet." searchKeys={['name', 'subjects', 'designation']} />
     </div>

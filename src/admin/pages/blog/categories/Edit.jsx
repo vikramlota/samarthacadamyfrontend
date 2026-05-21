@@ -142,14 +142,14 @@ export default function CategoryEdit() {
     toast.success(isNew ? 'Category created!' : 'Saved!');
 
     if (isNew) {
-      navigate(`/blog/categories/${res.data._id}`, { replace: true });
+      navigate(`/admin/blog/categories/${res.data._id}`, { replace: true });
     }
   }
 
   async function handleDelete() {
     await adminApi.delete(`/blog/categories/admin/${id}`);
     toast.success('Deleted');
-    navigate('/blog/categories');
+    navigate('/admin/blog/categories');
   }
 
   return (
@@ -161,7 +161,7 @@ export default function CategoryEdit() {
       onSubmit={handleSave}
       onDelete={!isNew && canDelete ? handleDelete : undefined}
       isLoading={isLoading}
-      backUrl="/blog/categories"
+      backUrl="/admin/blog/categories"
       
     />
   );

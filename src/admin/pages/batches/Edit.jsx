@@ -60,7 +60,7 @@ export default function BatchEdit() {
         ? await adminApi.post('/batches/admin', d)
         : await adminApi.put(`/batches/admin/${id}`, d);
       toast.success(isNew ? 'Batch created!' : 'Saved!');
-      if (isNew) navigate(`/batches/${res.data?.data?._id || res.data?._id}`, { replace: true });
+      if (isNew) navigate(`/admin/batches/${res.data?.data?._id || res.data?._id}`, { replace: true });
     } catch (err) {
       toast.error(err.response?.data?.error || err.message);
     }
@@ -70,7 +70,7 @@ export default function BatchEdit() {
     try {
       await adminApi.delete(`/batches/admin/${id}`);
       toast.success('Deleted');
-      navigate('/batches');
+      navigate('/admin/batches');
     } catch (err) {
       toast.error(err.message);
     }
@@ -85,7 +85,7 @@ export default function BatchEdit() {
       onSubmit={handleSave}
       onDelete={!isNew && canDelete ? handleDelete : undefined}
       isLoading={isLoading}
-      backUrl="/batches"
+      backUrl="/admin/batches"
     />
   );
 }

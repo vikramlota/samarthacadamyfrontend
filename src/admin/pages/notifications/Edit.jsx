@@ -84,7 +84,7 @@ export default function NotificationsEdit() {
 
       toast.success(isNew ? 'Notification created!' : 'Notification saved!');
       const newId = res?._id || res?.data?._id || id;
-      if (isNew && newId) navigate(`/notifications/${newId}`, { replace: true });
+      if (isNew && newId) navigate(`/admin/notifications/${newId}`, { replace: true });
     } catch (e) {
       toast.error(e.message || 'Save failed');
     } finally {
@@ -105,7 +105,7 @@ export default function NotificationsEdit() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="space-y-1">
-          <Link to="/notifications" className="text-sm text-gray-500 hover:text-gray-700">
+          <Link to="/admin/notifications" className="text-sm text-gray-500 hover:text-gray-700">
             ← Back
           </Link>
           <h1 className="text-2xl font-bold text-gray-900">
@@ -193,7 +193,7 @@ export default function NotificationsEdit() {
           >
             {saving ? 'Saving…' : isNew ? 'Create Notification' : 'Save Changes'}
           </button>
-          <Link to="/notifications" className="text-sm text-gray-500 hover:text-gray-700">
+          <Link to="/admin/notifications" className="text-sm text-gray-500 hover:text-gray-700">
             Cancel
           </Link>
         </div>

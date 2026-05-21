@@ -92,7 +92,7 @@ export default function CurrentAffairsEdit() {
 
       toast.success(isNew ? 'Article created!' : 'Article saved!');
       const newId = res?._id || res?.data?._id || id;
-      if (isNew && newId) navigate(`/current-affairs/${newId}`, { replace: true });
+      if (isNew && newId) navigate(`/admin/current-affairs/${newId}`, { replace: true });
     } catch (e) {
       toast.error(e.message || 'Save failed');
     } finally {
@@ -113,7 +113,7 @@ export default function CurrentAffairsEdit() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="space-y-1">
-          <Link to="/current-affairs" className="text-sm text-gray-500 hover:text-gray-700">
+          <Link to="/admin/current-affairs" className="text-sm text-gray-500 hover:text-gray-700">
             ← Back
           </Link>
           <h1 className="text-2xl font-bold text-gray-900">
@@ -216,7 +216,7 @@ export default function CurrentAffairsEdit() {
           >
             {saving ? 'Saving…' : isNew ? 'Publish Article' : 'Save Changes'}
           </button>
-          <Link to="/current-affairs" className="text-sm text-gray-500 hover:text-gray-700">
+          <Link to="/admin/current-affairs" className="text-sm text-gray-500 hover:text-gray-700">
             Cancel
           </Link>
         </div>

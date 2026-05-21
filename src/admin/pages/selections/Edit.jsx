@@ -60,13 +60,13 @@ export default function SelectionEdit() {
       ? await adminApi.post('/selections/admin', d)
       : await adminApi.put(`/selections/admin/${id}`, d);
     toast.success(isNew ? 'Created!' : 'Saved!');
-    if (isNew) navigate(`/selections/${res.data._id}`, { replace: true });
+    if (isNew) navigate(`/admin/selections/${res.data._id}`, { replace: true });
   }
 
   async function handleDelete() {
     await adminApi.delete(`/selections/admin/${id}`);
     toast.success('Deleted');
-    navigate('/selections');
+    navigate('/admin/selections');
   }
 
   return (
@@ -78,7 +78,7 @@ export default function SelectionEdit() {
       onSubmit={handleSave}
       onDelete={!isNew && canDelete ? handleDelete : undefined}
       isLoading={isLoading}
-      backUrl="/selections"
+      backUrl="/admin/selections"
     />
   );
 }

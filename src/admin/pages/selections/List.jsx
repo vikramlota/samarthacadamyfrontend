@@ -40,7 +40,7 @@ export default function SelectionsList() {
       key: 'actions', label: '',
       render: r => (
         <div className="flex gap-1.5">
-          <button onClick={() => navigate(`/selections/${r._id}`)} className="p-1.5 text-blue-500 hover:text-blue-700"><FaEdit /></button>
+          <button onClick={() => navigate(`/admin/selections/${r._id}`)} className="p-1.5 text-blue-500 hover:text-blue-700"><FaEdit /></button>
           {canDelete && <button onClick={() => setDeleteId(r._id)} className="p-1.5 text-red-400 hover:text-red-600"><FaTrash /></button>}
         </div>
       ),
@@ -52,7 +52,7 @@ export default function SelectionsList() {
       <ConfirmDialog open={!!deleteId} title="Delete this selection?" onConfirm={handleDelete} onCancel={() => setDeleteId(null)} />
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Selections</h1>
-        <Button variant="primary" icon={FaPlus} onClick={() => navigate('/selections/new')}>Add Selection</Button>
+        <Button variant="primary" icon={FaPlus} onClick={() => navigate('/admin/selections/new')}>Add Selection</Button>
       </div>
       <DataTable columns={columns} data={data?.data || []} isLoading={isLoading} emptyMessage="No selections added yet." searchKeys={['name', 'exam', 'examName']} />
     </div>

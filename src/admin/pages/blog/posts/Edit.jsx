@@ -82,7 +82,7 @@ export default function BlogPostEdit() {
         ? await adminApi.post('/blog/posts/manage', processedData)
         : await adminApi.put(`/blog/posts/manage/${id}`, processedData);
       toast.success(isNew ? 'Post created!' : 'Saved!');
-      if (isNew) navigate(`/blog/posts/${res.data._id}`, { replace: true });
+      if (isNew) navigate(`/admin/blog/posts/${res.data._id}`, { replace: true });
     } catch (error) {
       toast.error(error.message || 'Unable to save blog post');
     }
@@ -91,7 +91,7 @@ export default function BlogPostEdit() {
   async function handleDelete() {
     await adminApi.delete(`/blog/posts/manage/${id}`);
     toast.success('Deleted');
-    navigate('/blog/posts');
+    navigate('/admin/blog/posts');
   }
 
   const TABS = [
@@ -177,7 +177,7 @@ export default function BlogPostEdit() {
       onSubmit={handleSave}
       onDelete={!isNew && canDelete ? handleDelete : undefined}
       isLoading={isLoading}
-      backUrl="/blog/posts"
+      backUrl="/admin/blog/posts"
     />
   );
 }

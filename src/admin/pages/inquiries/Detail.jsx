@@ -67,7 +67,7 @@ export default function InquiryDetail() {
     try {
       await adminApi.delete(`/inquiries/admin/${id}`);
       toast.success('Deleted');
-      navigate('/inquiries');
+      navigate('/admin/inquiries');
     } catch (e) {
       toast.error(e.message);
     }
@@ -82,7 +82,7 @@ export default function InquiryDetail() {
       <ConfirmDialog open={showDelete} title="Delete this inquiry?" onConfirm={handleDelete} onCancel={() => setShowDelete(false)} />
 
       <div className="flex items-center gap-3">
-        <button onClick={() => navigate('/inquiries')} className="p-2 rounded-lg hover:bg-gray-100 text-gray-500">
+        <button onClick={() => navigate('/admin/inquiries')} className="p-2 rounded-lg hover:bg-gray-100 text-gray-500">
           <FaArrowLeft />
         </button>
         <h1 className="text-xl font-bold text-gray-900 flex-1">{inquiry.name}</h1>

@@ -71,7 +71,7 @@ export default function InquiriesList() {
       key: 'actions', label: '',
       render: r => (
         <div className="flex gap-2">
-          <button onClick={() => navigate(`/inquiries/${r._id}`)} className="p-1.5 text-blue-500 hover:text-blue-700" title="View">
+          <button onClick={() => navigate(`/admin/inquiries/${r._id}`)} className="p-1.5 text-blue-500 hover:text-blue-700" title="View">
             <FaEye />
           </button>
           {r.phone && (

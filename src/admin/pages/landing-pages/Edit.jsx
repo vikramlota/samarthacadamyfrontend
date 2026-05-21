@@ -287,13 +287,13 @@ export default function LandingPageEdit() {
       ? await adminApi.post('/landing-pages/admin', processedData)
       : await adminApi.put(`/landing-pages/admin/${id}`, processedData);
     toast.success(isNew ? 'Created!' : 'Saved!');
-    if (isNew) navigate(`/landing-pages/${res.data._id}`, { replace: true });
+    if (isNew) navigate(`/admin/landing-pages/${res.data._id}`, { replace: true });
   }
 
   async function handleDelete() {
     await adminApi.delete(`/landing-pages/admin/${id}`);
     toast.success('Deleted');
-    navigate('/landing-pages');
+    navigate('/admin/landing-pages');
   }
 
   return (
@@ -305,7 +305,7 @@ export default function LandingPageEdit() {
       onSubmit={handleSave}
       onDelete={!isNew && canDelete ? handleDelete : undefined}
       isLoading={isLoading}
-      backUrl="/landing-pages"
+      backUrl="/admin/landing-pages"
     />
   );
 }
