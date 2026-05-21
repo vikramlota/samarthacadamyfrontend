@@ -36,12 +36,12 @@ export default function Dashboard() {
   const facultyCount = (facultyData?.data || []).length;
 
   const quickLinks = [
-    { label: 'New Landing Page', to: '/landing-pages/new', color: 'text-blue-600' },
-    { label: 'New Blog Post', to: '/blog/posts/new', color: 'text-green-600' },
-    { label: 'New Faculty', to: '/faculty/new', color: 'text-purple-600' },
-    { label: 'View Inquiries', to: '/inquiries', color: 'text-orange-600' },
-    { label: 'Edit About Page', to: '/about', color: 'text-red-600' },
-    { label: 'Manage Batches', to: '/batches', color: 'text-teal-600' },
+    { label: 'New Landing Page', to: '/admin/landing-pages/new', color: 'text-blue-600' },
+    { label: 'New Blog Post', to: '/admin/blog/posts/new', color: 'text-green-600' },
+    { label: 'New Faculty', to: '/admin/faculty/new', color: 'text-purple-600' },
+    { label: 'View Inquiries', to: '/admin/inquiries', color: 'text-orange-600' },
+    { label: 'Edit About Page', to: '/admin/about', color: 'text-red-600' },
+    { label: 'Manage Batches', to: '/admin/batches', color: 'text-teal-600' },
   ];
 
   return (
@@ -53,10 +53,10 @@ export default function Dashboard() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Total Inquiries" value={inq.total} icon={FaInbox} color="bg-red-500" to="/inquiries" />
-        <StatCard label="New This Week" value={inq.newThisWeek} icon={FaInbox} color="bg-orange-500" to="/inquiries" />
-        <StatCard label="Published Posts" value={blog.published} icon={FaBlog} color="bg-green-500" to="/blog/posts" />
-        <StatCard label="Active Pages" value={activeLPs} icon={FaFileAlt} color="bg-blue-500" to="/landing-pages" />
+        <StatCard label="Total Inquiries" value={inq.total} icon={FaInbox} color="bg-red-500" to="/admin/inquiries" />
+        <StatCard label="New This Week" value={inq.newThisWeek} icon={FaInbox} color="bg-orange-500" to="/admin/inquiries" />
+        <StatCard label="Published Posts" value={blog.published} icon={FaBlog} color="bg-green-500" to="/admin/blog/posts" />
+        <StatCard label="Active Pages" value={activeLPs} icon={FaFileAlt} color="bg-blue-500" to="/admin/landing-pages" />
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">
@@ -64,7 +64,7 @@ export default function Dashboard() {
         <div className="lg:col-span-2">
           <div className="flex items-center justify-between mb-3">
             <SectionTitle>Recent Inquiries</SectionTitle>
-            <Link to="/inquiries" className="text-xs text-red-500 hover:text-red-700 flex items-center gap-1">
+            <Link to="/admin/inquiries" className="text-xs text-red-500 hover:text-red-700 flex items-center gap-1">
               View all <FaArrowRight className="text-[10px]" />
             </Link>
           </div>
@@ -92,7 +92,7 @@ export default function Dashboard() {
                         {new Date(inq.createdAt).toLocaleDateString('en-IN')}
                       </td>
                       <td>
-                        <Link to={`/inquiries/${inq._id}`} className="text-xs text-red-500 hover:underline">
+                        <Link to={`/admin/inquiries/${inq._id}`} className="text-xs text-red-500 hover:underline">
                           View
                         </Link>
                       </td>

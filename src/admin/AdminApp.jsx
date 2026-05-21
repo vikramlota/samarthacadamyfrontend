@@ -40,7 +40,7 @@ const DemoRequestsList = lazy(() => import('./pages/demo-requests/List'));
 function ProtectedRoute({ children }) {
   const { isAuthenticated, isLoading } = useAuth();
   if (isLoading) return <LoadingScreen />;
-  if (!isAuthenticated) return <Navigate to="login" replace />;
+  if (!isAuthenticated) return <Navigate to="/admin/login" replace />;
   return children;
 }
 
@@ -110,7 +110,7 @@ export default function AdminApp() {
 
           <Route path="demo-requests"      element={<S><DemoRequestsList /></S>} />
 
-          <Route path="*" element={<Navigate to="" replace />} />
+          <Route path="*" element={<Navigate to="/admin" replace />} />
         </Route>
       </Routes>
     </S>

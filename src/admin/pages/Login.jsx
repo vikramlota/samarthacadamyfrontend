@@ -16,7 +16,7 @@ export default function Login() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (isLoading) return null;
-  if (isAuthenticated) return <Navigate to="/" replace />;
+  if (isAuthenticated) return <Navigate to="/admin" replace />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +25,7 @@ export default function Login() {
     const result = await login(email, password);
     setIsSubmitting(false);
     if (result.success) {
-      const from = location.state?.from?.pathname || '/';
+      const from = location.state?.from?.pathname || '/admin';
       navigate(from, { replace: true });
     } else {
       setError(result.error || 'Login failed');
@@ -85,7 +85,7 @@ export default function Login() {
 
             <div className="text-center">
               <Link
-                to="/forgot-password"
+                to="/admin/forgot-password"
                 className="text-sm text-red-500 hover:text-red-700 transition-colors"
               >
                 Forgot your password?

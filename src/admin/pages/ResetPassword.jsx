@@ -29,7 +29,7 @@ export default function ResetPassword() {
     setIsSubmitting(true);
     try {
       await adminApi.post('/auth/reset-password', { token, newPassword });
-      navigate('/login', { state: { message: 'Password updated. Please sign in.' } });
+      navigate('/admin/login', { state: { message: 'Password updated. Please sign in.' } });
     } catch (err) {
       setError(err.message || 'Reset failed — token may be expired');
     } finally {
@@ -49,7 +49,7 @@ export default function ResetPassword() {
           {!token ? (
             <div className="text-center space-y-3">
               <p className="text-sm text-red-600">Invalid or missing reset token.</p>
-              <Link to="/forgot-password" className="text-sm text-red-500 hover:text-red-700">
+              <Link to="/admin/forgot-password" className="text-sm text-red-500 hover:text-red-700">
                 Request a new link
               </Link>
             </div>
@@ -82,7 +82,7 @@ export default function ResetPassword() {
                 Update Password
               </Button>
               <div className="text-center">
-                <Link to="/login" className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700">
+                <Link to="/admin/login" className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700">
                   <FaArrowLeft className="text-xs" /> Back to login
                 </Link>
               </div>

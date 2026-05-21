@@ -8,39 +8,39 @@ import { useAuth } from '../context/AuthContext';
 import { cn } from '@/lib/utils';
 
 const NAV = [
-  { to: '/', label: 'Dashboard', icon: FaTachometerAlt, end: true },
+  { to: '/admin', label: 'Dashboard', icon: FaTachometerAlt, end: true },
   {
     label: 'Content',
     items: [
-      { to: '/landing-pages',  label: 'Landing Pages',  icon: FaFileAlt },
-      { to: '/about',          label: 'About Page',     icon: FaInfoCircle },
-      { to: '/faculty',        label: 'Faculty',        icon: FaChalkboardTeacher },
-      { to: '/batches',        label: 'Batches',        icon: FaCalendarAlt },
-      { to: '/selections',     label: 'Selections',     icon: FaTrophy },
-      { to: '/media-coverage', label: 'Media Coverage', icon: FaNewspaper },
-      { to: '/courses',        label: 'Courses',        icon: FaBook },
+      { to: '/admin/landing-pages',  label: 'Landing Pages',  icon: FaFileAlt },
+      { to: '/admin/about',          label: 'About Page',     icon: FaInfoCircle },
+      { to: '/admin/faculty',        label: 'Faculty',        icon: FaChalkboardTeacher },
+      { to: '/admin/batches',        label: 'Batches',        icon: FaCalendarAlt },
+      { to: '/admin/selections',     label: 'Selections',     icon: FaTrophy },
+      { to: '/admin/media-coverage', label: 'Media Coverage', icon: FaNewspaper },
+      { to: '/admin/courses',        label: 'Courses',        icon: FaBook },
     ],
   },
   {
     label: 'Updates',
     items: [
-      { to: '/current-affairs', label: 'Current Affairs',    icon: FaNewspaper },
-      { to: '/notifications',   label: 'Notifications',      icon: FaBell },
-      { to: '/results',         label: 'Results / Hall of Fame', icon: FaTrophy },
+      { to: '/admin/current-affairs', label: 'Current Affairs',    icon: FaNewspaper },
+      { to: '/admin/notifications',   label: 'Notifications',      icon: FaBell },
+      { to: '/admin/results',         label: 'Results / Hall of Fame', icon: FaTrophy },
     ],
   },
   {
     label: 'Engagement',
     items: [
-      { to: '/inquiries',     label: 'Inquiries',      icon: FaInbox },
-      { to: '/demo-requests', label: 'Demo Requests',  icon: FaClipboardList },
+      { to: '/admin/inquiries',     label: 'Inquiries',      icon: FaInbox },
+      { to: '/admin/demo-requests', label: 'Demo Requests',  icon: FaClipboardList },
     ],
   },
   {
     label: 'Blog',
     items: [
-      { to: '/blog/posts',      label: 'Posts',      icon: FaBlog },
-      { to: '/blog/categories', label: 'Categories', icon: FaTags },
+      { to: '/admin/blog/posts',      label: 'Posts',      icon: FaBlog },
+      { to: '/admin/blog/categories', label: 'Categories', icon: FaTags },
     ],
   },
 ];
@@ -126,7 +126,7 @@ export default function Sidebar({ isOpen, onClose }) {
           {/* User footer */}
           <div className="p-4 border-t border-gray-200 flex-shrink-0">
             <NavLink
-              to="/profile"
+              to="/admin/profile"
               onClick={onClose}
               className="flex items-center gap-3 mb-3 p-2 rounded-lg hover:bg-gray-50 transition-colors"
             >

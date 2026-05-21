@@ -46,7 +46,7 @@ export default function ForgotPassword() {
                 Check your inbox (and spam folder).
               </p>
               <Link
-                to="/login"
+                to="/admin/login"
                 className="inline-flex items-center gap-2 text-sm text-red-500 hover:text-red-700"
               >
                 <FaArrowLeft className="text-xs" /> Back to login
@@ -72,7 +72,7 @@ export default function ForgotPassword() {
                 Send Reset Link
               </Button>
               <div className="text-center">
-                <Link to="/login" className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700">
+                <Link to="/admin/login" className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700">
                   <FaArrowLeft className="text-xs" /> Back to login
                 </Link>
               </div>
