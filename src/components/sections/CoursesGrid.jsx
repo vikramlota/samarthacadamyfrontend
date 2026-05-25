@@ -25,7 +25,10 @@ function CourseItem({ course }) {
       </div>
 
       <h3 className="text-base font-semibold text-gray-900 mb-2">{course.title}</h3>
-      <p className="text-sm text-gray-600 leading-relaxed flex-1 line-clamp-2">{course.description}</p>
+      <div 
+        className="text-sm text-gray-600 leading-relaxed flex-1 line-clamp-2"
+        dangerouslySetInnerHTML={{ __html: course.description }}
+      />
 
       <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
         <span>{course.duration}</span>

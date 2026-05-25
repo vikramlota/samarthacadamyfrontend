@@ -172,9 +172,10 @@ const CourseDetail = () => {
                     <h2 className={`text-2xl font-bold mb-6 flex items-center gap-2 ${themeText}`}>
                         <FaGraduationCap /> About This Course
                     </h2>
-                    <div className="prose max-w-none text-gray-700 text-lg leading-relaxed whitespace-pre-line mb-8">
-                        {course.description}
-                    </div>
+                    <div 
+                        className="prose max-w-none text-gray-700 text-lg leading-relaxed mb-8"
+                        dangerouslySetInnerHTML={{ __html: course.description }}
+                    />
 
                     {/* NEW: Dynamic YouTube Video Embed */}
                     {(() => {

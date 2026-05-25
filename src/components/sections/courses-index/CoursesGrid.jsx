@@ -31,7 +31,10 @@ function CourseCard({ course }) {
         <h3 className="font-semibold text-gray-900 text-base leading-snug mb-1">{name}</h3>
 
         {sub && (
-          <p className="text-xs text-gray-500 mb-3 leading-relaxed line-clamp-2">{sub}</p>
+          <div 
+            className="text-xs text-gray-500 mb-3 leading-relaxed line-clamp-2"
+            dangerouslySetInnerHTML={{ __html: sub }}
+          />
         )}
 
         {(duration || batchSize) && (
