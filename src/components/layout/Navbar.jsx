@@ -9,33 +9,33 @@ import {
 } from 'react-icons/fa';
 import { cn } from '../../lib/utils';
 
-const PHONE      = '+91 99889 49969';
-const PHONE_TEL  = 'tel:+919988949969';
-const WHATSAPP   = 'https://wa.me/919041973105?text=Hi%2C%20I%27m%20interested%20in%20Samarth%20Academy%20coaching.%20Please%20share%20details.';
-const EMAIL      = 'samarth.academy2006@gmail.com';
+const PHONE = '+91 99889 49969';
+const PHONE_TEL = 'tel:+919988949969';
+const WHATSAPP = 'https://wa.me/919041973105?text=Hi%2C%20I%27m%20interested%20in%20Samarth%20Academy%20coaching.%20Please%20share%20details.';
+const EMAIL = 'samarth.academy2006@gmail.com';
 
 const NAV_LINKS = [
-  { name: 'Home',           path: '/' },
-  { name: 'Blog',           path: '/blog' },
-  { name: 'Notifications',  path: '/notifications' },
-  { name: 'Current Affairs',path: '/current-affairs' },
-  { name: 'Results',        path: '/Selections' },
-  { name: 'About',          path: '/about' },
+  { name: 'Home', path: '/' },
+  { name: 'Blog', path: '/blog' },
+  { name: 'Notifications', path: '/notifications' },
+  { name: 'Current Affairs', path: '/current-affairs' },
+  { name: 'Results', path: '/Selections' },
+  { name: 'About', path: '/about' },
 ];
 
 const COURSE_ITEMS = [
-  { icon: FaGraduationCap,  title: 'SSC Coaching',  desc: 'SSC CGL, CHSL & MTS prep',       href: '/courses/ssc-coaching' },
-  { icon: FaUniversity,     title: 'Banking',        desc: 'IBPS, SBI PO & Clerk coaching',  href: '/courses/banking' },
-  { icon: FaShieldAlt,      title: 'Punjab Police',  desc: 'Constable & SI preparation',     href: '/courses/punjab-police' },
-  { icon: FaFileAlt,        title: 'SSC CGL',        desc: 'Combined Graduate Level exam',   href: '/courses/ssc-cgl' },
-  { icon: FaMoneyBillWave,  title: 'IBPS PO',        desc: 'Probationary Officer coaching',  href: '/courses/ibps-po' },
-  { icon: FaBookOpen,       title: 'UGC NET',        desc: 'National Eligibility Test prep', href: '/courses/ugc-net' },
-  { icon: FaChartLine,      title: 'CAT',            desc: 'Common Admission Test prep',     href: '/courses/cat' },
+  { icon: FaGraduationCap, title: 'SSC Coaching', desc: 'SSC CGL, CHSL & MTS prep', href: '/courses/ssc-coaching-amritsar' },
+  { icon: FaUniversity, title: 'Banking', desc: 'IBPS, SBI PO & Clerk coaching', href: '/courses/banking' },
+  { icon: FaShieldAlt, title: 'Punjab Police', desc: 'Constable & SI preparation', href: '/courses/punjab-police' },
+  { icon: FaFileAlt, title: 'SSC CGL', desc: 'Combined Graduate Level exam', href: '/courses/ssc-cgl-coaching-amritsar' },
+  { icon: FaMoneyBillWave, title: 'IBPS PO', desc: 'Probationary Officer coaching', href: '/courses/ibps-po' },
+  { icon: FaBookOpen, title: 'UGC NET', desc: 'National Eligibility Test prep', href: '/courses/ugc-net' },
+  { icon: FaChartLine, title: 'CAT', desc: 'Common Admission Test prep', href: '/courses/cat' },
 ];
 
 const Navbar = () => {
-  const [scrolled, setScrolled]       = useState(false);
-  const [mobileOpen, setMobileOpen]   = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [coursesOpen, setCoursesOpen] = useState(false);
   const location = useLocation();
 
@@ -76,10 +76,10 @@ const Navbar = () => {
             </span>
           </div>
           <div className="flex items-center gap-3">
-            <a href="https://www.facebook.com/samarthacademy2006" target="_blank" rel="noopener noreferrer" aria-label="Facebook"  className="hover:text-orange-300 transition-colors"><FaFacebookF /></a>
+            <a href="https://www.facebook.com/samarthacademy2006" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:text-orange-300 transition-colors"><FaFacebookF /></a>
             <a href="https://www.instagram.com/gyanm.samarth.academy?igsh=MTB0NnI5dTliNDlicA%3D%3D" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-orange-300 transition-colors"><FaInstagram /></a>
-            <a href="https://youtube.com/@samarth.academyy?si=N6X6HSt5YGEi8goV" target="_blank" rel="noopener noreferrer" aria-label="YouTube"   className="hover:text-orange-300 transition-colors"><FaYoutube /></a>
-            <a href={WHATSAPP}      target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"  className="hover:text-orange-300 transition-colors"><FaWhatsapp /></a>
+            <a href="https://youtube.com/@samarth.academyy?si=N6X6HSt5YGEi8goV" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="hover:text-orange-300 transition-colors"><FaYoutube /></a>
+            <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="hover:text-orange-300 transition-colors"><FaWhatsapp /></a>
           </div>
         </div>
       </div>
