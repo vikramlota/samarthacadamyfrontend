@@ -67,7 +67,7 @@ export default function LandingCourseDetails({ details, examShortName, courseSlu
               )}
 
               <Button
-                to={`/book-demo`}
+                to={details.enrollNowLink || `/book-demo`}
                 variant="primary"
                 size="lg"
                 className="w-full"

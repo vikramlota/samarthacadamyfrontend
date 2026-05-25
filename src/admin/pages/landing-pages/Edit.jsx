@@ -17,7 +17,7 @@ function empty() {
     quickInfo: { duration: '', fees: '', batchSize: '', mode: '' },
     overview: { paragraphs: [], examStats: [] },
     whyChoose: [],
-    courseDetails: { inclusions: [], fees: { original: 0, discounted: 0, currency: '₹', emiAvailable: false, emiNote: '' } },
+    courseDetails: { enrollNowLink: '', inclusions: [], fees: { original: 0, discounted: 0, currency: '₹', emiAvailable: false, emiNote: '' } },
     syllabus: { subjects: [] },
     faqs: [],
     midCta: { eyebrow: '', title: '', description: '', trustPoints: [] },
@@ -138,6 +138,7 @@ const TABS = [
             <FormField label="EMI Note"><TInput value={d.courseDetails?.fees?.emiNote} onChange={v => update('courseDetails.fees.emiNote', v)} placeholder="Pay ₹7,500 now + ₹7,500 after 3 months" /></FormField>
           )}
         </div>
+        <FormField label="Enroll Now Link" hint="Link for the Enroll Now button on this course page"><TInput value={d.courseDetails?.enrollNowLink} onChange={v => update('courseDetails.enrollNowLink', v)} placeholder="/book-demo or https://..." /></FormField>
         <FieldArray
           label="What's Included"
           value={d.courseDetails?.inclusions || []}
