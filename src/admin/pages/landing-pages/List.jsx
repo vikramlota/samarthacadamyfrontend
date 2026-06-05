@@ -7,7 +7,7 @@ import DataTable from '../../components/DataTable';
 import StatusBadge from '../../components/StatusBadge';
 import ConfirmDialog from '../../components/ConfirmDialog';
 import { Button } from '@/components/ui/Button';
-import { FaPlus, FaEdit, FaTrash, FaCopy } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash, FaCopy, FaImage } from 'react-icons/fa';
 import { useState } from 'react';
 
 export default function LandingPagesList() {
@@ -35,6 +35,13 @@ export default function LandingPagesList() {
   }
 
   const columns = [
+    {
+      key: 'courseThumbnail',
+      label: 'Thumb',
+      render: r => r.courseThumbnail
+        ? <img src={r.courseThumbnail} alt="" className="w-10 h-10 object-cover rounded-lg" />
+        : <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center"><FaImage className="text-gray-400" /></div>,
+    },
     { key: 'examShortName', label: 'Exam', sortable: true, render: r => <span className="font-medium">{r.examShortName}</span> },
     { key: 'slug', label: 'Slug', render: r => <code className="text-xs bg-gray-100 px-1.5 py-0.5 rounded">{r.slug}</code> },
     { key: 'active', label: 'Status', render: r => <StatusBadge status={r.active ? 'active' : 'inactive'} /> },

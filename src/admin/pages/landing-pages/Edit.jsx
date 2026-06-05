@@ -11,7 +11,7 @@ import FormField, { TInput, TTextarea, TToggle, TagInput, TSelect } from '../../
 
 function empty() {
   return {
-    examShortName: '', examFullName: '', slug: '', active: true,
+    examShortName: '', examFullName: '', slug: '', active: true, courseThumbnail: '',
     seo: { title: '', description: '', keywords: '', canonical: '', ogImage: '' },
     hero: { badge: '', headline: '', headlineAccent: '', subheadline: '', trustPoints: [] },
     quickInfo: { duration: '', fees: '', batchSize: '', mode: '' },
@@ -36,6 +36,9 @@ const TABS = [
         <FormField label="URL Slug" required hint="e.g. ssc-coaching-amritsar — used in the page URL"><TInput value={d.slug} onChange={v => update('slug', v.toLowerCase().replace(/\s+/g, '-'))} placeholder="ssc-coaching-amritsar" required /></FormField>
         <FormField label="Status"><TToggle label="Active (visible on site)" checked={d.active} onChange={v => update('active', v)} /></FormField>
         <div className="md:col-span-2"><FormField label="Display Order" hint="Lower numbers appear first"><TInput type="number" value={d.displayOrder || 0} onChange={v => update('displayOrder', Number(v))} placeholder="1" /></FormField></div>
+        <div className="md:col-span-2">
+          <ImageUpload label="Course Thumbnail" value={d.courseThumbnail} onChange={v => update('courseThumbnail', v)} />
+        </div>
       </div>
     ),
   },

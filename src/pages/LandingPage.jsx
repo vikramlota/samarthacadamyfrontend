@@ -76,6 +76,7 @@ export default function LandingPage() {
         hero={page.hero}
         courseSlug={page.slug}
         examShortName={page.examShortName}
+        courseThumbnail={page.courseThumbnail}
       />
       <LandingQuickInfo info={page.quickInfo} />
       <LandingOverview

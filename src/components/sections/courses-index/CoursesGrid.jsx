@@ -17,7 +17,18 @@ function CourseCard({ course }) {
 
   return (
     <Link to={`/${course.slug}`} className="block group h-full">
-      <article className="bg-white rounded-2xl border border-gray-100 shadow-soft hover:-translate-y-0.5 hover:shadow-card transition-all duration-150 p-6 flex flex-col h-full">
+      <article className="bg-white rounded-2xl border border-gray-100 shadow-soft hover:-translate-y-0.5 hover:shadow-card transition-all duration-150 flex flex-col h-full overflow-hidden">
+        {course.courseThumbnail ? (
+          <div className="w-full h-44 overflow-hidden">
+            <img
+              src={course.courseThumbnail}
+              alt={name}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+            />
+          </div>
+        ) : null}
+        <div className="p-6 flex flex-col flex-1">
         <div className="flex items-start justify-between mb-4">
           <div className="w-12 h-12 rounded-2xl bg-red-50 flex items-center justify-center shrink-0">
             {Icon
@@ -64,6 +75,7 @@ function CourseCard({ course }) {
         <div className="mt-auto pt-4 flex items-center gap-1.5 text-sm text-red-500 font-medium group-hover:gap-2.5 transition-all duration-150">
           View Course Details
           <FaArrowRight className="text-xs" aria-hidden="true" />
+        </div>
         </div>
       </article>
     </Link>

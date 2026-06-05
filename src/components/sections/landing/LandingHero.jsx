@@ -14,7 +14,7 @@ const PREF_TIMES = [
   { value: 'evening',   label: 'Evening (4 PM – 7 PM)' },
 ];
 
-export default function LandingHero({ hero, courseSlug, examShortName }) {
+export default function LandingHero({ hero, courseSlug, examShortName, courseThumbnail }) {
   const { data: courses } = useApiData('/courses', { fallback: fallbackCourses });
   const courseOptions = [
     { value: '', label: 'Select a course' },
@@ -91,6 +91,19 @@ export default function LandingHero({ hero, courseSlug, examShortName }) {
                   </motion.li>
                 ))}
               </motion.ul>
+            )}
+
+            {courseThumbnail && (
+              <motion.div variants={staggerItem} className="pt-1">
+                <div className="rounded-2xl overflow-hidden shadow-soft border border-gray-100 max-w-md">
+                  <img
+                    src={courseThumbnail}
+                    alt={`${examShortName} coaching at Samarth Academy`}
+                    className="w-full h-48 md:h-56 object-cover"
+                    loading="eager"
+                  />
+                </div>
+              </motion.div>
             )}
 
             <motion.div variants={staggerItem} className="flex flex-wrap gap-3 pt-1">
