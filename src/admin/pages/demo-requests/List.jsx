@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { adminApi } from '../../lib/api';
 import { useToast } from '../../components/Toast';
 import DataTable from '../../components/DataTable';
@@ -19,12 +19,12 @@ export default function DemoRequestsList() {
   const [isLoading, setIsLoading] = useState(true);
   const [deleteId, setDeleteId] = useState(null);
 
-  useState(() => {
+  useEffect(() => {
     adminApi.get('/demo-requests')
       .then(res => setData(Array.isArray(res) ? res : (res?.data || [])))
       .catch(e => toast.error(e.message))
       .finally(() => setIsLoading(false));
-  });
+  }, [toast]);
 
   async function cycleStatus(row) {
     const next = STATUS_CYCLE[row.status] || 'Contacted';
