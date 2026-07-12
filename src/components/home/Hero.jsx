@@ -7,12 +7,12 @@ import { useLeadSubmit } from '../../utils/customHooks';
 import { staggerContainer, staggerItem } from '../../lib/motion';
 
 const COURSE_OPTIONS = [
-  { value: 'ssc-cgl',     label: 'SSC CGL' },
-  { value: 'ssc-chsl',    label: 'SSC CHSL / MTS' },
-  { value: 'ibps-po',     label: 'IBPS PO' },
-  { value: 'sbi-po',      label: 'SBI PO' },
-  { value: 'ibps-clerk',  label: 'IBPS Clerk' },
-  { value: 'punjab-police', label: 'Punjab Police' },
+  { value: 'ssc-cgl-coaching-amritsar',     label: 'SSC CGL' },
+  { value: 'ssc-chsl-coaching-amritsar',    label: 'SSC CHSL / MTS' },
+  { value: 'ibps-po-coaching-amritsar',     label: 'IBPS PO' },
+  { value: 'sbi-po-coaching-amritsar',      label: 'SBI PO' },
+  { value: 'ibps-clerk-coaching-amritsar',  label: 'IBPS Clerk' },
+  { value: 'punjab-police-caoching-amritsar', label: 'Punjab Police' },
   { value: 'ugc-net',     label: 'UGC NET' },
   { value: 'other',       label: 'Other / Not Sure' },
 ];

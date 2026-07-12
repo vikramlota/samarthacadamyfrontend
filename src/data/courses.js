@@ -2,7 +2,7 @@ export const fallbackCourses = [
   {
     id:          1,
     title:       'IBPS PO / Clerk',
-    slug:        'ibps-po-clerk',
+    slug:        'ibps-po-coaching-amritsar',
     icon:        'FaUniversity',
     description: 'Complete preparation for IBPS Banking exams including PO and Clerk positions.',
     duration:    '6 months',
@@ -12,7 +12,7 @@ export const fallbackCourses = [
   {
     id:          2,
     title:       'SBI PO / Clerk',
-    slug:        'sbi-po-clerk',
+    slug:        'sbi-po-coaching-amritsar',
     icon:        'FaMoneyBillWave',
     description: 'Targeted coaching for SBI recruitment with full mock test series.',
     duration:    '6 months',
@@ -22,7 +22,7 @@ export const fallbackCourses = [
   {
     id:          3,
     title:       'SSC CGL / CHSL',
-    slug:        'ssc-cgl-chsl',
+    slug:        'ssc-cgl-coaching-amritsar',
     icon:        'FaFileAlt',
     description: 'Comprehensive SSC prep covering Tier 1 to Tier 3 with DI and Reasoning.',
     duration:    '8 months',
@@ -32,7 +32,7 @@ export const fallbackCourses = [
   {
     id:          4,
     title:       'Punjab Police',
-    slug:        'punjab-police',
+    slug:        'punjab-police-coaching-amritsar',
     icon:        'FaShieldAlt',
     description: 'Written + physical preparation for Punjab Police Sub-Inspector and Constable.',
     duration:    '4 months',

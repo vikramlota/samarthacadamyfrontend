@@ -6,26 +6,26 @@ import { useLeadSubmit } from '../../utils/customHooks';
 import { staggerContainer, staggerItem, viewportConfig } from '../../lib/motion';
 
 const COURSE_OPTIONS = [
-  { value: 'ssc-cgl',      label: 'SSC CGL' },
-  { value: 'ssc-chsl',     label: 'SSC CHSL / MTS' },
-  { value: 'ibps-po',      label: 'IBPS PO' },
-  { value: 'sbi-po',       label: 'SBI PO' },
-  { value: 'ibps-clerk',   label: 'IBPS Clerk' },
-  { value: 'punjab-police',label: 'Punjab Police' },
-  { value: 'ugc-net',      label: 'UGC NET' },
-  { value: 'other',        label: 'Other / Not Sure' },
+  { value: 'ssc-cgl-coaching-amritsar', label: 'SSC CGL' },
+  { value: 'ssc-chsl-coaching-amritsar', label: 'SSC CHSL / MTS' },
+  { value: 'ibps-po-coaching-amritsar', label: 'IBPS PO' },
+  { value: 'sbi-po-coaching-amritsar', label: 'SBI PO' },
+  { value: 'ibps-clerk-coaching-amritsar', label: 'IBPS Clerk' },
+  { value: 'punjab-police-coaching-amritsar', label: 'Punjab Police' },
+  { value: 'ugc-net-coaching-amritsar', label: 'UGC NET' },
+  { value: 'other-coaching-amritsar', label: 'Other / Not Sure' },
 ];
 
 const TIME_OPTIONS = [
-  { value: 'morning',   label: 'Morning (9 AM – 12 PM)' },
+  { value: 'morning', label: 'Morning (9 AM – 12 PM)' },
   { value: 'afternoon', label: 'Afternoon (12 PM – 4 PM)' },
-  { value: 'evening',   label: 'Evening (4 PM – 7 PM)' },
+  { value: 'evening', label: 'Evening (4 PM – 7 PM)' },
 ];
 
 const BENEFITS = [
-  { icon: FaPhoneAlt,     text: 'Free 15-minute counselling call' },
+  { icon: FaPhoneAlt, text: 'Free 15-minute counselling call' },
   { icon: FaUserGraduate, text: 'Attend a free demo class first' },
-  { icon: FaStar,         text: 'No commitment, no pressure' },
+  { icon: FaStar, text: 'No commitment, no pressure' },
 ];
 
 export default function LeadForm() {
