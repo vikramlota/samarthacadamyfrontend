@@ -202,7 +202,7 @@ export const useLeadSubmit = () => {
     }
 
     try {
-      const r = await api.post('/lead', formData);
+      const r = await api.post('/inquiries', formData);
       setSubmitted(true);
       return r.data;
     } catch (e) {

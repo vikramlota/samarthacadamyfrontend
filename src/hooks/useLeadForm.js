@@ -54,7 +54,7 @@ export function useLeadForm({ source, onSuccess } = {}) {
 
     try {
       const { website, ...submitData } = formData;
-      const response = await api.post('/lead', { ...submitData, source });
+      const response = await api.post('/inquiries', { ...submitData, source });
 
       if (response.success) {
         setIsSuccess(true);
