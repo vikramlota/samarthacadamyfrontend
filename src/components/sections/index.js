@@ -11,3 +11,4 @@ export { default as ExamSpotlight }      from './ExamSpotlight';
 export { default as BlogPreview }        from './BlogPreview';
 export { default as FaqSection }         from './FaqSection';
 export { default as FinalCTA }           from './FinalCTA';
+export { default as InquirySection }     from './InquirySection';

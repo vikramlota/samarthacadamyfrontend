@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FaInbox, FaBlog, FaFileAlt, FaChalkboardTeacher, FaArrowRight, FaWhatsapp } from 'react-icons/fa';
+import { FaInbox, FaBlog, FaFileAlt, FaChalkboardTeacher, FaArrowRight, FaWhatsapp, FaClipboardList } from 'react-icons/fa';
 import { useApiData } from '../hooks/useApiData';
 import StatusBadge from '../components/StatusBadge';
 
@@ -23,17 +23,23 @@ function SectionTitle({ children }) {
 }
 
 export default function Dashboard() {
-  const { data: inqStats } = useApiData('/demo-requests/admin/stats/summary');
+  const { data: inqStatsData } = useApiData('/inquiries/admin/stats/summary');
+  const { data: demoStatsData } = useApiData('/demo-requests/admin/stats/summary');
   const { data: blogStats } = useApiData('/blog/posts/admin/stats/summary');
-  const { data: recentInq } = useApiData('/demo-requests/admin/all?limit=5&sort=newest');
+  const { data: recentInquiriesData } = useApiData('/inquiries/admin/all?limit=5&sort=newest');
+  const { data: recentDemosData } = useApiData('/demo-requests/admin/all?limit=5&sort=newest');
   const { data: lpData } = useApiData('/landing-pages/admin/all');
   const { data: facultyData } = useApiData('/faculty/admin/all');
 
-  const inq = inqStats?.data || {};
+  const inqStats = inqStatsData?.data || {};
+  const demoStats = demoStatsData?.data || {};
   const blog = blogStats?.data || {};
-  const inquiries = recentInq?.data || [];
+  const inquiries = recentInquiriesData?.data || [];
+  const demoRequests = recentDemosData?.data || recentDemosData || [];
   const activeLPs = (lpData?.data || []).filter(p => p.active).length;
   const facultyCount = (facultyData?.data || []).length;
+
+  const convertedCount = inqStats.byStatus?.find(s => s._id === 'converted')?.count || 0;
 
   const quickLinks = [
     { label: 'New Landing Page', to: '/admin/landing-pages/new', color: 'text-blue-600' },
@@ -52,56 +58,119 @@ export default function Dashboard() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Total Inquiries" value={inq.total} icon={FaInbox} color="bg-red-500" to="/admin/inquiries" />
-        <StatCard label="New This Week" value={inq.newThisWeek} icon={FaInbox} color="bg-orange-500" to="/admin/inquiries" />
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+        <StatCard label="Total Inquiries" value={inqStats.total} icon={FaInbox} color="bg-red-500" to="/admin/inquiries" />
+        <StatCard label="New Inquiries (Today)" value={inqStats.today} icon={FaInbox} color="bg-orange-500" to="/admin/inquiries" />
+        <StatCard label="Total Demo Requests" value={demoStats.total} icon={FaClipboardList} color="bg-blue-500" to="/admin/demo-requests" />
+        <StatCard label="New Demos (This Week)" value={demoStats.newThisWeek} icon={FaClipboardList} color="bg-teal-500" to="/admin/demo-requests" />
         <StatCard label="Published Posts" value={blog.published} icon={FaBlog} color="bg-green-500" to="/admin/blog/posts" />
-        <StatCard label="Active Pages" value={activeLPs} icon={FaFileAlt} color="bg-blue-500" to="/admin/landing-pages" />
+        <StatCard label="Active Pages" value={activeLPs} icon={FaFileAlt} color="bg-purple-500" to="/admin/landing-pages" />
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">
-        {/* Recent Inquiries */}
-        <div className="lg:col-span-2">
-          <div className="flex items-center justify-between mb-3">
-            <SectionTitle>Recent Inquiries</SectionTitle>
-            <Link to="/admin/inquiries" className="text-xs text-red-500 hover:text-red-700 flex items-center gap-1">
-              View all <FaArrowRight className="text-[10px]" />
-            </Link>
-          </div>
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-            {inquiries.length === 0 ? (
-              <p className="text-sm text-gray-400 text-center py-10">No inquiries yet</p>
-            ) : (
-              <table className="admin-table">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {inquiries.map(inq => (
-                    <tr key={inq._id}>
-                      <td className="font-medium text-gray-900">{inq.name}</td>
-                      <td className="text-gray-500">{inq.phone}</td>
-                      <td><StatusBadge status={inq.status} /></td>
-                      <td className="text-gray-400 text-xs">
-                        {new Date(inq.createdAt).toLocaleDateString('en-IN')}
-                      </td>
-                      <td>
-                        <Link to={`/admin/inquiries/${inq._id}`} className="text-xs text-red-500 hover:underline">
-                          View
-                        </Link>
-                      </td>
+        {/* Recent Inquiries & Demo Requests */}
+        <div className="lg:col-span-2 space-y-6">
+          
+          {/* Recent Inquiries */}
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <SectionTitle>Recent Inquiries</SectionTitle>
+              <Link to="/admin/inquiries" className="text-xs text-red-500 hover:text-red-700 flex items-center gap-1">
+                View all <FaArrowRight className="text-[10px]" />
+              </Link>
+            </div>
+            <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+              {inquiries.length === 0 ? (
+                <p className="text-sm text-gray-400 text-center py-10">No inquiries yet</p>
+              ) : (
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Phone</th>
+                      <th>Type</th>
+                      <th>Status</th>
+                      <th>Date</th>
+                      <th></th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
+                  </thead>
+                  <tbody>
+                    {inquiries.map(inq => (
+                      <tr key={inq._id}>
+                        <td className="font-medium text-gray-900">{inq.name}</td>
+                        <td className="text-gray-500">{inq.phone}</td>
+                        <td className="text-gray-500 text-xs capitalize">{inq.inquiryType || 'general'}</td>
+                        <td><StatusBadge status={inq.status} /></td>
+                        <td className="text-gray-400 text-xs">
+                          {new Date(inq.createdAt).toLocaleDateString('en-IN')}
+                        </td>
+                        <td>
+                          <Link to={`/admin/inquiries/${inq._id}`} className="text-xs text-red-500 hover:underline">
+                            View
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
           </div>
+
+          {/* Recent Demo Requests */}
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <SectionTitle>Recent Demo Requests</SectionTitle>
+              <Link to="/admin/demo-requests" className="text-xs text-blue-500 hover:text-blue-700 flex items-center gap-1">
+                View all <FaArrowRight className="text-[10px]" />
+              </Link>
+            </div>
+            <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+              {demoRequests.length === 0 ? (
+                <p className="text-sm text-gray-400 text-center py-10">No demo requests yet</p>
+              ) : (
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Phone</th>
+                      <th>Course Interested</th>
+                      <th>Status</th>
+                      <th>Date</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {demoRequests.map(demo => (
+                      <tr key={demo._id}>
+                        <td className="font-medium text-gray-900">{demo.name}</td>
+                        <td className="text-gray-500">{demo.phone}</td>
+                        <td className="text-gray-500 text-xs">{demo.courseInterested || '—'}</td>
+                        <td>
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold capitalize ${
+                            demo.status === 'Pending' ? 'bg-yellow-100 text-yellow-700' :
+                            demo.status === 'Contacted' ? 'bg-blue-100 text-blue-700' :
+                            'bg-green-100 text-green-700'
+                          }`}>
+                            {demo.status || 'Pending'}
+                          </span>
+                        </td>
+                        <td className="text-gray-400 text-xs">
+                          {new Date(demo.createdAt).toLocaleDateString('en-IN')}
+                        </td>
+                        <td>
+                          <Link to={`/admin/demo-requests`} className="text-xs text-red-500 hover:underline">
+                            Manage
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
+          </div>
+
         </div>
 
         {/* Quick Actions */}
@@ -128,7 +197,7 @@ export default function Dashboard() {
                 <p className="text-xs text-green-600">Faculty</p>
               </div>
               <div>
-                <p className="text-xl font-bold text-green-700">{inq.converted || 0}</p>
+                <p className="text-xl font-bold text-green-700">{convertedCount}</p>
                 <p className="text-xs text-green-600">Converted</p>
               </div>
             </div>

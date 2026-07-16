@@ -14,6 +14,7 @@ const RecentSelections    = lazy(() => import('@/components/sections/RecentSelec
 const TestimonialsSection = lazy(() => import('@/components/sections/TestimonialsSection'));
 const ExamSpotlight       = lazy(() => import('@/components/sections/ExamSpotlight'));
 const BlogPreview         = lazy(() => import('@/components/sections/BlogPreview'));
+const InquirySection      = lazy(() => import('@/components/sections/InquirySection'));
 const FaqSection          = lazy(() => import('@/components/sections/FaqSection'));
 const FinalCTA            = lazy(() => import('@/components/sections/FinalCTA'));
 
@@ -74,6 +75,9 @@ export default function Home() {
 
         {/* Blog — feature-flagged (VITE_FF_BLOG=true to enable) */}
         <BlogPreview />
+
+        {/* Inquiry Form Section */}
+        <InquirySection />
 
         {/* FAQ */}
         <FaqSection />
