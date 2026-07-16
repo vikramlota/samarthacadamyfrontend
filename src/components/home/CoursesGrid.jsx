@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { SectionHeader, CourseCard } from '../ui';
 import { useApiData } from '../../utils/customHooks';
-import { ICON_MAP } from '../../lib/iconMap';
+import { getIcon } from '../../lib/iconMap';
 import { staggerContainer, staggerItem, viewportConfig } from '../../lib/motion';
 
 const SkeletonCard = () => (
@@ -11,7 +11,7 @@ const SkeletonCard = () => (
 );
 
 export default function CoursesGrid() {
-  const { data, loading } = useApiData('/courses');
+  const { data, loading } = useApiData('/landing-pages?fields=slug,examShortName,examFullName,courseThumbnail,hero,quickInfo,whyChoose,featured,isPopular');
   const courses = data?.data ?? [];
 
   return (
@@ -37,19 +37,29 @@ export default function CoursesGrid() {
               viewport={viewportConfig}
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
             >
-              {courses.map(course => (
-                <motion.div key={course._id} variants={staggerItem}>
-                  <CourseCard
-                    title={course.title}
-                    description={course.shortDescription}
-                    icon={ICON_MAP[course.icon] ?? null}
-                    duration={course.duration}
-                    studentCount={course.studentCount}
-                    href={`/courses/${course.slug}`}
-                    featured={course.featured}
-                  />
-                </motion.div>
-              ))}
+              {courses.map(course => {
+                const iconName = course.hero?.iconName || course.icon;
+                const Icon = getIcon(iconName);
+                const title = course.examShortName || course.title || course.slug;
+                const description = course.hero?.subheadline || course.examFullName || course.shortDescription || course.description;
+                const duration = course.quickInfo?.duration || course.duration;
+                const studentCount = course.quickInfo?.batchSize || course.studentCount || '30 max';
+                const href = `/${course.slug}`;
+
+                return (
+                  <motion.div key={course._id || course.slug} variants={staggerItem}>
+                    <CourseCard
+                      title={title}
+                      description={description}
+                      icon={Icon}
+                      duration={duration}
+                      studentCount={studentCount}
+                      href={href}
+                      featured={course.featured || course.isPopular}
+                    />
+                  </motion.div>
+                );
+              })}
             </motion.div>
           )}
         </div>
