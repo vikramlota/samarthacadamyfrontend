@@ -26,6 +26,7 @@ const CurrentAffairsPage      = React.lazy(() => import('./pages/CurrentAffairsP
 const CurrentAffairDetailPage = React.lazy(() => import('./pages/CurrentAffairDetailPage.jsx'));
 const CourseDetailPage        = React.lazy(() => import('./pages/CourseDetailpage.jsx'));
 const BookDemoPage            = React.lazy(() => import('./pages/BookDemoPage.jsx'));
+const InquiryPage             = React.lazy(() => import('./pages/InquiryPage.jsx'));
 const AboutPage               = React.lazy(() => import('./pages/About.jsx'));
 const FacultyPage             = React.lazy(() => import('./pages/Faculty.jsx'));
 const FacultyDetailPage       = React.lazy(() => import('./pages/FacultyDetail.jsx'));
@@ -152,6 +153,14 @@ function App() {
               element={
                 <Suspense fallback={<ComponentSkeleton size="medium" />}>
                   <BookDemoPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/inquiries"
+              element={
+                <Suspense fallback={<ComponentSkeleton size="medium" />}>
+                  <InquiryPage />
                 </Suspense>
               }
             />

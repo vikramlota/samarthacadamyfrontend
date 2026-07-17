@@ -185,10 +185,10 @@ const Navbar = () => {
               <FaPhoneAlt className="text-red-500 text-xs" />{PHONE}
             </a>
             <Link
-              to="/book-demo"
+              to="/inquiry"
               className="bg-red-500 hover:bg-red-600 text-white text-sm font-semibold px-5 py-2.5 rounded-btn transition-all duration-base hover:shadow-primary-glow"
             >
-              Book Free Demo
+              Tap for Inquiries
             </Link>
           </div>
 
