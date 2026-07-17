@@ -188,7 +188,7 @@ const Navbar = () => {
               to="/inquiries"
               className="bg-red-500 hover:bg-red-600 text-white text-sm font-semibold px-5 py-2.5 rounded-btn transition-all duration-base hover:shadow-primary-glow"
             >
-              Tap for Inquiries
+              Tap For Inquiries
             </Link>
           </div>
 
@@ -291,10 +291,10 @@ const Navbar = () => {
               {/* Book Demo CTA */}
               <div className="px-6 py-5 border-t border-gray-100">
                 <Link
-                  to="/book-demo"
+                  to="/inquiries"
                   className="flex items-center justify-center w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3.5 rounded-btn transition-all duration-200 text-sm tracking-wide"
                 >
-                  Book Free Demo Class
+                 Tap For Inquiries
                 </Link>
               </div>
             </motion.aside>
