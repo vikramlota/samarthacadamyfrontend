@@ -23,6 +23,11 @@ const NAV_LINKS = [
   { name: 'About', path: '/about' },
 ];
 
+const SPECIAL_LINKS = [
+  { name: 'IBPS PO', path: '/ibps-po-coaching-amritsar' },
+  { name: 'SBI PO', path: '/sbi-po-coaching-amritsar' },
+];
+
 const COURSE_ITEMS = [
   { icon: FaGraduationCap, title: 'SSC Coaching', desc: 'SSC CGL, CHSL & MTS prep', href: '/courses/ssc-coaching-amritsar' },
   { icon: FaUniversity, title: 'Banking', desc: 'IBPS, SBI PO & Clerk coaching', href: '/courses/banking' },
@@ -123,6 +128,21 @@ const Navbar = () => {
                 )}
               >
                 {link.name}
+              </Link>
+            ))}
+
+            {SPECIAL_LINKS.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={cn(
+                  'relative flex items-center gap-1.5 pb-0.5 transition-colors duration-150 text-gray-900 hover:text-red-600',
+                  'after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:rounded-full after:bg-red-500 after:transition-transform after:duration-150 after:origin-left',
+                  isActive(link.path) ? 'text-red-600 after:scale-x-100' : 'after:scale-x-0 hover:after:scale-x-100',
+                )}
+              >
+                {link.name}
+                <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse absolute -right-2 top-0" aria-hidden="true" />
               </Link>
             ))}
 
@@ -264,6 +284,21 @@ const Navbar = () => {
                         )}
                       >
                         {link.name}
+                      </Link>
+                    </li>
+                  ))}
+                  
+                  {SPECIAL_LINKS.map((link) => (
+                    <li key={link.path}>
+                      <Link
+                        to={link.path}
+                        className={cn(
+                          'flex items-center gap-2 px-4 py-3 rounded-xl text-base font-bold transition-colors text-red-600 bg-red-50/50 hover:bg-red-50',
+                          isActive(link.path) && 'bg-red-100',
+                        )}
+                      >
+                        {link.name}
+                        <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" aria-hidden="true" />
                       </Link>
                     </li>
                   ))}
