@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { FaArrowRight, FaCheckCircle } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaArrowRight, FaCheckCircle, FaBell } from 'react-icons/fa';
 import { Button, Input, Select } from '../ui';
 import { useLeadSubmit } from '../../utils/customHooks';
 import { staggerContainer, staggerItem } from '../../lib/motion';
+import { useApiData } from '../../hooks/useApiData';
 
 const COURSE_OPTIONS = [
   { value: 'ssc-cgl-coaching-amritsar',     label: 'SSC CGL' },
@@ -26,6 +27,16 @@ const TRUST = [
 export default function Hero() {
   const [form, setForm] = useState({ name: '', phone: '', course: '' });
   const { submit, submitting, submitted, submitError } = useLeadSubmit();
+  const { data: notifications } = useApiData('/notifications', { fallback: [] });
+  const [currentNotifIdx, setCurrentNotifIdx] = useState(0);
+
+  useEffect(() => {
+    if (!notifications || notifications.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentNotifIdx(prev => (prev + 1) % notifications.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [notifications]);
 
   const onChange = (e) => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
@@ -34,6 +45,8 @@ export default function Hero() {
     if (!form.name.trim() || !form.phone.trim()) return;
     submit({ ...form, source: 'home-hero' });
   };
+
+  const currentNotif = notifications && notifications.length > 0 ? notifications[currentNotifIdx] : null;
 
   return (
     <section className="relative overflow-hidden bg-brand-bg">
@@ -53,12 +66,40 @@ export default function Hero() {
             animate="animate"
             className="flex flex-col gap-6"
           >
-            {/* Eyebrow badge */}
-            <motion.div variants={staggerItem}>
-              <span className="inline-flex items-center gap-2 bg-red-50 border border-red-100 text-red-600 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse-soft" aria-hidden="true" />
-                Amritsar's Most Trusted Coaching · Since 2006
-              </span>
+            {/* Eyebrow badge / Notifications */}
+            <motion.div variants={staggerItem} className="h-[32px] flex items-center">
+              <AnimatePresence mode="wait">
+                {currentNotif ? (
+                  <motion.div
+                    key={currentNotif.text || currentNotif.title}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Link 
+                      to={currentNotif.href || '/notifications'} 
+                      className="inline-flex items-center gap-2 bg-yellow-50 border border-yellow-200 text-yellow-800 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full hover:bg-yellow-100 transition-colors shadow-sm"
+                    >
+                      <FaBell className="text-red-500 animate-pulse" aria-hidden="true" />
+                      <span className="text-red-600 font-extrabold mr-1">LATEST:</span> 
+                      <span className="truncate max-w-[280px] sm:max-w-md">{currentNotif.text || currentNotif.title}</span>
+                    </Link>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="default-badge"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    <span className="inline-flex items-center gap-2 bg-red-50 border border-red-100 text-red-600 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full">
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse-soft" aria-hidden="true" />
+                      Amritsar's Most Trusted Coaching · Since 2006
+                    </span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
 
             {/* H1 */}
