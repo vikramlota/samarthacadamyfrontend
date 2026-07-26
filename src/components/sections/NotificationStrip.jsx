@@ -2,19 +2,17 @@ import React from 'react';
 import { useApiData } from '@/hooks/useApiData';
 import { MarqueeStrip } from '@/components/ui';
 
-const DUMMY_NOTIFICATIONS = [
-  { id: 1, text: 'New Batch for SSC CGL starting from 1st of next month! Enroll now.' },
-  { id: 2, text: 'Congratulations to our 50+ students for clearing IBPS PO 2023!' },
-  { id: 3, text: 'Special weekend classes for Punjab Police Constable Exam.' }
-];
-
 export default function NotificationStrip() {
-  const { data: apiItems, isLoading } = useApiData('/notifications', { fallback: [] });
+  const { data: apiItems, isLoading } = useApiData('/notifications?limit=5', { fallback: [] });
 
-  // Use API items if available, otherwise use dummy data
-  const items = apiItems?.length ? apiItems : DUMMY_NOTIFICATIONS;
+  if (isLoading || !apiItems?.length) return null;
 
-  if (isLoading) return null;
+  // Ensure items have an href so they become clickable in the MarqueeStrip
+  const items = apiItems.slice(0, 5).map(item => ({
+    ...item,
+    text: item.text || item.title, // Backend might use text or title
+    href: item.href || item.link || (item.slug ? `/notifications/${item.slug}` : '/notifications')
+  }));
 
   return (
     <div className="bg-gray-100 border-b border-gray-200 py-2">
