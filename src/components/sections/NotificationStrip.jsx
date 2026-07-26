@@ -3,7 +3,10 @@ import { useApiData } from '@/hooks/useApiData';
 import { MarqueeStrip } from '@/components/ui';
 
 export default function NotificationStrip() {
-  const { data: apiItems, isLoading } = useApiData('/notifications?limit=5', { fallback: [] });
+  const { data: apiResponse, isLoading } = useApiData('/notifications', { fallback: [] });
+
+  // Safely extract the array whether the API returns an array directly or an object with a 'data' array
+  const apiItems = Array.isArray(apiResponse) ? apiResponse : (apiResponse?.data || []);
 
   if (isLoading || !apiItems?.length) return null;
 
