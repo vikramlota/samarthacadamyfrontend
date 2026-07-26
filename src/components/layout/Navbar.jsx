@@ -18,7 +18,7 @@ const NAV_LINKS = [
   { name: 'Home', path: '/' },
   { name: 'Blog', path: '/blog' },
   { name: 'Notifications', path: '/notifications' },
-  { name: 'Current Affairs', path: '/current-affairs' },
+  /* { name: 'Current Affairs', path: '/current-affairs' }, */
   { name: 'Results', path: '/Selections' },
   { name: 'About', path: '/about' },
 ];
@@ -201,9 +201,9 @@ const Navbar = () => {
 
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center gap-3">
-            <a href={PHONE_TEL} className="flex items-center gap-1.5 text-sm font-semibold text-gray-700 hover:text-red-500 transition-colors">
+            {/* <a href={PHONE_TEL} className="flex items-center gap-1.5 text-sm font-semibold text-gray-700 hover:text-red-500 transition-colors">
               <FaPhoneAlt className="text-red-500 text-xs" />{PHONE}
-            </a>
+            </a> */}
             <Link
               to="/inquiries"
               className="bg-red-500 hover:bg-red-600 text-white text-sm font-semibold px-5 py-2.5 rounded-btn transition-all duration-base hover:shadow-primary-glow"
