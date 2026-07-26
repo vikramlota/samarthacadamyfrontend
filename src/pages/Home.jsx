@@ -56,7 +56,7 @@ export default function Home() {
         <ExamSpotlight />
 
        {/*  {/* Course catalogue */}
-        <CoursesGrid /> */}
+        {/* <CoursesGrid /> */}
 
         {/* Differentiator: why not mass coaching */}
         <WhyChooseUs />
