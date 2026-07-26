@@ -9,7 +9,7 @@ const StatsBar            = lazy(() => import('@/components/sections/StatsBar'))
 const CoursesGrid         = lazy(() => import('@/components/sections/CoursesGrid'));
 const WhyChooseUs         = lazy(() => import('@/components/sections/WhyChooseUs'));
 const FoundersStory       = lazy(() => import('@/components/sections/FoundersStory'));
-//const MidPageLeadForm     = lazy(() => import('@/components/sections/MidPageLeadForm'));
+const MidPageLeadForm     = lazy(() => import('@/components/sections/MidPageLeadForm'));
 const RecentSelections    = lazy(() => import('@/components/sections/RecentSelections'));
 const TestimonialsSection = lazy(() => import('@/components/sections/TestimonialsSection'));
 const ExamSpotlight       = lazy(() => import('@/components/sections/ExamSpotlight'));
@@ -55,8 +55,8 @@ export default function Home() {
         {/* Exam spotlight — hides itself when API returns null */}
         <ExamSpotlight />
 
-        {/* Course catalogue */}
-        <CoursesGrid />
+       {/*  {/* Course catalogue */}
+        <CoursesGrid /> */}
 
         {/* Differentiator: why not mass coaching */}
         <WhyChooseUs />
@@ -65,7 +65,7 @@ export default function Home() {
         <FoundersStory />
 
         {/* Mid-page conversion form (red gradient) */}
-        {/* <MidPageLeadForm /> */}
+        <MidPageLeadForm /> 
 
         {/* Hall of Fame — hides itself when API returns empty */}
         <RecentSelections />
