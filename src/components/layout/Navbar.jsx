@@ -29,13 +29,13 @@ const SPECIAL_LINKS = [
 ];
 
 const COURSE_ITEMS = [
-  { icon: FaGraduationCap, title: 'SSC Coaching', desc: 'SSC CGL, CHSL & MTS prep', href: '/courses/ssc-coaching-amritsar' },
-  { icon: FaUniversity, title: 'Banking', desc: 'IBPS, SBI PO & Clerk coaching', href: '/courses/banking' },
-  { icon: FaShieldAlt, title: 'Punjab Police', desc: 'Constable & SI preparation', href: '/courses/punjab-police' },
+  { icon: FaGraduationCap, title: 'SSC Coaching', desc: 'SSC CGL, CHSL & MTS prep', href: '/ssc-coaching-amritsar' },
+  { icon: FaUniversity, title: 'Banking', desc: 'IBPS, SBI PO & Clerk coaching', href: '/banking-coaching-amritsar' },
+  { icon: FaShieldAlt, title: 'Punjab Police', desc: 'Constable & SI preparation', href: 'punjab-police-coaching-amritsar' },
   { icon: FaFileAlt, title: 'SSC CGL', desc: 'Combined Graduate Level exam', href: '/courses/ssc-cgl-coaching-amritsar' },
-  { icon: FaMoneyBillWave, title: 'IBPS PO', desc: 'Probationary Officer coaching', href: '/courses/ibps-po' },
-  { icon: FaBookOpen, title: 'UGC NET', desc: 'National Eligibility Test prep', href: '/courses/ugc-net' },
-  { icon: FaChartLine, title: 'CAT', desc: 'Common Admission Test prep', href: '/courses/cat' },
+  { icon: FaMoneyBillWave, title: 'IBPS PO', desc: 'Probationary Officer coaching', href: '/ibps-po-coaching-amritsar' },
+  { icon: FaBookOpen, title: 'UGC NET', desc: 'National Eligibility Test prep', href: '/ugc-net-coaching-amritsar' },
+  { icon: FaChartLine, title: 'CAT', desc: 'Common Admission Test prep', href: '/cat-coaching-amritsar' },
 ];
 
 const Navbar = () => {
@@ -287,7 +287,7 @@ const Navbar = () => {
                       </Link>
                     </li>
                   ))}
-                  
+
                   {SPECIAL_LINKS.map((link) => (
                     <li key={link.path}>
                       <Link
@@ -329,7 +329,7 @@ const Navbar = () => {
                   to="/inquiries"
                   className="flex items-center justify-center w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3.5 rounded-btn transition-all duration-200 text-sm tracking-wide"
                 >
-                 Tap For Inquiries
+                  Tap For Inquiries
                 </Link>
               </div>
             </motion.aside>
