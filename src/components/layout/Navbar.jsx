@@ -30,7 +30,7 @@ const SPECIAL_LINKS = [
 
 const COURSE_ITEMS = [
   { icon: FaGraduationCap, title: 'SSC Coaching', desc: 'SSC CGL, CHSL & MTS prep', href: '/ssc-coaching-amritsar' },
-  { icon: FaUniversity, title: 'Banking', desc: 'IBPS, SBI PO & Clerk coaching', href: '/banking-coaching-amritsar' },
+  { icon: FaUniversity, title: 'Banking', desc: 'IBPS, SBI PO & Clerk coaching', href: '/bank-coaching-amritsar' },
   { icon: FaShieldAlt, title: 'Punjab Police', desc: 'Constable & SI preparation', href: 'punjab-police-coaching-amritsar' },
   { icon: FaFileAlt, title: 'SSC CGL', desc: 'Combined Graduate Level exam', href: '/courses/ssc-cgl-coaching-amritsar' },
   { icon: FaMoneyBillWave, title: 'IBPS PO', desc: 'Probationary Officer coaching', href: '/ibps-po-coaching-amritsar' },
