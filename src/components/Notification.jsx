@@ -194,16 +194,73 @@ const Notification = () => {
     );
   }
 
+  const metaTitle = update.seo?.title || `${update.title} | Samarth Academy`;
+  const plainDescription = update.description ? update.description.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim() : '';
+  const metaDescription = update.seo?.description || (plainDescription.length > 160 ? plainDescription.substring(0, 157) + '...' : plainDescription);
+  const keywords = update.seo?.keywords || `${update.type || 'Exam'} notification, ${update.title}, government exam update`;
+  const canonicalUrl = update.seo?.canonicalUrl || `https://thesamarthacademy.in/notifications/${update.slug || slug}`;
+  const rawOg = update.seo?.ogImage || update.imageUrl || update.linkUrl || 'https://thesamarthacademy.in/images/purelogo.png';
+  const ogImage = rawOg.startsWith('http') ? rawOg : `https://thesamarthacademy.in${rawOg.startsWith('/') ? '' : '/'}${rawOg}`;
+  const noindex = update.seo?.noindex || false;
+
+  const newsArticleSchema = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": update.title,
+    "description": metaDescription,
+    "image": [ogImage],
+    "datePublished": update.datePosted ? new Date(update.datePosted).toISOString() : new Date(update.createdAt || Date.now()).toISOString(),
+    "dateModified": new Date(update.updatedAt || update.datePosted || Date.now()).toISOString(),
+    "author": {
+      "@type": "Organization",
+      "name": "Samarth Academy",
+      "url": "https://thesamarthacademy.in"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Samarth Academy",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://thesamarthacademy.in/images/purelogo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": canonicalUrl
+    }
+  };
+
   return (
     <>
       <style>{htmlContentStyles}</style>
       <div className="bg-gray-50 min-h-screen flex flex-col">
-      {/* Header Section */}
+      {/* Dynamic Rich SEO Helmet */}
       <Helmet>
-            <title>{update.title} | Samarth Academy</title>
-            {/* Strip HTML tags for the description and limit to 160 chars */}
-            <meta name="description" content={update.description?.replace(/<[^>]+>/g, '').substring(0, 160)} />
-          </Helmet>
+        <title>{metaTitle}</title>
+        <meta name="description" content={metaDescription} />
+        {keywords && <meta name="keywords" content={keywords} />}
+        <link rel="canonical" href={canonicalUrl} />
+        {noindex ? <meta name="robots" content="noindex, nofollow" /> : <meta name="robots" content="index, follow" />}
+
+        {/* Open Graph Tags */}
+        <meta property="og:title" content={metaTitle} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="article" />
+        <meta property="og:site_name" content="Samarth Academy" />
+
+        {/* Twitter Card Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={metaTitle} />
+        <meta name="twitter:description" content={metaDescription} />
+        <meta name="twitter:image" content={ogImage} />
+
+        {/* Structured Data Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify(newsArticleSchema)}
+        </script>
+      </Helmet>
       <header className="relative bg-brand-red pt-24 pb-20 overflow-hidden text-center">
         <div className="container mx-auto px-4 relative z-10">
           <Link to="/notifications" className="inline-flex items-center py-1 px-3 rounded-full bg-white/10 border border-white/20 text-brand-orange font-bold text-xs mb-4 tracking-wider uppercase hover:bg-white/20 transition-colors">

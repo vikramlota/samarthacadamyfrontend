@@ -7,11 +7,12 @@ export default function NotificationStrip() {
 
   // Safely extract the array whether the API returns an array directly or an object with a 'data' array
   const apiItems = Array.isArray(apiResponse) ? apiResponse : (apiResponse?.data || []);
+  const activeItems = apiItems.filter(item => item.active !== false);
 
-  if (isLoading || !apiItems?.length) return null;
+  if (isLoading || !activeItems?.length) return null;
 
   // Ensure items have an href so they become clickable in the MarqueeStrip
-  const items = apiItems.slice(0, 5).map(item => ({
+  const items = activeItems.slice(0, 5).map(item => ({
     ...item,
     text: item.text || item.title, // Backend might use text or title
     href: item.href || item.link || (item.slug ? `/notifications/${item.slug}` : '/notifications')

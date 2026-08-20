@@ -1,0 +1,1 @@
+import{a3 as e,r}from"../admin-C_2nYjgI.js";function a(a,t=""){var n;const[s,c]=e();return[null!=(n=s.get(a))?n:t,r.useCallback(e=>{c(r=>{const n=new URLSearchParams(r);return e&&e!==t?n.set(a,String(e)):n.delete(a),n},{replace:!0})},[a,t,c])]}export{a as u};

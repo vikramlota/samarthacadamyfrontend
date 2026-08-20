@@ -4,9 +4,14 @@ import { useApiData } from '../../utils/customHooks';
 
 export default function NotifBar() {
   const { data } = useApiData('/notifications');
-  const items = (data?.data ?? [])
-    .filter(n => n.active)
-    .map(n => ({ text: n.text, href: n.href }));
+  const rawList = Array.isArray(data) ? data : (data?.data || []);
+  const items = rawList
+    .filter(n => n.active !== false)
+    .map(n => ({
+      text: n.text || n.title,
+      href: n.href || n.linkUrl || (n.slug ? `/notifications/${n.slug}` : '/notifications')
+    }))
+    .filter(n => n.text);
 
   if (!items.length) return null;
 
