@@ -1,21 +1,33 @@
-import React from 'react';
-import { useApiData } from '@/hooks/useApiData';
+import React, { useState, useEffect } from 'react';
+import api from '@/utils/api';
 import { MarqueeStrip } from '@/components/ui';
 
 export default function NotificationStrip() {
-  const { data: apiResponse, isLoading } = useApiData('/notifications', { fallback: [] });
+  const [notifications, setNotifications] = useState([]);
 
-  // Safely extract the array whether the API returns an array directly or an object with a 'data' array
-  const apiItems = Array.isArray(apiResponse) ? apiResponse : (apiResponse?.data || []);
-  const activeItems = apiItems.filter(item => item.active !== false);
+  useEffect(() => {
+    let isMounted = true;
+    api.get('/notifications')
+      .then(res => {
+        if (!isMounted) return;
+        const data = res?.data;
+        const apiItems = Array.isArray(data) ? data : (data?.data || []);
+        setNotifications(apiItems);
+      })
+      .catch(err => {
+        console.warn('Could not fetch notifications for strip:', err?.message);
+      });
+    return () => { isMounted = false; };
+  }, []);
 
-  if (isLoading || !activeItems?.length) return null;
+  const activeItems = notifications.filter(item => item && item.active !== false && (item.title || item.text));
 
-  // Ensure items have an href so they become clickable in the MarqueeStrip
-  const items = activeItems.slice(0, 5).map(item => ({
+  if (!activeItems.length) return null;
+
+  const items = activeItems.slice(0, 10).map(item => ({
     ...item,
-    text: item.text || item.title, // Backend might use text or title
-    href: item.href || item.link || (item.slug ? `/notifications/${item.slug}` : '/notifications')
+    text: item.text || item.title,
+    href: item.href || item.linkUrl || (item.slug ? `/notifications/${item.slug}` : '/notifications')
   }));
 
   return (

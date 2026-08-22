@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { cn } from '../../lib/utils';
 
 const VARIANTS = {
@@ -54,12 +55,23 @@ const MarqueeStrip = ({
                 <item.icon className="text-xs opacity-70 flex-shrink-0" aria-hidden="true" />
               )}
               {item.href ? (
-                <a
-                  href={item.href}
-                  className="text-sm font-medium hover:underline underline-offset-2 transition-opacity hover:opacity-80"
-                >
-                  {item.text}
-                </a>
+                item.href.startsWith('/') ? (
+                  <Link
+                    to={item.href}
+                    className="text-sm font-medium hover:underline underline-offset-2 transition-opacity hover:opacity-80"
+                  >
+                    {item.text}
+                  </Link>
+                ) : (
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-medium hover:underline underline-offset-2 transition-opacity hover:opacity-80"
+                  >
+                    {item.text}
+                  </a>
+                )
               ) : (
                 <span className="text-sm font-medium">{item.text}</span>
               )}

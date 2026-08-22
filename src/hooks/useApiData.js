@@ -12,12 +12,12 @@ import { api } from '@/lib/api';
  */
 export function useApiData(endpoint, { fallback = null, enabled = true, transform } = {}) {
   const initialCache = typeof window !== 'undefined' && window.__INITIAL_API_DATA__ && window.__INITIAL_API_DATA__[endpoint];
-  const hasInitialData = initialCache !== undefined || fallback !== null;
+  const hasInitialData = initialCache !== undefined;
   const initialData = initialCache !== undefined ? (transform ? transform(initialCache) : initialCache) : fallback;
 
   const [state, setState] = useState({
     data: initialData,
-    isLoading: initialCache !== undefined ? false : (!hasInitialData && enabled),
+    isLoading: initialCache !== undefined ? false : enabled,
     error: null,
   });
 
