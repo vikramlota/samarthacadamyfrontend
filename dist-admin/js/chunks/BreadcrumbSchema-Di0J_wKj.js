@@ -1,1 +1,0 @@
-import{j as e,H as n}from"../admin-DmkDrmEr.js";import{b as r}from"./schemaHelpers-B7DeTU88.js";function s({items:s}){if(!s||0===s.length)return null;const t=[{name:"Home",href:"/"},...s],a=r(t.map(e=>({name:e.name,path:e.href})));return e.jsx(n,{children:e.jsx("script",{type:"application/ld+json",children:JSON.stringify(a)})})}export{s as B};
