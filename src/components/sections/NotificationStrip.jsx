@@ -32,7 +32,7 @@ export default function NotificationStrip() {
 
   return (
     <div className="bg-gray-100 border-b border-gray-200 py-2">
-      <MarqueeStrip items={items} variant="gray" />
+      <MarqueeStrip items={items} variant="gray" speed="slow" />
     </div>
   );
 }

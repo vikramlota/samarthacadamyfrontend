@@ -8,7 +8,7 @@ const VARIANTS = {
   orange: 'bg-orange-500 text-white',
 };
 
-const DURATIONS = { slow: '60s', normal: '40s', fast: '20s' };
+const DURATIONS = { verySlow: '90s', slow: '60s', normal: '40s', fast: '20s' };
 
 /**
  * MarqueeStrip — horizontally scrolling announcement strip.
@@ -22,7 +22,7 @@ const DURATIONS = { slow: '60s', normal: '40s', fast: '20s' };
  */
 const MarqueeStrip = ({
   items        = [],
-  speed        = 'normal',
+  speed        = 'slow',
   pauseOnHover = true,
   variant      = 'red',
   className,
