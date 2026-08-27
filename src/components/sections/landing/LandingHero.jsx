@@ -32,7 +32,7 @@ export default function LandingHero({ hero = {}, courseSlug, examShortName, cour
             variants={staggerContainer}
             initial="initial"
             animate="animate"
-            className="lg:col-span-7 space-y-5"
+            className="lg:col-span-6 space-y-5"
           >
             {hero.badge && (
               <motion.div variants={staggerItem}>
@@ -82,18 +82,18 @@ export default function LandingHero({ hero = {}, courseSlug, examShortName, cour
             </motion.div>
           </motion.div>
 
-          {/* Right: Large Course Thumbnail Image */}
+          {/* Right: Full Size Course Thumbnail Banner */}
           <motion.div
             initial={slideInRight.initial}
             animate={slideInRight.animate}
             transition={{ ...slideInRight.transition, delay: 0.15 }}
-            className="lg:col-span-5 w-full flex justify-center lg:justify-end"
+            className="lg:col-span-6 w-full flex justify-center items-center"
           >
-            <div className="w-full relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-white group hover:shadow-red-500/10 transition-all duration-300">
+            <div className="w-full relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-white group hover:shadow-red-500/15 transition-all duration-300">
               <img
                 src={courseThumbnail || 'https://thesamarthacademy.in/images/purelogo.png'}
                 alt={`${examShortName || 'Course'} coaching at Samarth Academy`}
-                className="w-full h-auto max-h-[520px] object-cover rounded-2xl transition-transform duration-500 group-hover:scale-[1.02]"
+                className="w-full h-auto object-contain rounded-xl md:rounded-2xl transition-transform duration-500 group-hover:scale-[1.015]"
                 loading="eager"
               />
             </div>
