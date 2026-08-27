@@ -43,20 +43,24 @@ export default function LandingCourseDetails({ details, examShortName, courseSlu
                 {examShortName} Course
               </h3>
 
-              {fees.original && (
+              {Boolean(fees.original) && Boolean(fees.discounted) && (
                 <div className="flex items-center gap-3 mb-1">
                   <span className="line-through text-gray-400 text-lg">
                     {fees.currency || '₹'}{fees.original.toLocaleString('en-IN')}
                   </span>
-                  {savePct && (
+                  {savePct > 0 && (
                     <Badge variant="orange" size="sm">Save {savePct}%</Badge>
                   )}
                 </div>
               )}
 
-              {fees.discounted && (
+              {fees.discounted > 0 ? (
                 <div className="text-4xl font-bold text-red-500 mb-4">
                   {fees.currency || '₹'}{fees.discounted.toLocaleString('en-IN')}
+                </div>
+              ) : (
+                <div className="text-3xl font-bold text-red-500 mb-4">
+                  Affordable
                 </div>
               )}
 

@@ -20,7 +20,8 @@ export const SEOHead = ({
   ogImage = 'https://thesamarthacademy.in/logo.png',
   ogType = 'website',
   author = 'Samarth Academy',
-  keywords = 'best coaching institute in Amritsar, SSC coaching Amritsar, Punjab police coaching Amritsar, banking coaching institute in Amritsar, govt job coaching near me, SSC CGL coaching in Amritsar, IBPS PO coaching Punjab, PSSSB coaching Amritsar, coaching institute near GNDU, government exam coaching Punjab'
+  keywords = 'best coaching institute in Amritsar, SSC coaching Amritsar, Punjab police coaching Amritsar, banking coaching institute in Amritsar, govt job coaching near me, SSC CGL coaching in Amritsar, IBPS PO coaching Punjab, PSSSB coaching Amritsar, coaching institute near GNDU, government exam coaching Punjab',
+  noindex = false
 }) => {
   const { pathname } = useLocation();
   const canonicalUrl = `https://thesamarthacademy.in${pathname}`;
@@ -113,7 +114,7 @@ export const SEOHead = ({
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
       <meta name="author" content={author} />
-      <meta name="robots" content="index, follow" />
+      <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
       <meta name="revisit-after" content="7 days" />
 
       {/* ISO-standard language (not "english" — that is non-standard) */}

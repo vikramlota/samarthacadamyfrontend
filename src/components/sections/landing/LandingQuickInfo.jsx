@@ -35,7 +35,7 @@ export default function LandingQuickInfo({ info }) {
 
   const items = [
     { key: 'duration',  value: info.duration },
-    { key: 'fees',      value: info.fees },
+    { key: 'fees',      value: info.fees?.trim() ? info.fees : 'Affordable' },
     { key: 'batchSize', value: info.batchSize },
     { key: 'mode',      value: info.mode },
   ].filter(item => item.value);

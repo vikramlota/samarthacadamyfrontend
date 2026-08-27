@@ -201,7 +201,16 @@ const Notification = () => {
   const canonicalUrl = update.seo?.canonicalUrl || `https://thesamarthacademy.in/notifications/${update.slug || slug}`;
   const rawOg = update.seo?.ogImage || update.imageUrl || update.linkUrl || 'https://thesamarthacademy.in/images/purelogo.png';
   const ogImage = rawOg.startsWith('http') ? rawOg : `https://thesamarthacademy.in${rawOg.startsWith('/') ? '' : '/'}${rawOg}`;
-  const noindex = update.seo?.noindex || false;
+
+  // Automatically noindex notifications older than 30 days (1 month)
+  const isOlderThan30Days = () => {
+    const postedDate = new Date(update.datePosted || update.createdAt || Date.now());
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    return postedDate < thirtyDaysAgo;
+  };
+
+  const noindex = update.seo?.noindex || isOlderThan30Days();
 
   const newsArticleSchema = {
     "@context": "https://schema.org",

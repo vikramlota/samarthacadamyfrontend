@@ -133,7 +133,7 @@ const TABS = [
           <h3 className="font-semibold text-gray-900">Fees</h3>
           <div className="grid md:grid-cols-2 gap-5">
             <FormField label="Original Price"><TInput type="number" value={d.courseDetails?.fees?.original || 0} onChange={v => update('courseDetails.fees.original', Number(v))} placeholder="18000" /></FormField>
-            <FormField label="Discounted Price" required><TInput type="number" value={d.courseDetails?.fees?.discounted || 0} onChange={v => update('courseDetails.fees.discounted', Number(v))} placeholder="15000" required /></FormField>
+            <FormField label="Discounted Price" hint="Leave 0 or empty to display 'Affordable' pricing"><TInput type="number" value={d.courseDetails?.fees?.discounted || 0} onChange={v => update('courseDetails.fees.discounted', Number(v))} placeholder="15000 (0 for Affordable)" /></FormField>
           </div>
           <FormField label="Currency"><TInput value={d.courseDetails?.fees?.currency} onChange={v => update('courseDetails.fees.currency', v)} placeholder="₹" /></FormField>
           <FormField label="EMI Available"><TToggle checked={d.courseDetails?.fees?.emiAvailable} onChange={v => update('courseDetails.fees.emiAvailable', v)} /></FormField>
